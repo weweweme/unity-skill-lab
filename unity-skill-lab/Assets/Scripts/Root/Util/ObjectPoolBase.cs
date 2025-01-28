@@ -3,7 +3,7 @@ using UnityEngine.Pool;
 
 namespace Root.Util
 {
-    public abstract class ObjectPoolBase<T> : MonoBehaviour where T : Component
+    public abstract class ObjectPoolBase<T> : MonoBehaviourBase where T : Component
     {
         /// <summary>
         /// 풀링할 오브젝트의 프리팹입니다.
