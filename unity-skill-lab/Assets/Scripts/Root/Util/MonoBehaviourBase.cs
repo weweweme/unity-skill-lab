@@ -22,7 +22,7 @@ namespace Root.Util
      *   3. 컬렉션 타입(`IList`, `IDictionary`, `Queue`, `Stack`, `HashSet`)인 경우, `Clear()` 메서드를 호출하여 내부 데이터를 제거한다.
      *   4. 그 외의 참조 타입(클래스 객체 등)은 `null`을 할당하여 GC가 해당 객체를 해제할 수 있도록 한다.
      */
-    public abstract class BaseMonoBehaviour : MonoBehaviour
+    public abstract class MonoBehaviourBase : MonoBehaviour
     {
         [SuppressMessage("Reflection", "S3011", Justification = 
             "필드의 메모리 해제를 자동화하기 위해 BindingFlags.NonPublic을 사용해야 함. " +

@@ -1,0 +1,5 @@
+using Root.Util;
+
+public sealed class #SCRIPTNAME# : MonoBehaviourBase
+{
+}
