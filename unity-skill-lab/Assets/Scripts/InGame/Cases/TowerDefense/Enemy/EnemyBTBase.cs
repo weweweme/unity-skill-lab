@@ -21,7 +21,13 @@ namespace InGame.Cases.TowerDefense.Enemy
         private CancellationTokenSource _cts;
         private Rigidbody2D _rigidbody2D;
         private Vector2 _moveDirection;
-        private readonly float _moveSpeed = 25f; // 이동 속도
+        
+        [Header("이동 관련 설정")]
+        [SerializeField] private float moveSpeed = 25f;
+        [SerializeField] private float nodeArrivalThreshold = 0.5f;
+        
+        [Header("BT 틱 설정")]
+        [SerializeField] private int btTickInterval = 50;
 
         private void Start()
         {
@@ -61,13 +67,12 @@ namespace InGame.Cases.TowerDefense.Enemy
 
         private void FixedUpdate()
         {
-            if (_moveDirection != Vector2.zero)
-            {
-                Vector2 currentPos = _rigidbody2D.position;
-                Vector2 targetPos = currentPos + _moveDirection * (_moveSpeed * Time.fixedDeltaTime);
+            if (_moveDirection == Vector2.zero) return;
+            
+            Vector2 currentPos = _rigidbody2D.position;
+            Vector2 targetPos = currentPos + _moveDirection * (moveSpeed * Time.fixedDeltaTime);
 
-                _rigidbody2D.MovePosition(targetPos);
-            }
+            _rigidbody2D.MovePosition(targetPos);
         }
 
         /// <summary>
@@ -102,7 +107,7 @@ namespace InGame.Cases.TowerDefense.Enemy
             if (currentIndex >= _maxIndex) return false;
 
             float distance = Vector3.Distance(transform.position, pathNodes[currentIndex + 1].position);
-            return distance < 0.5f; // 도착 거리 기준 설정
+            return distance < nodeArrivalThreshold; // 도착 거리 기준 설정
         }
 
         /// <summary>
@@ -144,10 +149,9 @@ namespace InGame.Cases.TowerDefense.Enemy
         /// <param name="token"></param>
         private async UniTask TickBtAsync(CancellationToken token)
         {
-            const int delayMillis = 50;
             while (!token.IsCancellationRequested)
             {
-                await UniTask.Delay(delayMillis, cancellationToken: token);
+                await UniTask.Delay(btTickInterval, cancellationToken: token);
 
                 bool isCanceled = token.IsCancellationRequested;
                 if (isCanceled)
@@ -155,7 +159,7 @@ namespace InGame.Cases.TowerDefense.Enemy
                     break;
                 }
 
-                _bt?.Tick();  // 틱 진행
+                _bt.Tick();  // 틱 진행
             }
         }
     }
