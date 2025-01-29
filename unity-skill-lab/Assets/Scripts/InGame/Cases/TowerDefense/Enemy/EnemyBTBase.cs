@@ -31,7 +31,8 @@ namespace InGame.Cases.TowerDefense.Enemy
 
         private void Start()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
+            _rigidbody2D = gameObject.GetComponentOrAssert<Rigidbody2D>();
+            
             Init();
         }
 
