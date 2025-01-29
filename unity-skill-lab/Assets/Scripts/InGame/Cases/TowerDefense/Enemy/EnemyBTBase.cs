@@ -140,8 +140,13 @@ namespace InGame.Cases.TowerDefense.Enemy
         /// </summary>
         private void StartBtTick()
         {
-            _cts = new();
+            CancelTokenHelper.GetToken(ref _cts);
             TickBtAsync(_cts.Token).Forget();
+        }
+
+        private void StopBtTick()
+        {
+            CancelTokenHelper.ClearToken(in _cts);
         }
         
         /// <summary>
@@ -160,8 +165,15 @@ namespace InGame.Cases.TowerDefense.Enemy
                     break;
                 }
 
-                _bt.Tick();  // 틱 진행
+                _bt.Tick();
             }
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            StopBtTick();
         }
     }
 }
