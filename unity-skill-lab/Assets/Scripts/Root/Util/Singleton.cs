@@ -26,7 +26,7 @@ namespace Root.Util
         /// 싱글톤 인스턴스를 초기화하는 메서드.
         /// 이미 인스턴스가 존재하면 객체를 파괴하고, 존재하지 않으면 인스턴스를 설정합니다.
         /// </summary>
-        protected virtual void InitSingleton()
+        private void InitSingleton()
         {
             if (_ins == null)
             {
