@@ -21,7 +21,7 @@ namespace InGame.Cases.TowerDefense.Enemy
         private CancellationTokenSource _cts;
         private Rigidbody2D _rigidbody2D;
         private Vector2 _moveDirection;
-        private readonly float _moveSpeed = 20f; // 이동 속도
+        private readonly float _moveSpeed = 25f; // 이동 속도
 
         private void Start()
         {
@@ -40,22 +40,17 @@ namespace InGame.Cases.TowerDefense.Enemy
             _bt = new BehaviorTreeBuilder(this.gameObject)
                 .Selector("한 가지 행동 선택")
 
-                    // 1. 현재 목적지 노드 체크
+                    // 1. 목적지 도착 여부 확인 (최종 노드 도착 시 제거)
                     .Sequence("현재 목적지 확인")
                         .Condition("목적지 도착 여부 확인", HasReachedDestination)
                         .Do("적 제거", DestroyEnemy)
                     .End()
 
-                    // 2. 아직 다음 노드에 도착하지 않았다면 이동
+                    // 2. 이동 먼저 수행
                     .Sequence("이동 시퀀스")
-                        .Condition("다음 노드에 도착하지 않음", () => !HasReachedNextNode())
-                        .Do("다음 노드로 이동", MoveToNextNode)
-                    .End()
-
-                    // 3. 다음 노드에 도착했다면 다음 노드 설정
-                    .Sequence("다음 노드 도착 처리")
-                        .Condition("다음 노드에 도착했는가?", HasReachedNextNode)
-                        .Do("다음 노드 설정", SetNextNode)
+                        .Do("다음 노드로 이동", MoveToNextNode) // 이동 먼저 수행
+                        .Condition("다음 노드에 도착했는가?", HasReachedNextNode) // 이동 후 도착 체크
+                        .Do("다음 노드 설정", SetNextNode) // 도착 후 갱신
                     .End()
 
                 .End()
@@ -88,17 +83,15 @@ namespace InGame.Cases.TowerDefense.Enemy
         /// </summary>
         private TaskStatus MoveToNextNode()
         {
-            Debug.Log($"[Enemy] 현재 노드 {currentIndex} -> {currentIndex + 1} 이동 중...");
-
             if (currentIndex >= _maxIndex)
                 return TaskStatus.Failure; // 더 이상 이동할 수 없으면 Failure 반환
 
             Transform targetNode = pathNodes[currentIndex + 1];
 
-            // ✅ 이동 방향 설정 (이동 수행 X, FixedUpdate에서 적용)
+            // 이동 방향 설정 (이동 수행 X, FixedUpdate에서 적용)
             _moveDirection = ((Vector2)targetNode.position - (Vector2)transform.position).normalized;
 
-            return TaskStatus.Continue; // 이동 중
+            return TaskStatus.Success;
         }
 
         /// <summary>
@@ -109,7 +102,7 @@ namespace InGame.Cases.TowerDefense.Enemy
             if (currentIndex >= _maxIndex) return false;
 
             float distance = Vector3.Distance(transform.position, pathNodes[currentIndex + 1].position);
-            return distance < 0.1f; // 도착 거리 기준 설정
+            return distance < 0.5f; // 도착 거리 기준 설정
         }
 
         /// <summary>
@@ -121,7 +114,7 @@ namespace InGame.Cases.TowerDefense.Enemy
             
             ++currentIndex;
             _moveDirection = Vector2.zero; // 노드 도착 후 정지
-            Debug.Log($"[Enemy] 새로운 목표: 노드 {currentIndex}");
+            
             return TaskStatus.Success; // 노드 변경 성공
 
         }
@@ -151,10 +144,11 @@ namespace InGame.Cases.TowerDefense.Enemy
         /// <param name="token"></param>
         private async UniTask TickBtAsync(CancellationToken token)
         {
-            int delayMillis = 250;
+            const int delayMillis = 50;
             while (!token.IsCancellationRequested)
             {
                 await UniTask.Delay(delayMillis, cancellationToken: token);
+
                 bool isCanceled = token.IsCancellationRequested;
                 if (isCanceled)
                 {
