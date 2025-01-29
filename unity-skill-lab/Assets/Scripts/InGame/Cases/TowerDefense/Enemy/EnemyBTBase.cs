@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Threading;
 using CleverCrow.Fluid.BTs.Trees;
 using CleverCrow.Fluid.BTs.Tasks;
+using Cysharp.Threading.Tasks;
 using InGame.Cases.TowerDefense.Managers;
 using InGame.System;
 using Root.Util;
@@ -11,13 +13,15 @@ namespace InGame.Cases.TowerDefense.Enemy
     // TODO: 추후 이동과 관련된 로직 MoveController로 분리
     public sealed class EnemyBTBase : MonoBehaviourBase
     {
+        private BehaviorTree _bt;
         private int currentIndex; // 시작 인덱스 (0)
         private int _maxIndex; // 마지막 노드 인덱스
         private List<Transform> pathNodes;
 
+        private CancellationTokenSource _cts;
         private Rigidbody2D _rigidbody2D;
         private Vector2 _moveDirection;
-        private readonly float _moveSpeed = 3f; // 이동 속도
+        private readonly float _moveSpeed = 20f; // 이동 속도
 
         private void Start()
         {
@@ -33,7 +37,7 @@ namespace InGame.Cases.TowerDefense.Enemy
             _maxIndex = tdManager.PathManager.PathNodes.Count - 1;
             pathNodes = tdManager.PathManager.PathNodes;
             
-            var bt = new BehaviorTreeBuilder(this.gameObject)
+            _bt = new BehaviorTreeBuilder(this.gameObject)
                 .Selector("한 가지 행동 선택")
 
                     // 1. 현재 목적지 노드 체크
@@ -56,6 +60,8 @@ namespace InGame.Cases.TowerDefense.Enemy
 
                 .End()
             .Build();
+
+            StartBtTick();
         }
 
         private void FixedUpdate()
@@ -128,6 +134,35 @@ namespace InGame.Cases.TowerDefense.Enemy
             Debug.Log($"[Enemy] 목적지 도착! Destroy 실행");
             Destroy(gameObject);
             return TaskStatus.Success;
+        }
+        
+        /// <summary>
+        /// BT Tick을 시작합니다.
+        /// </summary>
+        private void StartBtTick()
+        {
+            _cts = new();
+            TickBtAsync(_cts.Token).Forget();
+        }
+        
+        /// <summary>
+        /// 행동트리 틱을 특정 시간 간격으로 반복합니다.
+        /// </summary>
+        /// <param name="token"></param>
+        private async UniTask TickBtAsync(CancellationToken token)
+        {
+            int delayMillis = 250;
+            while (!token.IsCancellationRequested)
+            {
+                await UniTask.Delay(delayMillis, cancellationToken: token);
+                bool isCanceled = token.IsCancellationRequested;
+                if (isCanceled)
+                {
+                    break;
+                }
+
+                _bt?.Tick();  // 틱 진행
+            }
         }
     }
 }
