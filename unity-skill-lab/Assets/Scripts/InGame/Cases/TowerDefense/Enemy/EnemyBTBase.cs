@@ -8,14 +8,20 @@ using UnityEngine;
 
 namespace InGame.Cases.TowerDefense.Enemy
 {
+    // TODO: 추후 이동과 관련된 로직 MoveController로 분리
     public sealed class EnemyBTBase : MonoBehaviourBase
     {
         private int currentIndex; // 시작 인덱스 (0)
         private int _maxIndex; // 마지막 노드 인덱스
         private List<Transform> pathNodes;
-        
+
+        private Rigidbody2D _rigidbody2D;
+        private Vector2 _moveDirection;
+        private readonly float _moveSpeed = 3f; // 이동 속도
+
         private void Start()
         {
+            _rigidbody2D = GetComponent<Rigidbody2D>();
             Init();
         }
 
@@ -52,6 +58,17 @@ namespace InGame.Cases.TowerDefense.Enemy
             .Build();
         }
 
+        private void FixedUpdate()
+        {
+            if (_moveDirection != Vector2.zero)
+            {
+                Vector2 currentPos = _rigidbody2D.position;
+                Vector2 targetPos = currentPos + _moveDirection * (_moveSpeed * Time.fixedDeltaTime);
+
+                _rigidbody2D.MovePosition(targetPos);
+            }
+        }
+
         /// <summary>
         /// 현재 노드가 최종 목적지인지 확인
         /// </summary>
@@ -61,7 +78,7 @@ namespace InGame.Cases.TowerDefense.Enemy
         }
 
         /// <summary>
-        /// 현재 노드에서 다음 노드로 이동
+        /// 현재 노드에서 다음 노드로 이동 (이동 방향만 설정)
         /// </summary>
         private TaskStatus MoveToNextNode()
         {
@@ -72,9 +89,8 @@ namespace InGame.Cases.TowerDefense.Enemy
 
             Transform targetNode = pathNodes[currentIndex + 1];
 
-            // 이동 방향 설정 (이동 수행 X, FixedUpdate에서 적용)
-            Vector2 direction = ((Vector2)targetNode.position - (Vector2)transform.position).normalized;
-            // _moveController.SetMovement(direction, moveSpeed);
+            // ✅ 이동 방향 설정 (이동 수행 X, FixedUpdate에서 적용)
+            _moveDirection = ((Vector2)targetNode.position - (Vector2)transform.position).normalized;
 
             return TaskStatus.Continue; // 이동 중
         }
@@ -95,14 +111,13 @@ namespace InGame.Cases.TowerDefense.Enemy
         /// </summary>
         private TaskStatus SetNextNode()
         {
-            if (currentIndex < _maxIndex)
-            {
-                currentIndex++;
-                Debug.Log($"[Enemy] 새로운 목표: 노드 {currentIndex}");
-                return TaskStatus.Success; // 노드 변경 성공
-            }
+            if (currentIndex >= _maxIndex) return TaskStatus.Failure; // 변경할 노드 없음 (정상적이라면 발생하지 않음)
+            
+            ++currentIndex;
+            _moveDirection = Vector2.zero; // 노드 도착 후 정지
+            Debug.Log($"[Enemy] 새로운 목표: 노드 {currentIndex}");
+            return TaskStatus.Success; // 노드 변경 성공
 
-            return TaskStatus.Failure; // 변경할 노드 없음 (정상적이라면 발생하지 않음)
         }
 
         /// <summary>
