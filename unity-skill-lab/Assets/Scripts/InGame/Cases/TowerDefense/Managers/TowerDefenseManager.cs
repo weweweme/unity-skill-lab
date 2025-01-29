@@ -1,5 +1,6 @@
 using InGame.System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace InGame.Cases.TowerDefense.Managers
 {
@@ -12,7 +13,7 @@ namespace InGame.Cases.TowerDefense.Managers
         {
             base.Awake();
             
-            Debug.Assert(pathManager);
+            Assert.IsNotNull(pathManager);
         }
     }
 }
