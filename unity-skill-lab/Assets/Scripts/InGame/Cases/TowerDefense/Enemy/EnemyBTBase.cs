@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace InGame.Cases.TowerDefense.Enemy
 {
-    // TODO: 추후 이동과 관련된 로직 MoveController로 분리
+    // TODO: 추후 각 로직 모듈로 분리
     public sealed class EnemyBTBase : MonoBehaviourBase
     {
         private BehaviorTree _bt;
