@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Root.Util;
 using UnityEngine;
 
-namespace InGame.Cases.TowerDefense.Managers
+namespace InGame.Cases.TowerDefense.System.Managers
 {
     /// <summary>
     /// 관리하는 적의 이동 경로를 저장하고 제공하는 클래스.
