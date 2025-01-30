@@ -2,7 +2,7 @@ using InGame.System;
 using Root.Util;
 using UnityEngine;
 
-namespace InGame.Cases.TowerDefense.Managers
+namespace InGame.Cases.TowerDefense.System.Managers
 {
     public sealed class TowerDefenseManager : InGameManager
     {
