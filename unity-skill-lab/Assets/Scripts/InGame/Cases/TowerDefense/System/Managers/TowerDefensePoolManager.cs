@@ -9,6 +9,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
     public sealed class TowerDefensePoolManager : MonoBehaviourBase
     {
         [SerializeField] private TowerBasePool towerBasePool;
+        public TowerBasePool TowerBasePool => towerBasePool;
 
         private void Awake()
         {
