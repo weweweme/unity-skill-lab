@@ -1,6 +1,5 @@
 using Root.Util;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace InGame.System
 {
@@ -22,7 +21,7 @@ namespace InGame.System
         {
             base.Awake();
             
-            Assert.IsNotNull(dataManager, "[InGameManager] DataManager가 할당되지 않았습니다.");
+            AssertHelper.NotNull(typeof(DataManager), dataManager);
             SetDataManager();
         }
 

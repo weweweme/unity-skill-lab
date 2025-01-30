@@ -1,6 +1,6 @@
 using InGame.System;
+using Root.Util;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace InGame.Cases.TowerDefense.Managers
 {
@@ -16,7 +16,7 @@ namespace InGame.Cases.TowerDefense.Managers
         {
             base.Awake();
             
-            Assert.IsNotNull(pathManager, "[TowerDefenseManager] PathManager가 할당되지 않았습니다.");
+            AssertHelper.NotNull(typeof(TowerDefenseManager), pathManager);
         }
 
         protected override void SetDataManager() => _towerDefenseDataManager = dataManager as TowerDefenseDataManager;
