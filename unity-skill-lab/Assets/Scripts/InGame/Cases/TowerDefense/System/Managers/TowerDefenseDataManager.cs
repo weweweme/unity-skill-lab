@@ -1,3 +1,4 @@
+using InGame.Cases.TowerDefense.System.Model;
 using InGame.System;
 
 namespace InGame.Cases.TowerDefense.System.Managers
@@ -7,5 +8,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
     /// </summary>
     public sealed class TowerDefenseDataManager : DataManager
     {
+        private readonly MDL_MainPanel _mainPanel = new MDL_MainPanel();
+        public MDL_MainPanel MainPanel => _mainPanel;
     }
 }
