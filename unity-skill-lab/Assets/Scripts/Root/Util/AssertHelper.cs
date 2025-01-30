@@ -23,18 +23,18 @@ namespace Root.Util
         /// <param name="ownerType">이 필드를 가지고 있는 클래스의 Type (예: typeof(MyClass))</param>
         /// <param name="field">검사할 필드 값</param>
         /// <param name="fieldName">필드 이름</param>
-        public static void NotNull<T>(System.Type ownerType, T field, string fieldName) where T : class
+        public static void NotNull<T>(System.Type ownerType, T field) where T : class
         {
 #if UNITY_EDITOR
             // UnityEngine.Object 기반의 필드라면 Destroy된 상태인지 추가 체크
             if (field is Object unityObject && unityObject == null)
             {
-                Debug.Assert(false, $"[{ownerType.Name}] {fieldName} 게임 오브젝트가 Destroy된 상태입니다.");
+                Debug.Assert(false, $"[{ownerType.Name}] {nameof(field)} 게임 오브젝트가 Destroy된 상태입니다.");
                 return;
             }
 
             // 일반적인 null 체크
-            Debug.Assert(field != null, $"[{ownerType.Name}] {fieldName} 게임 오브젝트가 할당되지 않았습니다.");
+            Debug.Assert(field != null, $"[{ownerType.Name}] {nameof(field)} 게임 오브젝트가 할당되지 않았습니다.");
 #endif
         }
     }
