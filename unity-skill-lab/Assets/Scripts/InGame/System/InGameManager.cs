@@ -23,6 +23,7 @@ namespace InGame.System
             base.Awake();
             
             Assert.IsNotNull(dataManager, "[InGameManager] DataManager가 할당되지 않았습니다.");
+            SetDataManager();
         }
 
         protected abstract void SetDataManager();
