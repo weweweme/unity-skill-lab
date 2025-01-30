@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace InGame.Cases.TowerDefense.System.Managers
 {
+    /// <summary>
+    /// TowerDefense에서 사용되는 루트 매니저 클래스입니다.
+    /// </summary>
     public sealed class TowerDefenseManager : InGameManager
     {
         [SerializeField] private EnemyPathManager pathManager;
