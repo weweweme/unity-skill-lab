@@ -1,3 +1,4 @@
+using System;
 using UniRx;
 
 namespace InGame.Cases.TowerDefense.System.Model
@@ -10,8 +11,8 @@ namespace InGame.Cases.TowerDefense.System.Model
         /// <summary>
         /// 현재 선택된 타워
         /// </summary>
-        private readonly ReactiveProperty<ETowerType> _selectedTower = new(ETowerType.None);
-        public IReadOnlyReactiveProperty<ETowerType> SelectedTower => _selectedTower;
-        public void SetSelectedTower(ETowerType newState) => _selectedTower.Value = newState;
+        private readonly Subject<ETowerType> _selectedTower = new Subject<ETowerType>();
+        public IObservable<ETowerType> SelectedTower => _selectedTower;
+        public void SetSelectedTower(ETowerType type) => _selectedTower.OnNext(type);
     }
 }
