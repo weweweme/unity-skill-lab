@@ -1,3 +1,6 @@
+using InGame.Cases.TowerDefense.System;
+using InGame.Cases.TowerDefense.System.Managers;
+using InGame.System;
 using Root.Util;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -15,10 +18,10 @@ namespace InGame.Cases.TowerDefense
             Assert.IsNotNull(turret);
         }
 
-        // TODO: TurretInstantiate를 담당하는 클래스에서 수행될 예정입니다
         public void InstantiateTurret()
         {
-            Instantiate(turret);
+            TowerDefenseManager manager = InGameManager.Ins as TowerDefenseManager;
+            manager.DataManager.MainPanel.SetSelectedTower(ETowerType.Default);
         }
     }
 }
