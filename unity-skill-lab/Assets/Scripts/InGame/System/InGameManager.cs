@@ -1,4 +1,6 @@
 using Root.Util;
+using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace InGame.System
 {
@@ -8,5 +10,18 @@ namespace InGame.System
     /// </summary>
     public abstract class InGameManager : Singleton<InGameManager>
     {
+        /// <summary>
+        /// 현재 씬에서 사용되는 데이터 매니저입니다.
+        /// 모든 InGameManager는 반드시 이를 참조해야 합니다.
+        /// </summary>
+        [SerializeField] private DataManager dataManager;
+        public DataManager DataManager => dataManager;
+        
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            Assert.IsNotNull(dataManager, "[InGameManager] DataManager가 할당되지 않았습니다.");
+        }
     }
 }
