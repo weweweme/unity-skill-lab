@@ -48,7 +48,10 @@ namespace InGame.Cases.TowerDefense.Tower
             _eventHandler = tdManager.InputHandler;
             
             mainCam = tdManager.CameraManager.MainCam;
-            zDepth = -(mainCam.transform.position.z); 
+            zDepth = -(mainCam.transform.position.z);
+
+            _eventHandler.OnMouseLeftClickEvent -= TowerPlace;
+            _eventHandler.OnMouseLeftClickEvent += TowerPlace;
 
             _dataManager.MainPanel.SelectedTower
                 .Subscribe(CreateTower)
@@ -89,6 +92,7 @@ namespace InGame.Cases.TowerDefense.Tower
         {
             _isUpdateActive = false;
             _eventHandler.OnMouseScreenPositionEvent -= SetCursorPosition;
+            _pendingTower = null;
         }
 
         private void UpdateTowerPlacement()
@@ -98,6 +102,16 @@ namespace InGame.Cases.TowerDefense.Tower
 
             // 현재 위치에서 목표 위치로 부드럽게 이동 (Viewport 변환 불필요)
             _pendingTower.transform.position = Vector3.Lerp(_pendingTower.transform.position, _targetWorldPos, SMOOTH_SPEED * Time.deltaTime);
+        }
+        
+        private void TowerPlace()
+        {
+            if (_pendingTower == null) return;
+            
+            bool isSuccess = _pendingTower.PlacementController.Place();
+            if (!isSuccess) return;
+            
+            ClearCreateProcess();
         }
 
         public void Dispose()
