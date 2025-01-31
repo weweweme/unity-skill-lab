@@ -12,7 +12,7 @@ namespace InGame.Cases.TowerDefense.Tower
     public sealed class TowerCreateHandler : IDisposable
     {
         private const float Z_COORD = 0f;
-        private const float SMOOTH_SPEED = 10f;
+        private const float SMOOTH_SPEED = 150f;
         
         private readonly TowerDefenseDataManager _dataManager;
         private readonly TowerBasePool _pool;
@@ -20,9 +20,25 @@ namespace InGame.Cases.TowerDefense.Tower
 
         private readonly CompositeDisposable _disposable = new CompositeDisposable();
         private readonly Camera mainCam;
+        
+        /// <summary>
+        /// 마우스의 Z 좌표 변환을 위한 깊이값
+        /// </summary>
+        private readonly float zDepth;
+        
+        /// <summary>
+        /// 현재 타워 배치가 활성화되었는지 여부
+        /// </summary>
         private bool _isUpdateActive;
-        private Vector2 _viewportMousePos;
+        
+        /// <summary>
+        /// 타워가 이동할 월드 포지션
+        /// </summary>
+        private Vector2 _targetWorldPos;
 
+        /// <summary>
+        /// 배치 중인 타워 객체
+        /// </summary>
         private TowerRoot _pendingTower;
 
         public TowerCreateHandler(TowerDefenseManager tdManager)
@@ -31,8 +47,8 @@ namespace InGame.Cases.TowerDefense.Tower
             _pool = tdManager.PoolManager.TowerBasePool;
             _eventHandler = tdManager.InputHandler;
             
-            // TODO: 추후 CamaraManager에서 MainCam을 가져오도록 변경
-            mainCam = Camera.main;
+            mainCam = tdManager.CameraManager.MainCam;
+            zDepth = -(mainCam.transform.position.z); 
 
             _dataManager.MainPanel.SelectedTower
                 .Subscribe(CreateTower)
@@ -44,13 +60,16 @@ namespace InGame.Cases.TowerDefense.Tower
                 .AddTo(_disposable);
         }
 
+        /// <summary>
+        /// 마우스의 스크린 좌표를 월드 좌표로 변환하여 저장합니다.
+        /// </summary>
+        /// <param name="screenMousePos">스크린 좌표계에서의 마우스 위치</param>
         private void SetCursorPosition(Vector2 screenMousePos)
         {
-            // 마우스의 스크린 좌표를 직접 월드 좌표로 변환
-            Vector3 worldMousePos = mainCam.ScreenToWorldPoint(new Vector3(screenMousePos.x, screenMousePos.y, Z_COORD));
-            worldMousePos.z = Z_COORD; // Z 좌표 고정
+            Vector3 worldMousePos = mainCam.ScreenToWorldPoint(new Vector3(screenMousePos.x, screenMousePos.y, zDepth));
+            worldMousePos.z = Z_COORD;
 
-            _viewportMousePos = worldMousePos; // 이제 _viewportMousePos는 실제 월드 좌표를 저장
+            _targetWorldPos = worldMousePos;
         }
 
         private void CreateTower(ETowerType type)
@@ -78,7 +97,7 @@ namespace InGame.Cases.TowerDefense.Tower
             if (_pendingTower == null) return;
 
             // 현재 위치에서 목표 위치로 부드럽게 이동 (Viewport 변환 불필요)
-            _pendingTower.transform.position = Vector3.Lerp(_pendingTower.transform.position, _viewportMousePos, SMOOTH_SPEED * Time.deltaTime);
+            _pendingTower.transform.position = Vector3.Lerp(_pendingTower.transform.position, _targetWorldPos, SMOOTH_SPEED * Time.deltaTime);
         }
 
         public void Dispose()

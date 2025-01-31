@@ -18,6 +18,7 @@ namespace InGame.System
     {
         [SerializeField] protected DataManager dataManager;
         [SerializeField] protected CameraManager cameraManager;
+        public CameraManager CameraManager => cameraManager;
         
         protected override void Awake()
         {
