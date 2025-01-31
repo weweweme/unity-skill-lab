@@ -16,6 +16,11 @@ namespace InGame.Cases.TowerDefense.System
         /// </summary>
         public event Action<Vector2> OnMouseScreenPositionEvent;
 
+        /// <summary>
+        /// 마우스 왼쪽 클릭 입력이 감지될 때 발생하는 이벤트입니다.
+        /// </summary>
+        public event Action OnMouseLeftClickEvent;
+
         public TowerDefenseInputEventHandler()
         {
             _inputActions = new TowerDefenseInputActions();
@@ -32,7 +37,18 @@ namespace InGame.Cases.TowerDefense.System
             Vector2 mouseScreenPosition = context.ReadValue<Vector2>();
             OnMouseScreenPositionEvent?.Invoke(mouseScreenPosition);
         }
-        
+
+        /// <summary>
+        /// 마우스 왼쪽 클릭이 수행되었을 때 호출됩니다.
+        /// 이벤트를 발생시켜 클릭 입력을 처리할 수 있도록 합니다.
+        /// </summary>
+        /// <param name="context">입력 액션의 컨텍스트 정보</param>
+        public void OnMouseLeftClick(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+            OnMouseLeftClickEvent?.Invoke();
+        }
+
         public void Dispose()
         {
             _inputActions.Disable();
