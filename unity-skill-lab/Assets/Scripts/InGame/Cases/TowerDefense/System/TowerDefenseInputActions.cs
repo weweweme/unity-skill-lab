@@ -35,6 +35,15 @@ public partial class @TowerDefenseInputActions: IInputActionCollection2, IDispos
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Mouse Left Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""4bbad312-0368-4397-b126-789621161ac1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -46,6 +55,17 @@ public partial class @TowerDefenseInputActions: IInputActionCollection2, IDispos
                     ""processors"": """",
                     ""groups"": ""PC"",
                     ""action"": ""Mouse Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17e07b96-0488-468a-8472-c438695656e7"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Mouse Left Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -74,6 +94,7 @@ public partial class @TowerDefenseInputActions: IInputActionCollection2, IDispos
         // Mouse Position
         m_MousePosition = asset.FindActionMap("Mouse Position", throwIfNotFound: true);
         m_MousePosition_MousePosition = m_MousePosition.FindAction("Mouse Position", throwIfNotFound: true);
+        m_MousePosition_MouseLeftClick = m_MousePosition.FindAction("Mouse Left Click", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -136,11 +157,13 @@ public partial class @TowerDefenseInputActions: IInputActionCollection2, IDispos
     private readonly InputActionMap m_MousePosition;
     private List<IMousePositionActions> m_MousePositionActionsCallbackInterfaces = new List<IMousePositionActions>();
     private readonly InputAction m_MousePosition_MousePosition;
+    private readonly InputAction m_MousePosition_MouseLeftClick;
     public struct MousePositionActions
     {
         private @TowerDefenseInputActions m_Wrapper;
         public MousePositionActions(@TowerDefenseInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @MousePosition => m_Wrapper.m_MousePosition_MousePosition;
+        public InputAction @MouseLeftClick => m_Wrapper.m_MousePosition_MouseLeftClick;
         public InputActionMap Get() { return m_Wrapper.m_MousePosition; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -153,6 +176,9 @@ public partial class @TowerDefenseInputActions: IInputActionCollection2, IDispos
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
+            @MouseLeftClick.started += instance.OnMouseLeftClick;
+            @MouseLeftClick.performed += instance.OnMouseLeftClick;
+            @MouseLeftClick.canceled += instance.OnMouseLeftClick;
         }
 
         private void UnregisterCallbacks(IMousePositionActions instance)
@@ -160,6 +186,9 @@ public partial class @TowerDefenseInputActions: IInputActionCollection2, IDispos
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
+            @MouseLeftClick.started -= instance.OnMouseLeftClick;
+            @MouseLeftClick.performed -= instance.OnMouseLeftClick;
+            @MouseLeftClick.canceled -= instance.OnMouseLeftClick;
         }
 
         public void RemoveCallbacks(IMousePositionActions instance)
@@ -189,5 +218,6 @@ public partial class @TowerDefenseInputActions: IInputActionCollection2, IDispos
     public interface IMousePositionActions
     {
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnMouseLeftClick(InputAction.CallbackContext context);
     }
 }
