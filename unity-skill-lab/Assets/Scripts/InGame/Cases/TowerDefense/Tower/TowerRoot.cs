@@ -1,4 +1,5 @@
 using Root.Util;
+using UnityEngine;
 
 namespace InGame.Cases.TowerDefense.Tower
 {
@@ -8,5 +9,12 @@ namespace InGame.Cases.TowerDefense.Tower
     /// </summary>
     public sealed class TowerRoot : MonoBehaviourBase
     {
+        [SerializeField] private TowerPlacementController placementController;
+        public TowerPlacementController PlacementController => placementController;
+
+        private void Awake()
+        {
+            AssertHelper.NotNull(typeof(TowerRoot), placementController);
+        }
     }
 }
