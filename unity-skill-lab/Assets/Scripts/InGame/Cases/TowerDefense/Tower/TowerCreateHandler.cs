@@ -16,6 +16,7 @@ namespace InGame.Cases.TowerDefense.Tower
         
         private readonly TowerDefenseDataManager _dataManager;
         private readonly TowerBasePool _pool;
+        private readonly TowerDefenseInputEventHandler _eventHandler;
 
         private readonly CompositeDisposable _disposable = new CompositeDisposable();
         private readonly Camera mainCam;
@@ -28,6 +29,7 @@ namespace InGame.Cases.TowerDefense.Tower
         {
             _dataManager = tdManager.DataManager;
             _pool = tdManager.PoolManager.TowerBasePool;
+            _eventHandler = tdManager.InputHandler;
             
             // TODO: 추후 CamaraManager에서 MainCam을 가져오도록 변경
             mainCam = Camera.main;
@@ -35,23 +37,15 @@ namespace InGame.Cases.TowerDefense.Tower
             _dataManager.MainPanel.SelectedTower
                 .Subscribe(CreateTower)
                 .AddTo(_disposable);
-        }
-
-        public void InitRx(TowerDefenseInputEventHandler eventHandler)
-        {
+            
             Observable.EveryUpdate()
                 .Where(_ => _isUpdateActive)
                 .Subscribe(_ => UpdateTowerPlacement())
                 .AddTo(_disposable);
-
-            eventHandler.OnMouseScreenPositionEvent -= SetCursorPosition;
-            eventHandler.OnMouseScreenPositionEvent += SetCursorPosition;
         }
 
         private void SetCursorPosition(Vector2 screenMousePos)
         {
-            Debug.Log($"SetCursorPosition: {screenMousePos}");
-            
             // 마우스의 스크린 좌표를 직접 월드 좌표로 변환
             Vector3 worldMousePos = mainCam.ScreenToWorldPoint(new Vector3(screenMousePos.x, screenMousePos.y, Z_COORD));
             worldMousePos.z = Z_COORD; // Z 좌표 고정
@@ -66,14 +60,16 @@ namespace InGame.Cases.TowerDefense.Tower
             TowerRoot root = _pool.GetObject();
             _pendingTower = root;
 
+            _eventHandler.OnMouseScreenPositionEvent -= SetCursorPosition;
+            _eventHandler.OnMouseScreenPositionEvent += SetCursorPosition;
+            
             _isUpdateActive = true;
-            Debug.Log($"Tower {type} created. Update logic enabled.");
         }
 
         private void ClearCreateProcess()
         {
             _isUpdateActive = false;
-            Debug.Log("Tower update logic disabled.");
+            _eventHandler.OnMouseScreenPositionEvent -= SetCursorPosition;
         }
 
         private void UpdateTowerPlacement()
