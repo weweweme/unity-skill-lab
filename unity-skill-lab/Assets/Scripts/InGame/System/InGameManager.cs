@@ -1,3 +1,4 @@
+using Root.Managers;
 using Root.Util;
 using UnityEngine;
 
@@ -16,13 +17,16 @@ namespace InGame.System
     public abstract class InGameManager : Singleton<InGameManager>
     {
         [SerializeField] protected DataManager dataManager;
+        [SerializeField] protected CameraManager cameraManager;
         
         protected override void Awake()
         {
             base.Awake();
             
-            AssertHelper.NotNull(typeof(DataManager), dataManager);
+            AssertHelper.NotNull(typeof(InGameManager), dataManager);
             SetDataManager();
+            
+            AssertHelper.NotNull(typeof(InGameManager), cameraManager);
         }
 
         protected abstract void SetDataManager();
