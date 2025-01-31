@@ -1,5 +1,5 @@
 using System;
-using System.Numerics;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace InGame.Cases.TowerDefense.System
@@ -19,6 +19,7 @@ namespace InGame.Cases.TowerDefense.System
         public TowerDefenseInputEventHandler()
         {
             _inputActions = new TowerDefenseInputActions();
+            _inputActions.MousePosition.SetCallbacks(this);
             _inputActions.Enable();
         }
 

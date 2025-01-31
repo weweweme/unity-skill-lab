@@ -20,7 +20,9 @@ namespace InGame.Cases.TowerDefense.System.Managers
         public TowerDefenseDataManager DataManager => _towerDefenseDataManager;
 
         private TowerCreateHandler _createHandler;
+        
         private TowerDefenseInputEventHandler _inputHandler;
+        public TowerDefenseInputEventHandler InputHandler => _inputHandler;
 
         protected override void Awake()
         {
