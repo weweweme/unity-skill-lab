@@ -7,17 +7,18 @@ namespace InGame.Cases.TowerDefense.System
     /// <summary>
     /// Tower Defense 게임의 입력 이벤트를 처리하는 클래스입니다.
     /// </summary>
-    public class TowerDefenseInputEvents : IDisposable, TowerDefenseInputActions.IMousePositionActions
+    public class TowerDefenseInputEventHandler : IDisposable, TowerDefenseInputActions.IMousePositionActions
     {
-        private readonly TowerDefenseInputActions _inputActions = new TowerDefenseInputActions();
+        private readonly TowerDefenseInputActions _inputActions;
         
         /// <summary>
         /// 마우스의 화면 좌표를 전달하는 이벤트입니다.
         /// </summary>
         public event Action<Vector2> OnMouseScreenPositionEvent;
 
-        public TowerDefenseInputEvents()
+        public TowerDefenseInputEventHandler()
         {
+            _inputActions = new TowerDefenseInputActions();
             _inputActions.Enable();
         }
 
