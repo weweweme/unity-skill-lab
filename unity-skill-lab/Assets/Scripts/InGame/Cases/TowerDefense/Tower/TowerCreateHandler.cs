@@ -41,7 +41,7 @@ namespace InGame.Cases.TowerDefense.Tower
         {
             Observable.EveryUpdate()
                 .Where(_ => _isUpdateActive)
-                .Subscribe(_ => OnUpdate())
+                .Subscribe(_ => UpdateTowerPlacement())
                 .AddTo(_disposable);
 
             eventHandler.OnMouseScreenPositionEvent -= SetCursorPosition;
@@ -76,7 +76,7 @@ namespace InGame.Cases.TowerDefense.Tower
             Debug.Log("Tower update logic disabled.");
         }
 
-        private void OnUpdate()
+        private void UpdateTowerPlacement()
         {
             if (!_isUpdateActive) return;
             if (_pendingTower == null) return;
