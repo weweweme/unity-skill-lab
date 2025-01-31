@@ -19,6 +19,7 @@ namespace InGame.Cases.TowerDefense.System
         public TowerDefenseInputEventHandler()
         {
             _inputActions = new TowerDefenseInputActions();
+            _inputActions.MousePosition.SetCallbacks(this);
             _inputActions.Enable();
         }
 

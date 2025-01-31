@@ -33,12 +33,18 @@ namespace InGame.Cases.TowerDefense.System.Managers
         private void Start()
         {
             Init();
+            InitRx();
         }
 
         private void Init()
         {
             _inputHandler = new TowerDefenseInputEventHandler();
             _createHandler = new TowerCreateHandler(this);
+        }
+
+        private void InitRx()
+        {
+            _createHandler.InitRx(_inputHandler);
         }
 
         protected override void SetDataManager() => _towerDefenseDataManager = dataManager as TowerDefenseDataManager;
