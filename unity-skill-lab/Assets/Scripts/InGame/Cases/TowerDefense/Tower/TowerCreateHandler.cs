@@ -2,6 +2,7 @@ using System;
 using InGame.Cases.TowerDefense.System;
 using InGame.Cases.TowerDefense.System.Managers;
 using UniRx;
+using UnityEngine;
 
 namespace InGame.Cases.TowerDefense.Tower
 {
@@ -12,26 +13,54 @@ namespace InGame.Cases.TowerDefense.Tower
     {
         private readonly TowerDefenseDataManager _dataManager;
         private readonly TowerBasePool _pool;
-        
+
         private readonly CompositeDisposable _disposable = new CompositeDisposable();
-        
+        private bool _isUpdateActive;
+
         public TowerCreateHandler(TowerDefenseManager tdManager)
         {
             _dataManager = tdManager.DataManager;
             _pool = tdManager.PoolManager.TowerBasePool;
-            
+
             _dataManager.MainPanel.SelectedTower
                 .Subscribe(CreateTower)
                 .AddTo(_disposable);
         }
 
+        public void InitRx(TowerDefenseInputEventHandler eventHandler)
+        {
+            Observable.EveryUpdate()
+                .Where(_ => _isUpdateActive) // 활성화된 경우에만 실행
+                .Subscribe(_ => OnUpdate())
+                .AddTo(_disposable);
+
+            eventHandler.OnMouseScreenPositionEvent -= SetCorsorPosition;
+            eventHandler.OnMouseScreenPositionEvent += SetCorsorPosition;
+        }
+
+        private void SetCorsorPosition(Vector2 worldMousePos)
+        {
+        }
+
         private void CreateTower(ETowerType type)
         {
-            // 유효하지 않은 감시값일 경우 return
             if (type == ETowerType.None) return;
-            
-            // TODO: 타워 타입에 따라 DataManager에서 데이터를 가져와 셋업하는 코드 구현.
+
             TowerRoot root = _pool.GetObject();
+
+            _isUpdateActive = true;
+            Debug.Log($"Tower {type} created. Update logic enabled.");
+        }
+
+        private void ClearCreateProcess()
+        {
+            _isUpdateActive = false;
+            Debug.Log("Tower update logic disabled.");
+        }
+
+        private void OnUpdate()
+        {
+            Debug.Log("Update logic running...");
         }
 
         public void Dispose()
