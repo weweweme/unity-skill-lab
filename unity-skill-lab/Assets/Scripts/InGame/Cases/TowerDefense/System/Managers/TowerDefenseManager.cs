@@ -19,7 +19,8 @@ namespace InGame.Cases.TowerDefense.System.Managers
         private TowerDefenseDataManager _towerDefenseDataManager;
         public TowerDefenseDataManager DataManager => _towerDefenseDataManager;
 
-        private TowerCreateHandler createHandler;
+        private TowerCreateHandler _createHandler;
+        private TowerDefenseInputEventHandler _inputHandler;
 
         protected override void Awake()
         {
@@ -36,7 +37,8 @@ namespace InGame.Cases.TowerDefense.System.Managers
 
         private void Init()
         {
-            createHandler = new TowerCreateHandler(this);
+            _inputHandler = new TowerDefenseInputEventHandler();
+            _createHandler = new TowerCreateHandler(this);
         }
 
         protected override void SetDataManager() => _towerDefenseDataManager = dataManager as TowerDefenseDataManager;
@@ -45,7 +47,8 @@ namespace InGame.Cases.TowerDefense.System.Managers
         {
             base.OnDispose();
             
-            createHandler.Dispose();
+            _inputHandler.Dispose();
+            _createHandler.Dispose();
         }
     }
 }
