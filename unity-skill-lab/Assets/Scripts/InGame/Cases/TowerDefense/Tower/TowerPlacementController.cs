@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Root.Util;
 using UnityEngine;
 
@@ -19,6 +20,16 @@ namespace InGame.Cases.TowerDefense.Tower
         private float _currentAlpha = 1.0f;
         
         /// <summary>
+        /// 현재 충돌 중인 오브젝트들의 목록
+        /// </summary>
+        private readonly HashSet<Collider2D> _collisions = new HashSet<Collider2D>();
+        
+        /// <summary>
+        /// 타워가 배치되었는지 여부
+        /// </summary>
+        private bool _isPlaced;
+        
+        /// <summary>
         /// 타워를 현재 위치에 배치합니다.
         /// 배치 성공 여부를 반환합니다.
         /// </summary>
@@ -26,6 +37,37 @@ namespace InGame.Cases.TowerDefense.Tower
         public bool Place()
         {
             return true;
+        }
+        
+        /// <summary>
+        /// 충돌한 오브젝트를 기록합니다.
+        /// </summary>
+        private void OnTriggerEnter2D(Collider2D col)
+        {
+            // 이미 설치된 상태라면 충돌 검사 생략
+            if (_isPlaced) return;  
+
+            // TODO: 매직 넘버 Layers 스태틱 헬퍼 사용하도록 변경
+            bool isInValidArea = col.gameObject.layer == LayerMask.GetMask("InValidArea");
+            if (!isInValidArea) return;
+            
+            _collisions.Add(col);
+        }
+
+        /// <summary>
+        /// 충돌했던 오브젝트를 제거합니다.
+        /// </summary>
+        /// <param name="col">충돌이 끝난 Collider2D 객체</param>
+        private void OnTriggerExit2D(Collider2D col)
+        {
+            // 이미 설치된 상태라면 충돌 검사 생략
+            if (_isPlaced) return;  
+
+            // TODO: 매직 넘버 Layers 스태틱 헬퍼 사용하도록 변경
+            bool isWall = col.gameObject.layer == LayerMask.GetMask("InValidArea");
+            if (!isWall) return;
+            
+            _collisions.Remove(col);
         }
         
         /// <summary>
