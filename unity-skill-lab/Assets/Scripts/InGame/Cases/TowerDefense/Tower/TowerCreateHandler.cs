@@ -52,6 +52,8 @@ namespace InGame.Cases.TowerDefense.Tower
 
             _eventHandler.OnMouseLeftClickEvent -= TowerPlace;
             _eventHandler.OnMouseLeftClickEvent += TowerPlace;
+            _eventHandler.OnMouseScreenPositionEvent -= SetCursorPosition;
+            _eventHandler.OnMouseScreenPositionEvent += SetCursorPosition;
 
             _dataManager.MainPanel.SelectedTower
                 .Subscribe(CreateTower)
@@ -81,9 +83,7 @@ namespace InGame.Cases.TowerDefense.Tower
 
             TowerRoot root = _pool.GetObject();
             _pendingTower = root;
-
-            _eventHandler.OnMouseScreenPositionEvent -= SetCursorPosition;
-            _eventHandler.OnMouseScreenPositionEvent += SetCursorPosition;
+            _pendingTower.transform.position = _targetWorldPos;
             
             _isUpdateActive = true;
         }
@@ -91,7 +91,6 @@ namespace InGame.Cases.TowerDefense.Tower
         private void ClearCreateProcess()
         {
             _isUpdateActive = false;
-            _eventHandler.OnMouseScreenPositionEvent -= SetCursorPosition;
             _pendingTower = null;
         }
 
@@ -116,6 +115,7 @@ namespace InGame.Cases.TowerDefense.Tower
 
         public void Dispose()
         {
+            _eventHandler.OnMouseScreenPositionEvent -= SetCursorPosition;
             _disposable.Dispose();
         }
     }
