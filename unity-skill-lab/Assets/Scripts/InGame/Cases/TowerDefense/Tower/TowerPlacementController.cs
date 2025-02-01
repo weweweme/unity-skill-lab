@@ -29,7 +29,18 @@ namespace InGame.Cases.TowerDefense.Tower
         /// </summary>
         private bool _isPlaced;
         
+        /// <summary>
+        /// 타워가 배치될 수 있는지 여부
+        /// </summary>
         private bool _canBePlaced;
+
+        private void Awake()
+        {
+            _isPlaced = false;
+            _canBePlaced = false;
+            _collisions.Clear();
+            SetOpacity(0.5f); // 기본적으로 반투명하게 설정
+        }
         
         /// <summary>
         /// 타워를 현재 위치에 배치합니다.
@@ -56,7 +67,7 @@ namespace InGame.Cases.TowerDefense.Tower
             if (_isPlaced) return;  
 
             // TODO: 매직 넘버 Layers 스태틱 헬퍼 사용하도록 변경
-            bool isInValidArea = col.gameObject.layer == LayerMask.GetMask("InValidArea");
+            bool isInValidArea = ((1 << col.gameObject.layer) & LayerMask.GetMask("InValidArea")) != 0;
             if (!isInValidArea) return;
             
             _collisions.Add(col);
@@ -72,15 +83,19 @@ namespace InGame.Cases.TowerDefense.Tower
             if (_isPlaced) return;  
 
             // TODO: 매직 넘버 Layers 스태틱 헬퍼 사용하도록 변경
-            bool isWall = col.gameObject.layer == LayerMask.GetMask("InValidArea");
-            if (!isWall) return;
+            bool isInValidArea = ((1 << col.gameObject.layer) & LayerMask.GetMask("InValidArea")) != 0;
+            if (!isInValidArea) return;
             
             _collisions.Remove(col);
         }
         
+        /// <summary>
+        /// 설치 가능 여부를 확인합니다.
+        /// </summary>
         private void Update()
         {
-            if (_isPlaced) return;  // 이미 설치된 상태라면 설치 가능 여부 체크 생략
+            // 이미 설치된 상태라면 설치 가능 여부 체크 생략
+            if (_isPlaced) return;  
 
             // 충돌 목록이 비어 있을 때 스킬 사용이 가능해집니다.
             if (_collisions.Count == 0)
@@ -95,6 +110,7 @@ namespace InGame.Cases.TowerDefense.Tower
             }
         }
         
+        // TODO: 헬퍼 클래스로 이동 (SetOpacity, SetColor)
         /// <summary>
         /// 타워의 투명도를 설정합니다.
         /// </summary>
