@@ -68,7 +68,8 @@ namespace InGame.Cases.TowerDefense.Tower
 
             // TODO: 매직 넘버 Layers 스태틱 헬퍼 사용하도록 변경
             bool isInValidArea = ((1 << col.gameObject.layer) & LayerMask.GetMask("InValidArea")) != 0;
-            if (!isInValidArea) return;
+            bool isTower = ((1 << col.gameObject.layer) & LayerMask.GetMask("Player")) != 0;
+            if (!isInValidArea && !isTower) return;
             
             _collisions.Add(col);
         }
@@ -84,7 +85,8 @@ namespace InGame.Cases.TowerDefense.Tower
 
             // TODO: 매직 넘버 Layers 스태틱 헬퍼 사용하도록 변경
             bool isInValidArea = ((1 << col.gameObject.layer) & LayerMask.GetMask("InValidArea")) != 0;
-            if (!isInValidArea) return;
+            bool isTower = ((1 << col.gameObject.layer) & LayerMask.GetMask("Player")) != 0;
+            if (!isInValidArea && !isTower) return;
             
             _collisions.Remove(col);
         }
