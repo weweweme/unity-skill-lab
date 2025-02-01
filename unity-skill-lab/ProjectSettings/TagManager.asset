@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - Water
   - UI
+  - InValidArea
   - 
   - 
   - 
@@ -35,8 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Player
   m_SortingLayers:
   - name: Default
     uniqueID: 0
