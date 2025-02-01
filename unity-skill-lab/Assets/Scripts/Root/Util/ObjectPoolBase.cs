@@ -13,7 +13,7 @@ namespace Root.Util
         /// <summary>
         /// 오브젝트 풀링 시스템을 관리하는 유니티의 ObjectPool 클래스입니다.
         /// </summary>
-        protected ObjectPool<T> objectPool;
+        private ObjectPool<T> objectPool;
 
         /// <summary>
         /// 풀의 최소 사이즈입니다.
