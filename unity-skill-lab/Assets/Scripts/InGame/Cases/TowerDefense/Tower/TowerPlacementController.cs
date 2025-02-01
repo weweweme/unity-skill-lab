@@ -29,6 +29,8 @@ namespace InGame.Cases.TowerDefense.Tower
         /// </summary>
         private bool _isPlaced;
         
+        private bool _canBePlaced;
+        
         /// <summary>
         /// 타워를 현재 위치에 배치합니다.
         /// 배치 성공 여부를 반환합니다.
@@ -36,7 +38,13 @@ namespace InGame.Cases.TowerDefense.Tower
         /// <returns>배치가 성공하면 true를 반환합니다.</returns>
         public bool Place()
         {
-            return true;
+            if (_canBePlaced)
+            {
+                _isPlaced = true;
+                SetOpacity(1.0f);  // 배치 성공 시 투명도를 1.0으로 설정
+            }
+            
+            return _canBePlaced;
         }
         
         /// <summary>
@@ -68,6 +76,23 @@ namespace InGame.Cases.TowerDefense.Tower
             if (!isWall) return;
             
             _collisions.Remove(col);
+        }
+        
+        private void Update()
+        {
+            if (_isPlaced) return;  // 이미 설치된 상태라면 설치 가능 여부 체크 생략
+
+            // 충돌 목록이 비어 있을 때 스킬 사용이 가능해집니다.
+            if (_collisions.Count == 0)
+            {
+                _canBePlaced = true;
+                SetColor(Color.green);  // 설치 가능 시 Color를 Green으로 셋팅
+            }
+            else
+            {
+                _canBePlaced = false;
+                SetColor(Color.red);  // 설치 불가능 시 Color를 Red로 셋팅
+            }
         }
         
         /// <summary>
