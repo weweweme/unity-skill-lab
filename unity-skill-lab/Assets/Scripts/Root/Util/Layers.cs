@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Root.Util
 {
     /// <summary>
@@ -16,11 +14,11 @@ namespace Root.Util
         /// <param name="obj">확인할 GameObject</param>
         /// <param name="layers">비교할 레이어 목록</param>
         /// <returns>GameObject가 하나라도 해당 레이어에 속하면 true</returns>
-        public static bool CompareLayer(GameObject obj, params int[] layers)
+        public static bool CompareLayer(int targetLayer, params int[] layers)
         {
             foreach (int layer in layers)
             {
-                if (obj.layer == layer)
+                if (targetLayer == layer)
                     return true;
             }
             

@@ -65,7 +65,7 @@ namespace InGame.Cases.TowerDefense.Tower
         {
             // 이미 설치된 상태라면 충돌 검사 생략
             if (_isPlaced) return;  
-            if (!Layers.CompareLayer(col.gameObject, Layers.InValidArea, Layers.Player)) return;
+            if (!Layers.CompareLayer(col.gameObject.layer, Layers.InValidArea, Layers.Player)) return;
             
             _collisions.Add(col);
         }
@@ -78,7 +78,7 @@ namespace InGame.Cases.TowerDefense.Tower
         {
             // 이미 설치된 상태라면 충돌 검사 생략
             if (_isPlaced) return;  
-            if (!Layers.CompareLayer(col.gameObject, Layers.InValidArea, Layers.Player)) return;
+            if (!Layers.CompareLayer(col.gameObject.layer, Layers.InValidArea, Layers.Player)) return;
             
             _collisions.Remove(col);
         }
