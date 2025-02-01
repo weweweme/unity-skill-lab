@@ -15,11 +15,6 @@ namespace InGame.Cases.TowerDefense.Tower
         [SerializeField] private SpriteRenderer _spriteRenderer; 
         
         /// <summary>
-        /// 현재 알파값
-        /// </summary>
-        private float _currentAlpha = 1.0f;
-        
-        /// <summary>
         /// 현재 충돌 중인 오브젝트들의 목록
         /// </summary>
         private readonly HashSet<Collider2D> _collisions = new HashSet<Collider2D>();
@@ -39,7 +34,9 @@ namespace InGame.Cases.TowerDefense.Tower
             _isPlaced = false;
             _canBePlaced = false;
             _collisions.Clear();
-            SetOpacity(0.5f); // 기본적으로 반투명하게 설정
+            
+            const float INITIAL_OPACITY = 0.5f;
+            SpriteRendererHelper.SetOpacity(_spriteRenderer, INITIAL_OPACITY); // 기본적으로 반투명하게 설정
         }
         
         /// <summary>
@@ -51,8 +48,10 @@ namespace InGame.Cases.TowerDefense.Tower
         {
             if (_canBePlaced)
             {
+                const float PLACED_OPACITY = 1.0f;
+                
                 _isPlaced = true;
-                SetOpacity(1.0f);  // 배치 성공 시 투명도를 1.0으로 설정
+                SpriteRendererHelper.SetOpacity(_spriteRenderer, PLACED_OPACITY);  // 배치 성공 시 투명도를 정상화
             }
             
             return _canBePlaced;
@@ -94,40 +93,16 @@ namespace InGame.Cases.TowerDefense.Tower
             // 충돌 목록이 비어 있을 때 스킬 사용이 가능해집니다.
             if (_collisions.Count == 0)
             {
+                // 설치 가능할 경우                
                 _canBePlaced = true;
-                SetColor(Color.green);  // 설치 가능 시 Color를 Green으로 셋팅
+                SpriteRendererHelper.SetColor(_spriteRenderer, Color.green);  
             }
             else
             {
+                // 설치 불가능할 경우
                 _canBePlaced = false;
-                SetColor(Color.red);  // 설치 불가능 시 Color를 Red로 셋팅
+                SpriteRendererHelper.SetColor(_spriteRenderer, Color.red);
             }
-        }
-        
-        // TODO: 헬퍼 클래스로 이동 (SetOpacity, SetColor)
-        /// <summary>
-        /// 타워의 투명도를 설정합니다.
-        /// </summary>
-        /// <param name="alpha">설정할 알파(투명도) 값</param>
-        private void SetOpacity(float alpha)
-        {
-            // 현재 알파값을 저장하고, 알파값만 변경
-            _currentAlpha = alpha;
-            
-            Color color = _spriteRenderer.color;
-            color.a = alpha;
-            _spriteRenderer.color = color;
-        }
-
-        /// <summary>
-        /// 타워의 색상을 변경합니다. 기존의 알파(투명도) 값은 유지됩니다.
-        /// </summary>
-        /// <param name="color">설정할 색상 값</param>
-        private void SetColor(Color color)
-        {
-            // 기존의 알파값을 유지하면서 색상을 변경
-            color.a = _currentAlpha;
-            _spriteRenderer.color = color;
         }
     }
 }
