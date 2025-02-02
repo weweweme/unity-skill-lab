@@ -535,7 +535,7 @@ GameObject:
   - component: {fileID: 164198309}
   - component: {fileID: 164198310}
   - component: {fileID: 164198311}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49866,7 +49866,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2147483713
+    m_Bits: 2147483721
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
