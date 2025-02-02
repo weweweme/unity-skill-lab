@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Root.Util;
 using UnityEngine;
@@ -28,6 +29,11 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 타워가 배치될 수 있는지 여부
         /// </summary>
         private bool _canBePlaced;
+        
+        /// <summary>
+        /// 타워 배치완료를 알리는 이벤트
+        /// </summary>
+        public event Action OnPlaced;
 
         private void Awake()
         {
@@ -52,6 +58,7 @@ namespace InGame.Cases.TowerDefense.Tower
                 
                 _isPlaced = true;
                 SpriteRendererHelper.SetOpacity(_spriteRenderer, PLACED_OPACITY);  // 배치 성공 시 투명도를 정상화
+                OnPlaced?.Invoke();
             }
             
             return _canBePlaced;
