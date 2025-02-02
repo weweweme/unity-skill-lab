@@ -101,5 +101,14 @@ namespace InGame.Cases.TowerDefense.Tower
             _currentTarget = null;
             return TaskStatus.Failure;
         }
+
+        /// <summary>
+        /// 현재 타겟을 해제합니다.
+        /// </summary>
+        public TaskStatus ClearTarget()
+        {
+            _currentTarget = null;
+            return TaskStatus.Failure;
+        }
     }
 }
