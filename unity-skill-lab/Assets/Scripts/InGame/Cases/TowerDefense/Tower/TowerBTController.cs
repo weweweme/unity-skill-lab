@@ -8,6 +8,11 @@ namespace InGame.Cases.TowerDefense.Tower
     /// </summary>
     public sealed class TowerBTController : BehaviourTreeBase
     {
+        public TowerBTController()
+        {
+            Init();
+        }
+        
         /// <summary>
         /// 타워의 행동 트리를 생성하는 메서드입니다.
         /// </summary>
