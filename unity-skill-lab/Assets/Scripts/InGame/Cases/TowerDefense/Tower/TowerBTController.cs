@@ -9,8 +9,11 @@ namespace InGame.Cases.TowerDefense.Tower
     /// </summary>
     public sealed class TowerBTController : BehaviourTreeBase
     {
-        public TowerBTController(GameObject owner)
+        private readonly TowerAttackController _attackController;
+        
+        public TowerBTController(GameObject owner, TowerAttackController attackController)
         {
+            _attackController = attackController;
             Init(owner);
         }
         
