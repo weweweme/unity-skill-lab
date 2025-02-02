@@ -3,6 +3,7 @@ using System.Threading;
 using CleverCrow.Fluid.BTs.Trees;
 using Cysharp.Threading.Tasks;
 using Root.Util;
+using UnityEngine;
 
 namespace Root
 {
@@ -31,11 +32,11 @@ namespace Root
         /// 상속받은 클래스에서 구체적인 행동 트리를 구현해야 합니다.
         /// </summary>
         /// <returns>구성된 BehaviorTree 인스턴스</returns>
-        protected abstract BehaviorTree CreateTree();
+        protected abstract BehaviorTree CreateTree(GameObject owner);
         
-        public void Init()
+        public void Init(GameObject owner)
         {
-            _bt = CreateTree();
+            _bt = CreateTree(owner);
             StartBtTick();
         }
         
