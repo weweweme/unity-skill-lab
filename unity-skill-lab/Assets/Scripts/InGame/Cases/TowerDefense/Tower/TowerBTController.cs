@@ -9,8 +9,11 @@ namespace InGame.Cases.TowerDefense.Tower
     /// </summary>
     public sealed class TowerBTController : BehaviourTreeBase
     {
-        public TowerBTController(GameObject owner)
+        private readonly TowerAttackController _attackController;
+        
+        public TowerBTController(GameObject owner, TowerAttackController attackController)
         {
+            _attackController = attackController;
             Init(owner);
         }
         
@@ -22,6 +25,10 @@ namespace InGame.Cases.TowerDefense.Tower
         {
             BehaviorTree bt = new BehaviorTreeBuilder(owner)
                 .Selector("한 가지 행동 선택")
+                
+                    // 1. 현재 공격 상태인지 확인 후 타겟 탐색
+                    .Condition("현재 공격 중인가?", _attackController.HasTarget)
+                    .Do("적 탐색", _attackController.FindTarget)
                 
                 .End()
             .Build();
