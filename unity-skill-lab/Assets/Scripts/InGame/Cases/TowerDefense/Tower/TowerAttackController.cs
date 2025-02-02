@@ -47,7 +47,7 @@ namespace InGame.Cases.TowerDefense.Tower
         public TaskStatus FindTarget()
         {
             Vector3 towerPos = transform.position;
-            float detectRange = _attackRange.radius * transform.lossyScale.x;
+            float detectRange = _attackRange.radius;
 
             int hitCount = Physics2D.OverlapCircleNonAlloc(towerPos, detectRange, _hitColsBuffer, TARGET_LAYER_MASK);
 
