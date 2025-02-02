@@ -11,10 +11,14 @@ namespace InGame.Cases.TowerDefense.Tower
     {
         [SerializeField] private TowerPlacementController placementController;
         public TowerPlacementController PlacementController => placementController;
+        
+        [SerializeField] private TowerAttackController attackController;
+        public TowerAttackController AttackController => attackController;
 
         private void Awake()
         {
             AssertHelper.NotNull(typeof(TowerRoot), placementController);
+            AssertHelper.NotNull(typeof(TowerRoot), attackController);
         }
     }
 }
