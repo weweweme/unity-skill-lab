@@ -15,10 +15,23 @@ namespace InGame.Cases.TowerDefense.Tower
         [SerializeField] private TowerAttackController attackController;
         public TowerAttackController AttackController => attackController;
 
+        private TowerBTController _btController;
+
         private void Awake()
         {
             AssertHelper.NotNull(typeof(TowerRoot), placementController);
             AssertHelper.NotNull(typeof(TowerRoot), attackController);
+        }
+
+        private void Start()
+        {
+            placementController.OnPlaced -= Init;
+            placementController.OnPlaced += Init;
+        }
+
+        private void Init()
+        {
+            _btController = new TowerBTController(gameObject);
         }
     }
 }
