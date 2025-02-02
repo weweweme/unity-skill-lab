@@ -20,7 +20,13 @@ namespace InGame.Cases.TowerDefense.Tower
         /// <returns>구성된 BehaviorTree 인스턴스 (현재 null 반환)</returns>
         protected override BehaviorTree CreateTree(GameObject owner)
         {
-            return null;
+            BehaviorTree bt = new BehaviorTreeBuilder(owner)
+                .Selector("한 가지 행동 선택")
+                
+                .End()
+            .Build();
+            
+            return bt;
         }
     }
 }

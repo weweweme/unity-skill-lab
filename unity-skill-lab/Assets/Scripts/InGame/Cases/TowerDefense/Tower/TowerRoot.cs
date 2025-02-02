@@ -31,7 +31,7 @@ namespace InGame.Cases.TowerDefense.Tower
 
         private void Init()
         {
-            _btController = new TowerBTController();
+            _btController = new TowerBTController(gameObject);
         }
     }
 }
