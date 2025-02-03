@@ -1,3 +1,4 @@
+using InGame.Cases.TowerDefense.Tower.Pool;
 using Root.Util;
 using UnityEngine;
 
@@ -37,10 +38,21 @@ namespace InGame.Cases.TowerDefense.Tower
         /// </summary>
         private readonly float _speed = 10f;
 
+        /// <summary>
+        /// 투사체가 속한 풀(Pool)을 참조하는 변수입니다.
+        /// </summary>
+        private TowerProjectileBasePool _pool;
+
         private void Awake()
         {
             _rb = gameObject.GetComponentOrAssert<Rigidbody2D>();
         }
+
+        /// <summary>
+        /// 투사체가 속한 풀 객체를 설정합니다.
+        /// </summary>
+        /// <param name="pool">이 투사체가 속한 TowerProjectileBasePool 객체</param>
+        public void SetPoolRef(in TowerProjectileBasePool pool) => _pool = pool;
 
         /// <summary>
         /// FixedUpdate에서 투사체의 속도를 지속적으로 유지합니다.
