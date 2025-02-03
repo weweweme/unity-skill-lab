@@ -2,6 +2,9 @@ using System;
 using System.Threading;
 using CleverCrow.Fluid.BTs.Tasks;
 using Cysharp.Threading.Tasks;
+using InGame.Cases.TowerDefense.System.Managers;
+using InGame.Cases.TowerDefense.Tower.Pool;
+using InGame.System;
 using Root.Util;
 using UnityEngine;
 
@@ -57,6 +60,11 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 타워가 현재 공격 중인지 여부입니다.
         /// </summary>
         private bool _isAttacking;
+        
+        /// <summary>
+        /// 투사체를 가져올 풀을 참조하는 변수입니다.
+        /// </summary>
+        private TowerProjectileBasePool _pool;
 
         private void Awake()
         {
@@ -66,6 +74,11 @@ namespace InGame.Cases.TowerDefense.Tower
         
         public void Init()
         {
+            var tdManager = InGameManager.Ins as TowerDefenseManager;
+            AssertHelper.NotNull(typeof(TowerAttackController), tdManager);
+            
+            _pool = tdManager!.PoolManager.TowerProjectileBasePool;
+            
             CancelTokenHelper.GetToken(ref _cts);
             StartAttacking(_cts.Token).Forget();
         }

@@ -11,10 +11,14 @@ namespace InGame.Cases.TowerDefense.System.Managers
     {
         [SerializeField] private TowerBasePool towerBasePool;
         public TowerBasePool TowerBasePool => towerBasePool;
+        
+        [SerializeField] private TowerProjectileBasePool towerProjectileBasePool;
+        public TowerProjectileBasePool TowerProjectileBasePool => towerProjectileBasePool;
 
         private void Awake()
         {
             AssertHelper.NotNull(typeof(TowerDefensePoolManager), towerBasePool);
+            AssertHelper.NotNull(typeof(TowerDefensePoolManager), towerProjectileBasePool);
         }
     }
 }
