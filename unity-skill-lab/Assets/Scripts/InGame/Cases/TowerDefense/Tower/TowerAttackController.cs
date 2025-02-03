@@ -177,6 +177,9 @@ namespace InGame.Cases.TowerDefense.Tower
                     continue;
                 }
 
+                Vector3 targetDir = (_currentTarget.transform.position - firePoint.position).normalized;
+                SetMuzzleRotation(targetDir);
+                
                 // 공격 수행
                 Attack();
             }
@@ -184,6 +187,43 @@ namespace InGame.Cases.TowerDefense.Tower
 
         private void Attack()
         {
+        }
+        
+        /// <summary>
+        /// 총구를 타겟 방향으로 회전시킵니다.
+        /// 타겟의 위치를 기준으로 방향 벡터를 사용하여 Z축 회전을 조정합니다.
+        /// </summary>
+        /// <param name="dir">타겟 방향을 나타내는 정규화된 벡터</param>
+        private void SetMuzzleRotation(Vector3 dir)
+        {
+            /// <remarks>
+            /// [구현 원리]
+            /// 1. Atan2(y, x) 함수는 직교 좌표계에서 
+            ///    주어진 벡터 (x, y)의 방향(각도)을 라디안(Radian) 단위로 반환합니다.
+            ///    - 일반적인 Atan(y/x)와 달리 Atan2(y, x)는 x가 0일 때도 안전하게 계산할 수 있음.
+            /// 
+            /// 2. Atan2는 반시계 방향을 양수(+), 시계 방향을 음수(-)로 취급합니다.
+            ///    즉, 벡터의 방향을 360도 전 범위에서 올바르게 계산할 수 있습니다.
+            /// 
+            /// 3. 라디안 값은 `-π ~ π (-180° ~ 180°)` 범위를 가지므로, 
+            ///    이를 도(degree) 단위로 변환하기 위해 `Mathf.Rad2Deg`(180/π)를 곱합니다.**
+            ///
+            /// [동작 예시]
+            /// 
+            /// (1, 0)  → 0°  (오른쪽)
+            /// (0, 1)  → 90° (위쪽)
+            /// (-1, 0) → 180° (왼쪽)
+            /// (0, -1) → -90° (아래쪽)
+            /// (1, 1)  → 45° (오른쪽 위 대각선)
+            /// (-1, -1) → -135° (왼쪽 아래 대각선)
+            ///
+            /// 예제) dir = (0.5, 0.5) → atan2(0.5, 0.5) ≈ 0.7854 rad → 0.7854 * (180 / π) ≈ 45°
+            ///                                    
+            /// </remarks>
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+            // 계산된 각도를 적용하여 총구 방향을 조정
+            transform.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
 }
