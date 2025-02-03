@@ -1,4 +1,7 @@
+using System;
+using System.Threading;
 using CleverCrow.Fluid.BTs.Tasks;
+using Cysharp.Threading.Tasks;
 using Root.Util;
 using UnityEngine;
 
@@ -13,6 +16,16 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 타워가 감지할 대상의 레이어 마스크입니다.
         /// </summary>
         private readonly int TARGET_LAYER_MASK = Layers.GetLayerMask(Layers.Enemy);
+        
+        /// <summary>
+        /// 총알이 발사되는 위치입니다.
+        /// </summary>
+        [SerializeField] private Transform firePoint;
+
+        /// <summary>
+        /// 타워의 공격을 제어하는 CancellationTokenSource입니다.
+        /// </summary>
+        private CancellationTokenSource _cts;
 
         /// <summary>
         /// 현재 타겟으로 설정된 게임 오브젝트입니다.
@@ -29,10 +42,32 @@ namespace InGame.Cases.TowerDefense.Tower
         /// OverlapCircleNonAlloc에서 사용될 충돌체 버퍼입니다.
         /// </summary>
         private readonly Collider2D[] _hitColsBuffer = new Collider2D[sizeof(int) * 2];
+        
+        /// <summary>
+        /// 타워의 공격 속도 (초당 공격 횟수)입니다.
+        /// </summary>
+        private float _fireRate = 0.5f;
+
+        /// <summary>
+        /// 현재 발사까지 남은 쿨다운 시간(초)입니다.
+        /// </summary>
+        private float _fireCooldown;
+
+        /// <summary>
+        /// 타워가 현재 공격 중인지 여부입니다.
+        /// </summary>
+        private bool _isAttacking;
+
+        /// <summary>
+        /// 총알의 속도입니다.
+        /// </summary>
+        private float _bulletSpeed = 10f;
 
         private void Awake()
         {
             _attackRange = gameObject.GetComponentOrAssert<CircleCollider2D>();
+            AssertHelper.NotNull(typeof(TowerAttackController), firePoint);
+        }
         }
 
         /// <summary>
