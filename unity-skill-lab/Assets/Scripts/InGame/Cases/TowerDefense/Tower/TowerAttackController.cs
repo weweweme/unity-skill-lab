@@ -49,7 +49,7 @@ namespace InGame.Cases.TowerDefense.Tower
         /// <summary>
         /// 타워의 공격 속도 (초당 공격 횟수)입니다.
         /// </summary>
-        private float _fireRate = 0.5f;
+        private readonly float _fireRate = 0.5f;
 
         /// <summary>
         /// 현재 발사까지 남은 쿨다운 시간(초)입니다.
