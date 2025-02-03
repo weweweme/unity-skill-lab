@@ -164,8 +164,8 @@ namespace InGame.Cases.TowerDefense.Tower
                 // FixedUpdate 타이밍에서 실행되도록 대기
                 await UniTask.NextFrame(PlayerLoopTiming.FixedUpdate, token); 
 
-                // 현재 타겟이 없거나 비활성화되었으면 다음 루프로 이동
-                if (_currentTarget == null || !_currentTarget.activeInHierarchy)
+                // 현재 타겟이 없다면 다음 루프로 이동
+                if (_currentTarget == null)
                 {
                     continue;
                 }
@@ -179,6 +179,12 @@ namespace InGame.Cases.TowerDefense.Tower
 
                 Vector3 targetDir = (_currentTarget.transform.position - firePoint.position).normalized;
                 SetMuzzleRotation(targetDir);
+                
+                // 총구가 타겟을 충분히 향하지 않았다면 리턴
+                if (!IsMuzzleFacingTarget(targetDir))
+                {
+                    continue;
+                }
                 
                 // 공격 수행
                 Attack(targetDir);
@@ -224,6 +230,41 @@ namespace InGame.Cases.TowerDefense.Tower
 
             // 계산된 각도를 적용하여 총구 방향을 조정
             transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+        
+        /// <summary>
+        /// 총구가 타겟을 충분히 향하고 있는지 확인합니다.
+        /// 총구의 현재 방향과 타겟 방향 사이의 각도 차이를 계산하여,
+        /// 일정 범위(기본값: 5도) 이내에 있으면 조준된 것으로 간주합니다.
+        /// </summary>
+        /// <param name="targetDir">타겟의 위치를 가리키는 방향 벡터</param>
+        /// <returns>총구가 타겟을 조준하고 있으면 true, 그렇지 않으면 false</returns>
+        private bool IsMuzzleFacingTarget(Vector3 targetDir)
+        {
+            /// <remarks>
+            /// [구현 원리]
+            /// 
+            /// 1. 현재 총구의 방향(`transform.right`)과 목표 방향(`targetDir`) 사이의 각도를 계산합니다.
+            ///    - transform.right는 오브젝트의 오른쪽(기본 방향)을 나타냅니다.
+            /// 
+            /// 2. `Vector2.SignedAngle(from, to)`를 사용하여 두 벡터 사이의 회전 각도를 구합니다.
+            ///    - 결과 값은 `-180° ~ 180°` 범위의 각도를 반환합니다.
+            /// 
+            /// 3. `Mathf.Abs(angleToTarget) <= angleThreshold`를 검사하여,
+            ///    - 총구와 타겟 방향의 각도 차이가 일정 값(기본: 5도) 이하일 경우 **조준된 상태로 간주**합니다.
+            ///
+            /// [동작 예시]
+            /// 
+            /// - 총구가 정확히 타겟을 향할 경우 → `angleToTarget = 0°`
+            /// - 총구가 타겟보다 10도 왼쪽을 향할 경우 → `angleToTarget = -10°`
+            /// - 총구가 타겟보다 10도 오른쪽을 향할 경우 → `angleToTarget = 10°`
+            /// - 위의 예에서 `angleThreshold = 5°`이면, -5° ~ 5° 사이에서만 조준된 것으로 간주됨.
+            /// 
+            /// </remarks>
+            float angleToTarget = Vector2.SignedAngle(transform.right, targetDir); // Z축 회전을 기준으로 각도를 계산
+            const float angleThreshold = 5f; // 각도 차이가 5도 이내일 때만 발사 가능
+            
+            return Mathf.Abs(angleToTarget) <= angleThreshold;
         }
         
         public void Dispose()
