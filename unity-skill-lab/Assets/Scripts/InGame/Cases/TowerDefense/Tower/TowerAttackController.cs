@@ -248,9 +248,17 @@ namespace InGame.Cases.TowerDefense.Tower
             ///                                    
             /// </remarks>
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            
+            // 각도에 RotationOffset를 더하여 손이 올바른 방향으로 회전하도록 합니다.
+            Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
-            // 계산된 각도를 적용하여 총구 방향을 조정
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            // 현재 회전 상태와 목표 회전 상태 사이를 부드럽게 선형 보간
+            const float ROTATION_LERP_SPEED = 5f;
+            transform.rotation = Quaternion.Lerp(
+                transform.rotation, // 현재 회전 값
+                targetRotation, // 목표 회전 값
+                Time.deltaTime * ROTATION_LERP_SPEED // 보간 속도 (직렬화된 값)
+            );
         }
         
         /// <summary>
