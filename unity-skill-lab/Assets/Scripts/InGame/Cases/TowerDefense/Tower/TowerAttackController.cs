@@ -181,11 +181,11 @@ namespace InGame.Cases.TowerDefense.Tower
                 SetMuzzleRotation(targetDir);
                 
                 // 공격 수행
-                Attack();
+                Attack(targetDir);
             }
         }
 
-        private void Attack()
+        private void Attack(Vector3 dir)
         {
         }
         
