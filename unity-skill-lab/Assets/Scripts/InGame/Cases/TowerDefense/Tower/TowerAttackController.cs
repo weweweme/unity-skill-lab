@@ -10,7 +10,7 @@ namespace InGame.Cases.TowerDefense.Tower
     /// <summary>
     /// 타워의 공격을 관리하는 컨트롤러 클래스입니다.
     /// </summary>
-    public sealed class TowerAttackController : MonoBehaviourBase
+    public sealed class TowerAttackController : MonoBehaviourBase, IDisposable
     {
         /// <summary>
         /// 타워가 감지할 대상의 레이어 마스크입니다.
@@ -224,6 +224,11 @@ namespace InGame.Cases.TowerDefense.Tower
 
             // 계산된 각도를 적용하여 총구 방향을 조정
             transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+        
+        public void Dispose()
+        {
+            CancelTokenHelper.ClearToken(in _cts);
         }
     }
 }
