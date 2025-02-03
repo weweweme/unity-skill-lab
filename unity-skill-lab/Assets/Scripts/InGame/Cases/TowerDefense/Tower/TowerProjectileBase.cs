@@ -69,18 +69,22 @@ namespace InGame.Cases.TowerDefense.Tower
         {
             _direction = direction;
             _target = target;
+            _isActive = true;
         }
 
         /// <summary>
         /// FixedUpdate에서 투사체의 속도를 지속적으로 유지합니다.
-        /// 물리 연산과 동기화되며, 활성 상태이고 충돌하지 않은 경우에만 이동합니다.
+        /// 목표를 향해 유도탄처럼 날아갑니다
         /// </summary>
         private void FixedUpdate()
         {
-            if (!_isActive) return; // 비활성화된 투사체는 이동하지 않음
-            if (_isHit) return; // 충돌한 투사체는 더 이상 이동하지 않음
+            if (!_isActive) return;
+            if (_isHit) return;
             
-            // FixedUpdate에서 지속적으로 속도를 유지하도록 보장합니다.
+            // 목표 방향을 실시간으로 업데이트하여 유도 효과 적용
+            _direction = (_target.position - transform.position).normalized;
+            
+            // 목표 방향으로 지속적으로 이동
             _rb.velocity = _direction * _speed;
         }
     }
