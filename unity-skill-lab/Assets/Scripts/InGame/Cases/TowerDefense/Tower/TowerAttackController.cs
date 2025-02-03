@@ -183,6 +183,9 @@ namespace InGame.Cases.TowerDefense.Tower
                 
                 // 공격 수행
                 Attack(targetDir);
+                
+                // 발사 후 쿨다운 리셋
+                _fireCooldown = _fireRate;
             }
         }
 
