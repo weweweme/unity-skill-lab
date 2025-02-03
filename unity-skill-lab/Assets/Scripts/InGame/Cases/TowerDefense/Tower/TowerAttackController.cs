@@ -195,15 +195,25 @@ namespace InGame.Cases.TowerDefense.Tower
                 }
                 
                 // 공격 수행
-                Attack(targetDir);
+                Attack(targetDir, _currentTarget);
                 
                 // 발사 후 쿨다운 리셋
                 _fireCooldown = _fireRate;
             }
         }
 
-        private void Attack(Vector3 dir)
+        /// <summary>
+        /// 타워에서 투사체를 발사하는 로직을 처리합니다.
+        /// 풀에서 투사체를 가져와 초기 위치를 설정하고, 목표 데이터를 적용합니다.
+        /// </summary>
+        /// <param name="dir">투사체가 이동할 방향</param>
+        /// <param name="target">공격 대상</param>
+        private void Attack(Vector3 dir, GameObject target)
         {
+            TowerProjectileBase projectile = _pool.GetObject();
+            
+            projectile.transform.position = firePoint.position;
+            projectile.SetFireData(dir, target.transform);
         }
         
         /// <summary>

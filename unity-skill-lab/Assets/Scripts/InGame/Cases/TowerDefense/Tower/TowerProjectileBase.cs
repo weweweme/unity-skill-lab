@@ -43,6 +43,12 @@ namespace InGame.Cases.TowerDefense.Tower
         /// </summary>
         private TowerProjectileBasePool _pool;
 
+        /// <summary>
+        /// 투사체의 목표 타겟을 저장하는 변수입니다.
+        /// 유도형 투사체나 특정 타겟을 추적하는 경우 사용됩니다.
+        /// </summary>
+        private Transform _target;
+
         private void Awake()
         {
             _rb = gameObject.GetComponentOrAssert<Rigidbody2D>();
@@ -53,6 +59,17 @@ namespace InGame.Cases.TowerDefense.Tower
         /// </summary>
         /// <param name="pool">이 투사체가 속한 TowerProjectileBasePool 객체</param>
         public void SetPoolRef(in TowerProjectileBasePool pool) => _pool = pool;
+        
+        /// <summary>
+        /// 투사체가 발사될 때의 초기 데이터를 설정합니다.
+        /// </summary>
+        /// <param name="direction">투사체가 이동할 방향</param>
+        /// <param name="target">투사체의 목표 타겟</param>
+        public void SetFireData(in Vector2 direction, Transform target)
+        {
+            _direction = direction;
+            _target = target;
+        }
 
         /// <summary>
         /// FixedUpdate에서 투사체의 속도를 지속적으로 유지합니다.
