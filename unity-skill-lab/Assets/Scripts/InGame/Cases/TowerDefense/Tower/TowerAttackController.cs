@@ -2,6 +2,9 @@ using System;
 using System.Threading;
 using CleverCrow.Fluid.BTs.Tasks;
 using Cysharp.Threading.Tasks;
+using InGame.Cases.TowerDefense.System.Managers;
+using InGame.Cases.TowerDefense.Tower.Pool;
+using InGame.System;
 using Root.Util;
 using UnityEngine;
 
@@ -46,7 +49,7 @@ namespace InGame.Cases.TowerDefense.Tower
         /// <summary>
         /// 타워의 공격 속도 (초당 공격 횟수)입니다.
         /// </summary>
-        private float _fireRate = 0.5f;
+        private readonly float _fireRate = 0.5f;
 
         /// <summary>
         /// 현재 발사까지 남은 쿨다운 시간(초)입니다.
@@ -57,6 +60,11 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 타워가 현재 공격 중인지 여부입니다.
         /// </summary>
         private bool _isAttacking;
+        
+        /// <summary>
+        /// 투사체를 가져올 풀을 참조하는 변수입니다.
+        /// </summary>
+        private TowerProjectileBasePool _pool;
 
         private void Awake()
         {
@@ -66,6 +74,11 @@ namespace InGame.Cases.TowerDefense.Tower
         
         public void Init()
         {
+            var tdManager = InGameManager.Ins as TowerDefenseManager;
+            AssertHelper.NotNull(typeof(TowerAttackController), tdManager);
+            
+            _pool = tdManager!.PoolManager.TowerProjectileBasePool;
+            
             CancelTokenHelper.GetToken(ref _cts);
             StartAttacking(_cts.Token).Forget();
         }
@@ -182,12 +195,25 @@ namespace InGame.Cases.TowerDefense.Tower
                 }
                 
                 // 공격 수행
-                Attack(targetDir);
+                Attack(targetDir, _currentTarget);
+                
+                // 발사 후 쿨다운 리셋
+                _fireCooldown = _fireRate;
             }
         }
 
-        private void Attack(Vector3 dir)
+        /// <summary>
+        /// 타워에서 투사체를 발사하는 로직을 처리합니다.
+        /// 풀에서 투사체를 가져와 초기 위치를 설정하고, 목표 데이터를 적용합니다.
+        /// </summary>
+        /// <param name="dir">투사체가 이동할 방향</param>
+        /// <param name="target">공격 대상</param>
+        private void Attack(Vector3 dir, GameObject target)
         {
+            TowerProjectileBase projectile = _pool.GetObject();
+            
+            projectile.transform.position = firePoint.position;
+            projectile.SetFireData(dir, target.transform);
         }
         
         /// <summary>
@@ -222,9 +248,17 @@ namespace InGame.Cases.TowerDefense.Tower
             ///                                    
             /// </remarks>
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            
+            // 각도에 RotationOffset를 더하여 손이 올바른 방향으로 회전하도록 합니다.
+            Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
-            // 계산된 각도를 적용하여 총구 방향을 조정
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            // 현재 회전 상태와 목표 회전 상태 사이를 부드럽게 선형 보간
+            const float ROTATION_LERP_SPEED = 5f;
+            transform.rotation = Quaternion.Lerp(
+                transform.rotation, // 현재 회전 값
+                targetRotation, // 목표 회전 값
+                Time.deltaTime * ROTATION_LERP_SPEED // 보간 속도 (직렬화된 값)
+            );
         }
         
         /// <summary>

@@ -433,6 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerBasePool: {fileID: 95736960}
+  towerProjectileBasePool: {fileID: 95736961}
 --- !u!114 &95736960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,8 +462,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 7256169517964960020, guid: 814a4ed2c36fa465889d173c305c5039, type: 3}
-  defaultCapacity: 10
-  maxSize: 20
+  defaultCapacity: 128
+  maxSize: 128
 --- !u!1 &158978039
 GameObject:
   m_ObjectHideFlags: 0
@@ -709,7 +710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ea983f15af83429d8a3aaca13bfa1b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 25
+  moveSpeed: 10
   nodeArrivalThreshold: 0.5
   btTickInterval: 50
 --- !u!1 &165335679
