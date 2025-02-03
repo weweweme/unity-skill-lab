@@ -68,6 +68,11 @@ namespace InGame.Cases.TowerDefense.Tower
             _attackRange = gameObject.GetComponentOrAssert<CircleCollider2D>();
             AssertHelper.NotNull(typeof(TowerAttackController), firePoint);
         }
+        
+        public void Init()
+        {
+            CancelTokenHelper.GetToken(ref _cts);
+            StartAttacking(_cts.Token).Forget();
         }
 
         /// <summary>
@@ -144,6 +149,41 @@ namespace InGame.Cases.TowerDefense.Tower
         {
             _currentTarget = null;
             return TaskStatus.Failure;
+        }
+        
+        /// <summary>
+        /// 타워가 지속적으로 공격을 수행하는 루틴입니다.
+        /// 타겟이 존재하면 일정 간격(fireRate)마다 공격하며, FixedUpdate 타이밍에 실행됩니다.
+        /// 타워가 배치되면 루프를 시작하고, 비활성화되면 루프를 종료합니다.
+        /// </summary>
+        /// <param name="token">비동기 작업을 취소할 수 있는 CancellationToken</param>
+        private async UniTaskVoid StartAttacking(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested) // 취소 요청이 들어오면 루프 종료
+            {
+                // FixedUpdate 타이밍에서 실행되도록 대기
+                await UniTask.NextFrame(PlayerLoopTiming.FixedUpdate, token); 
+
+                // 현재 타겟이 없거나 비활성화되었으면 다음 루프로 이동
+                if (_currentTarget == null || !_currentTarget.activeInHierarchy)
+                {
+                    continue;
+                }
+
+                // 쿨다운이 남아 있으면 감소시키고 다음 루프로 이동
+                if (_fireCooldown > 0)
+                {
+                    _fireCooldown = Mathf.Max(_fireCooldown - Time.fixedDeltaTime, 0f);
+                    continue;
+                }
+
+                // 공격 수행
+                Attack();
+            }
+        }
+
+        private void Attack()
+        {
         }
     }
 }
