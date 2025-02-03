@@ -397,6 +397,7 @@ GameObject:
   - component: {fileID: 95736958}
   - component: {fileID: 95736959}
   - component: {fileID: 95736960}
+  - component: {fileID: 95736961}
   m_Layer: 0
   m_Name: Pool Manager
   m_TagString: Untagged
@@ -445,6 +446,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 4085409499461417643, guid: d372a0ec99dd3416bb08ec2421850162, type: 3}
+  defaultCapacity: 10
+  maxSize: 20
+--- !u!114 &95736961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95736957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6dea46871b34402c85209d130ef1ce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 7256169517964960020, guid: 814a4ed2c36fa465889d173c305c5039, type: 3}
   defaultCapacity: 10
   maxSize: 20
 --- !u!1 &158978039

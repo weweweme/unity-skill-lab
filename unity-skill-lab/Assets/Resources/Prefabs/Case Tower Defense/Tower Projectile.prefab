@@ -147,8 +147,9 @@ GameObject:
   - component: {fileID: 5499298373796088937}
   - component: {fileID: 1195315941072144252}
   - component: {fileID: 7989322691263730169}
+  - component: {fileID: 7256169517964960020}
   m_Layer: 0
-  m_Name: Tower Bullet
+  m_Name: Tower Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -242,3 +243,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7256169517964960020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7039024962775152631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab77be4afd0804973bc3237cf11e6dac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

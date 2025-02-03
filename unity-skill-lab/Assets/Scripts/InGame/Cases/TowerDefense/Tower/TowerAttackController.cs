@@ -58,11 +58,6 @@ namespace InGame.Cases.TowerDefense.Tower
         /// </summary>
         private bool _isAttacking;
 
-        /// <summary>
-        /// 총알의 속도입니다.
-        /// </summary>
-        private float _bulletSpeed = 10f;
-
         private void Awake()
         {
             _attackRange = gameObject.GetComponentOrAssert<CircleCollider2D>();

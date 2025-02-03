@@ -1,6 +1,7 @@
 using System;
 using InGame.Cases.TowerDefense.System;
 using InGame.Cases.TowerDefense.System.Managers;
+using InGame.Cases.TowerDefense.Tower.Pool;
 using UniRx;
 using UnityEngine;
 
