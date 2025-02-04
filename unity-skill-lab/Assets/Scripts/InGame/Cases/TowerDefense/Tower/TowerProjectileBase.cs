@@ -1,3 +1,6 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using InGame.Cases.TowerDefense.System;
 using InGame.Cases.TowerDefense.Tower.Pool;
 using Root.Util;
@@ -11,6 +14,11 @@ namespace InGame.Cases.TowerDefense.Tower
     /// </summary>
     public sealed class TowerProjectileBase : MonoBehaviourBase
     {
+        /// <summary>
+        /// 총알 궤적을 표현하는 TrailRenderer입니다.
+        /// </summary>
+        [SerializeField] private TrailRenderer trailRenderer;
+        
         /// <summary>
         /// 투사체가 현재 활성화 상태인지 여부를 나타냅니다.
         /// 활성화된 경우만 이동 및 충돌 판정을 수행합니다.
@@ -55,10 +63,23 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 이 값은 발사될 때 설정되며, 목표에 도달하면 피해를 적용합니다.
         /// </summary>
         private int _damage;
+        
+        /// <summary>
+        /// 게임이 종료됐을 경우 UniTask를 중단시키기 위한 토큰입니다.
+        /// </summary>
+        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+        
+        /// <summary>
+        /// 총알의 GradientAlphaKey를 백업하는 변수입니다.
+        /// </summary>
+        private GradientAlphaKey[] _originAlphaKeys;
 
         private void Awake()
         {
             _rb = gameObject.GetComponentOrAssert<Rigidbody2D>();
+            
+            // 초기 Gradient값 백업
+            _originAlphaKeys = trailRenderer.colorGradient.alphaKeys;
         }
 
         /// <summary>
@@ -106,12 +127,69 @@ namespace InGame.Cases.TowerDefense.Tower
             if (_isHit) return;
 
             // 충돌한 객체가 IDamageable을 구현하고 있는지 확인
-            if (other.TryGetComponent(out IDamageable damageableTarget))
+            if (!other.TryGetComponent(out IDamageable target)) return;
+            // 타겟에게 데미지 적용
+            target.TakeDamage(_damage);
+            Clear();
+        }
+
+        private void Clear()
+        {
+            // 충돌 처리 후 비활성화
+            _isHit = true;
+            _isActive = false;
+            _rb.velocity = Vector2.zero;
+            
+            // 알파 키가 시간에 따라 변하도록 설정 (총알 궤적이 사라지게)
+            DOTween.To(() => 0.0f, FadeTrail, 0.9f, trailRenderer.time).SetEase(Ease.Linear).onComplete += () =>
             {
-                // 타겟에게 데미지 적용
-                damageableTarget.TakeDamage(_damage);
-            }
+                _isActive = false;
+                ReturnBulletToPool().Forget();
+            };
         }
         
+        /// <summary>
+        /// TrailRenderer의 알파 값을 서서히 줄여서 궤적이 사라지도록 만듭니다.
+        /// </summary>
+        /// <param name="normalizedTime">시간에 따른 알파 값 변화 정도 (0~1)</param>
+        private void FadeTrail(float normalizedTime)
+        {
+            Gradient gradient = trailRenderer.colorGradient;
+            GradientAlphaKey[] alphaKeys = gradient.alphaKeys;
+
+            // 시간에 따른 알파 값 설정
+            for (int i = 0; i < alphaKeys.Length; i++)
+            {
+                // normalizedTime에 따라 투명도를 변경합니다.
+                alphaKeys[i].alpha = Mathf.Lerp(alphaKeys[i].alpha, 0.0f, normalizedTime);
+            }
+            
+            gradient.alphaKeys = alphaKeys;
+            trailRenderer.colorGradient = gradient;
+        }
+        
+        /// <summary>
+        /// 일정 시간이 지난 후 투사체를 오브젝트 풀에 반환합니다.
+        /// TrailRenderer를 초기 상태로 복구하고, 오브젝트를 재사용 가능하게 설정합니다.
+        /// </summary>
+        private async UniTask ReturnBulletToPool()
+        {
+            const int RETURN_DELAY_MS = 500;
+            await UniTask.Delay(RETURN_DELAY_MS, cancellationToken: _cts.Token);
+
+            Gradient gradient = trailRenderer.colorGradient; // 알파키 복구
+            gradient.alphaKeys = _originAlphaKeys;
+            _isHit = false;
+            trailRenderer.Clear();
+            
+            _pool.ReturnObject(this);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            CancelTokenHelper.ClearToken(_cts);
+        }
     }
 }
