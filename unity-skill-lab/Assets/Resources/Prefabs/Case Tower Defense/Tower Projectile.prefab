@@ -255,3 +255,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab77be4afd0804973bc3237cf11e6dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trailRenderer: {fileID: 6000050118897896223}
