@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using CleverCrow.Fluid.BTs.Tasks;
 using Cysharp.Threading.Tasks;
+using InGame.Cases.TowerDefense.System;
 using InGame.Cases.TowerDefense.System.Managers;
 using InGame.Cases.TowerDefense.Tower.Pool;
 using InGame.System;
@@ -65,6 +66,11 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 투사체를 가져올 풀을 참조하는 변수입니다.
         /// </summary>
         private TowerProjectileBasePool _pool;
+        
+        /// <summary>
+        /// 투사체가 가진 데미지입니다.
+        /// </summary>
+        private int _damage = 20;
 
         private void Awake()
         {
@@ -204,16 +210,16 @@ namespace InGame.Cases.TowerDefense.Tower
 
         /// <summary>
         /// 타워에서 투사체를 발사하는 로직을 처리합니다.
-        /// 풀에서 투사체를 가져와 초기 위치를 설정하고, 목표 데이터를 적용합니다.
         /// </summary>
         /// <param name="dir">투사체가 이동할 방향</param>
         /// <param name="target">공격 대상</param>
         private void Attack(Vector3 dir, GameObject target)
         {
             TowerProjectileBase projectile = _pool.GetObject();
-            
             projectile.transform.position = firePoint.position;
-            projectile.SetFireData(dir, target.transform);
+
+            var fireData = new ProjectileFireData(dir, target.transform, _damage);
+            projectile.SetFireData(fireData);
         }
         
         /// <summary>
