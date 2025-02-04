@@ -7,7 +7,7 @@ namespace InGame.Cases.TowerDefense.Enemy
 {
     /// <summary>
     /// 적이 피격될 때 깜빡이는 효과를 관리하는 컨트롤러입니다.
-    /// 연속으로 피격될 경우 효과 지속 시간이 자동으로 증가합니다.
+    /// 알파 값을 조정하여 피격 효과를 연출합니다.
     /// </summary>
     public sealed class EnemyHitEffectController : MonoBehaviourBase
     {
@@ -38,14 +38,6 @@ namespace InGame.Cases.TowerDefense.Enemy
         /// </summary>
         [SerializeField] private float FLASH_DURATION_MS = 50f;
 
-        /// <summary>
-        /// 피격 시 일시적으로 적용할 색상입니다.
-        /// </summary>
-        [SerializeField] private Color hitColor = Color.white;
-
-        /// <summary>
-        /// Awake에서 SpriteRenderer의 원래 색상을 저장하고, 피격 카운트를 초기화합니다.
-        /// </summary>
         private void Awake()
         {
             AssertHelper.NotNull(typeof(EnemyHitEffectController), _spriteRenderer);
@@ -68,22 +60,21 @@ namespace InGame.Cases.TowerDefense.Enemy
         }
 
         /// <summary>
-        /// 비동기 방식으로 피격 효과를 처리합니다.
-        /// 지속 시간이 끝나면 `_hitCount`를 감소시키고, 
-        /// 모든 피격 효과가 종료되면 원래 색상으로 복구됩니다.
+        /// 알파값을 빠르게 깜빡이도록 조정하는 비동기 메서드입니다.
         /// </summary>
-        /// <param name="token">비동기 작업을 취소할 수 있는 CancellationToken</param>
         private async UniTask PlayHitFlashAsync(CancellationToken token)
         {
-            _spriteRenderer.color = hitColor;
+            Color modifiedColor = _originalColor;
+            modifiedColor.a = 0.2f; // 피격 시 알파값을 낮춰서 투명하게 보이게 함
+            _spriteRenderer.color = modifiedColor;
 
-            while (_hitCount > 0) // 추가 피격이 발생하면 지속 시간을 연장
+            while (_hitCount > 0)
             {
                 await UniTask.Delay((int)FLASH_DURATION_MS, cancellationToken: token);
-                _hitCount--; // 한 번 깜빡일 때마다 카운트 감소
+                _hitCount--;
             }
 
-            _spriteRenderer.color = _originalColor; // 모든 피격 효과가 끝난 후 원래 색상 복구
+            _spriteRenderer.color = _originalColor; // 원래 색상 복구
         }
 
         /// <summary>
@@ -93,7 +84,6 @@ namespace InGame.Cases.TowerDefense.Enemy
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            
             CancelTokenHelper.ClearToken(in _cts);
         }
     }
