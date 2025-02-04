@@ -253,7 +253,7 @@ namespace InGame.Cases.TowerDefense.Tower
             Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
             // 현재 회전 상태와 목표 회전 상태 사이를 부드럽게 선형 보간
-            const float ROTATION_LERP_SPEED = 5f;
+            const float ROTATION_LERP_SPEED = 10f;
             transform.rotation = Quaternion.Lerp(
                 transform.rotation, // 현재 회전 값
                 targetRotation, // 목표 회전 값
