@@ -45,7 +45,7 @@ namespace InGame.Cases.TowerDefense.Tower
         /// <summary>
         /// 투사체의 이동 속도를 결정하는 값입니다.
         /// </summary>
-        private readonly float _speed = 10f;
+        private readonly float _speed = 30f;
 
         /// <summary>
         /// 투사체가 속한 풀(Pool)을 참조하는 변수입니다.
@@ -98,6 +98,8 @@ namespace InGame.Cases.TowerDefense.Tower
             _direction = fireData.Direction;
             _target = fireData.Target;
             _damage = fireData.Damage;
+            ResetTrail();
+            
             _isActive = true;
         }
 
@@ -130,40 +132,38 @@ namespace InGame.Cases.TowerDefense.Tower
             if (!other.TryGetComponent(out IDamageable target)) return;
             // 타겟에게 데미지 적용
             target.TakeDamage(_damage);
-            Clear();
+            HandleCollision();
         }
 
-        private void Clear()
+        private void HandleCollision()
         {
             // 충돌 처리 후 비활성화
             _isHit = true;
-            _isActive = false;
             _rb.velocity = Vector2.zero;
             
-            // 알파 키가 시간에 따라 변하도록 설정 (총알 궤적이 사라지게)
-            DOTween.To(() => 0.0f, FadeTrail, 0.9f, trailRenderer.time).SetEase(Ease.Linear).onComplete += () =>
-            {
-                _isActive = false;
-                ReturnBulletToPool().Forget();
-            };
+            DOTween.To(() => 0.0f, ReduceTrailAlpha, 0.9f, trailRenderer.time)
+                .SetEase(Ease.Linear)
+                .OnComplete(() =>
+                {
+                    _isActive = false;
+                    RecycleProjectile().Forget();
+                });
         }
         
         /// <summary>
         /// TrailRenderer의 알파 값을 서서히 줄여서 궤적이 사라지도록 만듭니다.
         /// </summary>
-        /// <param name="normalizedTime">시간에 따른 알파 값 변화 정도 (0~1)</param>
-        private void FadeTrail(float normalizedTime)
+        /// <param name="progress">시간에 따른 알파 값 변화 정도 (0~1)</param>
+        private void ReduceTrailAlpha(float progress)
         {
             Gradient gradient = trailRenderer.colorGradient;
             GradientAlphaKey[] alphaKeys = gradient.alphaKeys;
 
-            // 시간에 따른 알파 값 설정
             for (int i = 0; i < alphaKeys.Length; i++)
             {
-                // normalizedTime에 따라 투명도를 변경합니다.
-                alphaKeys[i].alpha = Mathf.Lerp(alphaKeys[i].alpha, 0.0f, normalizedTime);
+                alphaKeys[i].alpha = Mathf.Lerp(alphaKeys[i].alpha, 0.0f, progress);
             }
-            
+
             gradient.alphaKeys = alphaKeys;
             trailRenderer.colorGradient = gradient;
         }
@@ -172,17 +172,25 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 일정 시간이 지난 후 투사체를 오브젝트 풀에 반환합니다.
         /// TrailRenderer를 초기 상태로 복구하고, 오브젝트를 재사용 가능하게 설정합니다.
         /// </summary>
-        private async UniTask ReturnBulletToPool()
+        private async UniTask RecycleProjectile()
         {
             const int RETURN_DELAY_MS = 500;
             await UniTask.Delay(RETURN_DELAY_MS, cancellationToken: _cts.Token);
 
-            Gradient gradient = trailRenderer.colorGradient; // 알파키 복구
+            ResetTrail();
+            _pool.ReturnObject(this);
+        }
+
+        /// <summary>
+        /// TrailRenderer의 상태를 초기화하여 다음 발사를 준비합니다.
+        /// </summary>
+        private void ResetTrail()
+        {
+            Gradient gradient = trailRenderer.colorGradient; 
             gradient.alphaKeys = _originAlphaKeys;
+            trailRenderer.colorGradient = gradient;
             _isHit = false;
             trailRenderer.Clear();
-            
-            _pool.ReturnObject(this);
         }
 
         protected override void OnDestroy()

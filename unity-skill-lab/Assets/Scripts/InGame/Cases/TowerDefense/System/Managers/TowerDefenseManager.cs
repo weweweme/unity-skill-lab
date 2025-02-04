@@ -48,8 +48,12 @@ namespace InGame.Cases.TowerDefense.System.Managers
         protected override void OnDispose()
         {
             base.OnDispose();
+
+            if (_inputHandler != null)
+            {
+                _inputHandler.Dispose();    
+            }
             
-            _inputHandler.Dispose();
             _createHandler.Dispose();
         }
     }
