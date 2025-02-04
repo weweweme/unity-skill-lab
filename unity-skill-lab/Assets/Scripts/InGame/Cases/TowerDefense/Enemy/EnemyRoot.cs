@@ -11,10 +11,14 @@ namespace InGame.Cases.TowerDefense.Enemy
     {
         [SerializeField] private EnemyBTBase btBase;
         public EnemyBTBase BTBase => btBase;
+        
+        [SerializeField] private EnemyStatController statController;
+        public EnemyStatController StatController => statController;
 
         private void Awake()
         {
             AssertHelper.NotNull(typeof(EnemyRoot), btBase);
+            AssertHelper.NotNull(typeof(EnemyRoot), statController);
         }
     }
 }
