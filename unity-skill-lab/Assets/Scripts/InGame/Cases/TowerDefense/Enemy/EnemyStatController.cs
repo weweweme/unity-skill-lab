@@ -18,9 +18,16 @@ namespace InGame.Cases.TowerDefense.Enemy
         /// 적의 현재 체력입니다.
         /// </summary>
         private float _currentHP;
+        
+        /// <summary>
+        /// 피격 시 깜빡임 효과를 재생하는 컨트롤러입니다.
+        /// </summary>
+        private EnemyHitEffectController _hitEffectController;
 
         private void Awake()
         {
+            _hitEffectController = gameObject.GetComponentOrAssert<EnemyHitEffectController>();
+            
             // 적 생성 시, 현재 체력을 최대 체력으로 초기화합니다.
             _currentHP = _maxHP;
         }
@@ -34,11 +41,11 @@ namespace InGame.Cases.TowerDefense.Enemy
         {
             _currentHP = Mathf.Max(0, _currentHP - damage);
             Debug.Log($"Enemy took {damage} damage. Remaining HP: {_currentHP}");
+            _hitEffectController.PlayHitFlash();
 
-            if (_currentHP <= 0)
-            {
-                Die();
-            }
+            if (_currentHP > 0) return;
+            
+            Die();
         }
 
         /// <summary>
