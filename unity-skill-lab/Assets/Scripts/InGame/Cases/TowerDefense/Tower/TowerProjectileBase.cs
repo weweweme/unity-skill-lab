@@ -1,3 +1,4 @@
+using InGame.Cases.TowerDefense.System;
 using InGame.Cases.TowerDefense.Tower.Pool;
 using Root.Util;
 using UnityEngine;
@@ -49,6 +50,12 @@ namespace InGame.Cases.TowerDefense.Tower
         /// </summary>
         private Transform _target;
 
+        /// <summary>
+        /// 투사체가 가하는 피해량입니다.
+        /// 이 값은 발사될 때 설정되며, 목표에 도달하면 피해를 적용합니다.
+        /// </summary>
+        private int _damage;
+
         private void Awake()
         {
             _rb = gameObject.GetComponentOrAssert<Rigidbody2D>();
@@ -61,14 +68,15 @@ namespace InGame.Cases.TowerDefense.Tower
         public void SetPoolRef(in TowerProjectileBasePool pool) => _pool = pool;
         
         /// <summary>
-        /// 투사체가 발사될 때의 초기 데이터를 설정합니다.
+        /// 투사체가 발사될 때 필요한 초기 데이터를 설정합니다.
+        /// 이동 방향, 타겟, 활성화 상태 등을 지정하여 투사체가 정상적으로 동작하도록 합니다.
         /// </summary>
-        /// <param name="direction">투사체가 이동할 방향</param>
-        /// <param name="target">투사체의 목표 타겟</param>
-        public void SetFireData(in Vector2 direction, Transform target)
+        /// <param name="fireData">투사체의 이동 방향, 목표, 피해량 등의 데이터를 포함하는 구조체</param>
+        public void SetFireData(in ProjectileFireData fireData)
         {
-            _direction = direction;
-            _target = target;
+            _direction = fireData.Direction;
+            _target = fireData.Target;
+            _damage = fireData.Damage;
             _isActive = true;
         }
 
@@ -87,5 +95,23 @@ namespace InGame.Cases.TowerDefense.Tower
             // 목표 방향으로 지속적으로 이동
             _rb.velocity = _direction * _speed;
         }
+        
+        /// <summary>
+        /// 투사체가 충돌했을 때의 처리를 수행합니다.
+        /// </summary>
+        /// <param name="other">충돌한 대상의 Collider</param>
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (!_isActive) return;
+            if (_isHit) return;
+
+            // 충돌한 객체가 IDamageable을 구현하고 있는지 확인
+            if (other.TryGetComponent(out IDamageable damageableTarget))
+            {
+                // 타겟에게 데미지 적용
+                damageableTarget.TakeDamage(_damage);
+            }
+        }
+        
     }
 }
