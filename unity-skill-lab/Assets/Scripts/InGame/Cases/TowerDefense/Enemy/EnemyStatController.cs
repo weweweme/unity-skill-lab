@@ -7,7 +7,7 @@ namespace InGame.Cases.TowerDefense.Enemy
     /// <summary>
     /// 적(Enemy)의 체력(Stat)을 관리하는 컨트롤러 클래스입니다.
     /// </summary>
-    public sealed class EnemyStatController : MonoBehaviourBase, IAttackable
+    public sealed class EnemyStatController : MonoBehaviourBase, IDamageable
     {
         /// <summary>
         /// 적의 최대 체력입니다.

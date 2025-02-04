@@ -95,5 +95,23 @@ namespace InGame.Cases.TowerDefense.Tower
             // 목표 방향으로 지속적으로 이동
             _rb.velocity = _direction * _speed;
         }
+        
+        /// <summary>
+        /// 투사체가 충돌했을 때의 처리를 수행합니다.
+        /// </summary>
+        /// <param name="other">충돌한 대상의 Collider</param>
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (!_isActive) return;
+            if (_isHit) return;
+
+            // 충돌한 객체가 IDamageable을 구현하고 있는지 확인
+            if (other.TryGetComponent(out IDamageable damageableTarget))
+            {
+                // 타겟에게 데미지 적용
+                damageableTarget.TakeDamage(_damage);
+            }
+        }
+        
     }
 }
