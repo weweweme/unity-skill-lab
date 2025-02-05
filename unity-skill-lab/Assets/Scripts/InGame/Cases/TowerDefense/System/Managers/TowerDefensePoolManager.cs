@@ -1,3 +1,4 @@
+using InGame.Cases.TowerDefense.Enemy.Pool;
 using InGame.Cases.TowerDefense.Tower.Pool;
 using Root.Util;
 using UnityEngine;
@@ -14,11 +15,15 @@ namespace InGame.Cases.TowerDefense.System.Managers
         
         [SerializeField] private TowerProjectileBasePool towerProjectileBasePool;
         public TowerProjectileBasePool TowerProjectileBasePool => towerProjectileBasePool;
+        
+        [SerializeField] private EnemyBasePool enemyBasePool;
+        public EnemyBasePool EnemyBasePool => enemyBasePool;
 
         private void Awake()
         {
             AssertHelper.NotNull(typeof(TowerDefensePoolManager), towerBasePool);
             AssertHelper.NotNull(typeof(TowerDefensePoolManager), towerProjectileBasePool);
+            AssertHelper.NotNull(typeof(TowerDefensePoolManager), enemyBasePool);
         }
     }
 }
