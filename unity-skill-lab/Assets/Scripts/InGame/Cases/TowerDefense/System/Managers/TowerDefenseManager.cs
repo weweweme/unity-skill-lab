@@ -13,9 +13,12 @@ namespace InGame.Cases.TowerDefense.System.Managers
         [SerializeField] private EnemyPathManager pathManager;
         public EnemyPathManager PathManager => pathManager;
         
+        [SerializeField] private EnemySpawnManager spawnManager;
+        public EnemySpawnManager SpawnManager => spawnManager;
+        
         [SerializeField] private TowerDefensePoolManager poolManager;
         public TowerDefensePoolManager PoolManager => poolManager;
-
+        
         private TowerDefenseDataManager _towerDefenseDataManager;
         public TowerDefenseDataManager DataManager => _towerDefenseDataManager;
 
@@ -29,6 +32,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
             base.Awake();
             
             AssertHelper.NotNull(typeof(TowerDefenseManager), pathManager);
+            AssertHelper.NotNull(typeof(TowerDefenseManager), spawnManager);
             AssertHelper.NotNull(typeof(TowerDefenseManager), poolManager);
         }
 
