@@ -12,13 +12,14 @@ namespace InGame.Cases.TowerDefense.System.Managers
         private EnemyBasePool _enemyBasePool;
         private Transform _enemySpawnPoint; 
         
-        public void Init(EnemyBasePool enemyBasePool, EnemyPathManager pathManager)
+        public void Init(TowerDefenseManager rootManager)
         {
-            _enemyBasePool = enemyBasePool;
+            _enemyBasePool = rootManager.PoolManager.EnemyBasePool;
             
             const int START_IDX = 0;
-            _enemySpawnPoint = pathManager.PathNodes[START_IDX];
+            _enemySpawnPoint = rootManager.PathManager.PathNodes[START_IDX];
         }
+        
         }
     }
 }

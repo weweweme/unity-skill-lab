@@ -46,7 +46,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
             _inputHandler = new TowerDefenseInputEventHandler();
             _createHandler = new TowerCreateHandler(this);
             
-            spawnManager.Init(poolManager.EnemyBasePool, pathManager);
+            spawnManager.Init(this);
         }
 
         protected override void SetDataManager() => _towerDefenseDataManager = dataManager as TowerDefenseDataManager;
