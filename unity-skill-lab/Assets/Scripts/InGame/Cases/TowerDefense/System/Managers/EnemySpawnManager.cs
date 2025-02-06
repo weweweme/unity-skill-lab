@@ -1,5 +1,6 @@
 using InGame.Cases.TowerDefense.Enemy.Pool;
 using Root.Util;
+using UnityEngine;
 
 namespace InGame.Cases.TowerDefense.System.Managers
 {
@@ -9,10 +10,15 @@ namespace InGame.Cases.TowerDefense.System.Managers
     public sealed class EnemySpawnManager : MonoBehaviourBase
     {
         private EnemyBasePool _enemyBasePool;
+        private Transform _enemySpawnPoint; 
         
-        public void Init(EnemyBasePool enemyBasePool)
+        public void Init(EnemyBasePool enemyBasePool, EnemyPathManager pathManager)
         {
             _enemyBasePool = enemyBasePool;
+            
+            const int START_IDX = 0;
+            _enemySpawnPoint = pathManager.PathNodes[START_IDX];
+        }
         }
     }
 }
