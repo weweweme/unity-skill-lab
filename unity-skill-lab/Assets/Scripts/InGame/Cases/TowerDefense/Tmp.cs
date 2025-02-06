@@ -23,5 +23,11 @@ namespace InGame.Cases.TowerDefense
             TowerDefenseManager manager = InGameManager.Ins as TowerDefenseManager;
             manager.DataManager.MainPanel.SetSelectedTower(ETowerType.Default);
         }
+
+        public void InstantiateEnemy()
+        {
+            TowerDefenseManager manager = InGameManager.Ins as TowerDefenseManager;
+            manager.SpawnManager.SpawnEnemy(EEnemyType.Default);
+        }
     }
 }
