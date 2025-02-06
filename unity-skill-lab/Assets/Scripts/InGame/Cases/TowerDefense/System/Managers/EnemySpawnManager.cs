@@ -1,3 +1,4 @@
+using InGame.Cases.TowerDefense.Enemy.Pool;
 using Root.Util;
 
 namespace InGame.Cases.TowerDefense.System.Managers
@@ -7,5 +8,11 @@ namespace InGame.Cases.TowerDefense.System.Managers
     /// </summary>
     public sealed class EnemySpawnManager : MonoBehaviourBase
     {
+        private EnemyBasePool _enemyBasePool;
+        
+        public void Init(EnemyBasePool enemyBasePool)
+        {
+            _enemyBasePool = enemyBasePool;
+        }
     }
 }
