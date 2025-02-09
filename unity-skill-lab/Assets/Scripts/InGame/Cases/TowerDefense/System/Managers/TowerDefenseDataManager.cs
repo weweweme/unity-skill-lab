@@ -8,7 +8,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
     /// </summary>
     public sealed class TowerDefenseDataManager : DataManager
     {
-        private readonly MDL_MainPanel _mainPanel = new MDL_MainPanel();
-        public MDL_MainPanel MainPanel => _mainPanel;
+        private readonly MDL_Tower _tower = new MDL_Tower();
+        public MDL_Tower Tower => _tower;
     }
 }

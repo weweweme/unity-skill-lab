@@ -4,7 +4,7 @@ using UniRx;
 namespace InGame.Cases.TowerDefense.System.Model
 {
     /// <summary>
-    /// 타워 디펜스 게임에서 적 유닛을 관리하는 모델 클래스.
+    /// 타워 디펜스 게임에서 적 유닛과 관련된 데이터를 관리하는 모델 클래스.
     /// </summary>
     public class MDL_Enemy
     {
