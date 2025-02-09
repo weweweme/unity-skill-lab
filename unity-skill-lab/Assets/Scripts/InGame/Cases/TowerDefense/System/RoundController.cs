@@ -62,6 +62,7 @@ namespace InGame.Cases.TowerDefense.System
         /// </summary>
         private async UniTask EndRound(CancellationToken token)
         {
+            // TODO: 추후 Round와 관련된 모델 클래스를 추가하고, 이벤트를 활용하여 종료 조건을 설정하기
             while (!IsRoundOver())
             {
                 if (token.IsCancellationRequested) return;
