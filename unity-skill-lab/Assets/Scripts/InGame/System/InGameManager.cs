@@ -17,6 +17,7 @@ namespace InGame.System
     public abstract class InGameManager : Singleton<InGameManager>
     {
         [SerializeField] protected DataManager dataManager;
+        [SerializeField] protected SequenceManager sequenceManager;
         [SerializeField] protected CameraManager cameraManager;
         public CameraManager CameraManager => cameraManager;
         
@@ -27,9 +28,13 @@ namespace InGame.System
             AssertHelper.NotNull(typeof(InGameManager), dataManager);
             SetDataManager();
             
+            AssertHelper.NotNull(typeof(InGameManager), sequenceManager);
+            SetSequenceManager();
+            
             AssertHelper.NotNull(typeof(InGameManager), cameraManager);
         }
 
         protected abstract void SetDataManager();
+        protected abstract void SetSequenceManager();
     }
 }

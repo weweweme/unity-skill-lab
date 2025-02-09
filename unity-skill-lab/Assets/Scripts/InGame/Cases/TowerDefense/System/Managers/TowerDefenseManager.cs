@@ -21,6 +21,9 @@ namespace InGame.Cases.TowerDefense.System.Managers
         
         private TowerDefenseDataManager _towerDefenseDataManager;
         public TowerDefenseDataManager DataManager => _towerDefenseDataManager;
+        
+        private TowerDefenseSequenceManager _towerDefenseSequenceManager;
+        public TowerDefenseSequenceManager TowerDefenseSequenceManager => _towerDefenseSequenceManager;
 
         private TowerCreateHandler _createHandler;
         
@@ -50,6 +53,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
         }
 
         protected override void SetDataManager() => _towerDefenseDataManager = dataManager as TowerDefenseDataManager;
+        protected override void SetSequenceManager() => _towerDefenseSequenceManager = sequenceManager as TowerDefenseSequenceManager;
 
         protected override void OnDispose()
         {
