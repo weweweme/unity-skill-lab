@@ -9,8 +9,8 @@ namespace InGame.Cases.TowerDefense.System.Model
     public class MDL_Enemy
     {
         // 적 유닛 스폰과 관련된 Rx
-        private readonly Subject<ETowerType> _onEnemySpawn = new Subject<ETowerType>();
-        public IObservable<ETowerType> OnEnemySpawn => _onEnemySpawn;
-        public void SpawnEnemy(ETowerType type) => _onEnemySpawn.OnNext(type);
+        private readonly Subject<EEnemyType> _onEnemySpawn = new Subject<EEnemyType>();
+        public IObservable<EEnemyType> OnEnemySpawn => _onEnemySpawn;
+        public void SpawnEnemy(EEnemyType type) => _onEnemySpawn.OnNext(type);
     }
 }
