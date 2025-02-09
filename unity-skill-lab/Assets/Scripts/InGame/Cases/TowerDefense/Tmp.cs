@@ -21,13 +21,13 @@ namespace InGame.Cases.TowerDefense
         public void InstantiateTurret()
         {
             TowerDefenseManager manager = InGameManager.Ins as TowerDefenseManager;
-            manager.DataManager.MainPanel.SetSelectedTower(ETowerType.Default);
+            manager.DataManager.Tower.SetTowerToBuild(ETowerType.Default);
         }
 
         public void InstantiateEnemy()
         {
             TowerDefenseManager manager = InGameManager.Ins as TowerDefenseManager;
-            manager.SpawnManager.SpawnEnemy(EEnemyType.Default);
+            manager.DataManager.Enemy.SpawnEnemy(EEnemyType.Default);
         }
     }
 }

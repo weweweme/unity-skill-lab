@@ -56,7 +56,7 @@ namespace InGame.Cases.TowerDefense.Tower
             _eventHandler.OnMouseScreenPositionEvent -= SetCursorPosition;
             _eventHandler.OnMouseScreenPositionEvent += SetCursorPosition;
 
-            _dataManager.MainPanel.SelectedTower
+            _dataManager.Tower.TowerToBuild
                 .Subscribe(CreateTower)
                 .AddTo(_disposable);
             

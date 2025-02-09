@@ -1,5 +1,6 @@
 using InGame.Cases.TowerDefense.Enemy.Pool;
 using Root.Util;
+using UniRx;
 using UnityEngine;
 
 namespace InGame.Cases.TowerDefense.System.Managers
@@ -18,10 +19,14 @@ namespace InGame.Cases.TowerDefense.System.Managers
             
             const int START_IDX = 0;
             _enemySpawnPoint = rootManager.PathManager.PathNodes[START_IDX];
+
+            rootManager.DataManager.Enemy.OnEnemySpawn
+                .Subscribe(SpawnEnemy)
+                .AddTo(this);
         }
         
         // TODO: type에 따라 스폰할 에너미의 데이터를 셋업하는 기능 추가
-        public void SpawnEnemy(EEnemyType type)
+        private void SpawnEnemy(EEnemyType type)
         {
             var enemy = _enemyBasePool.GetObject();
             enemy.transform.position = _enemySpawnPoint.position;
