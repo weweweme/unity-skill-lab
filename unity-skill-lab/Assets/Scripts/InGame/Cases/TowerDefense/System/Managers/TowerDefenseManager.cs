@@ -42,6 +42,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
         private void Start()
         {
             Init();
+            _towerDefenseSequenceManager.StartSequence();
         }
 
         private void Init()
