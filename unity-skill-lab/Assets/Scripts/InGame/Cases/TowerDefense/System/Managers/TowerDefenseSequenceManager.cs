@@ -7,9 +7,11 @@ namespace InGame.Cases.TowerDefense.System.Managers
     /// </summary>
     public sealed class TowerDefenseSequenceManager : SequenceManager
     {
+        private RoundController _roundController;
+        
         public override void Init()
         {
-            
+            _roundController = new RoundController();
         }
 
         public override void StartSequence()
