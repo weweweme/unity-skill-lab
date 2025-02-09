@@ -26,7 +26,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
         }
         
         // TODO: type에 따라 스폰할 에너미의 데이터를 셋업하는 기능 추가
-        public void SpawnEnemy(EEnemyType type)
+        private void SpawnEnemy(EEnemyType type)
         {
             var enemy = _enemyBasePool.GetObject();
             enemy.transform.position = _enemySpawnPoint.position;
