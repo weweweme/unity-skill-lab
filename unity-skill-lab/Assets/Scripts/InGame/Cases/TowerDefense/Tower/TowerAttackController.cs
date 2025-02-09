@@ -218,7 +218,7 @@ namespace InGame.Cases.TowerDefense.Tower
             TowerProjectileBase projectile = _pool.GetObject();
             projectile.transform.position = firePoint.position;
 
-            var fireData = new ProjectileFireData(dir, target.transform, _damage);
+            var fireData = new SProjectileFireData(dir, target.transform, _damage);
             projectile.SetFireData(fireData);
         }
         

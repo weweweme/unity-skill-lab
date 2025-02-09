@@ -49,6 +49,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
             _inputHandler = new TowerDefenseInputEventHandler();
             _createHandler = new TowerCreateHandler(this);
             
+            _towerDefenseSequenceManager.Init(this);
             spawnManager.Init(this);
         }
 

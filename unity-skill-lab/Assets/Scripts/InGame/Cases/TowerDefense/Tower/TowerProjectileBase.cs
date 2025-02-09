@@ -93,7 +93,7 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 이동 방향, 타겟, 활성화 상태 등을 지정하여 투사체가 정상적으로 동작하도록 합니다.
         /// </summary>
         /// <param name="fireData">투사체의 이동 방향, 목표, 피해량 등의 데이터를 포함하는 구조체</param>
-        public void SetFireData(in ProjectileFireData fireData)
+        public void SetFireData(in SProjectileFireData fireData)
         {
             _direction = fireData.Direction;
             _target = fireData.Target;
