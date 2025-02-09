@@ -11,7 +11,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
         
         public void Init(TowerDefenseManager towerDefenseManager)
         {
-            _roundController = new RoundController(towerDefenseManager);
+            _roundController = new RoundController(towerDefenseManager.DataManager);
         }
 
         public override void StartSequence()
@@ -21,7 +21,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
 
         public override void Clear()
         {
-            
+            _roundController.Dispose();
         }
     }
 }
