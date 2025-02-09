@@ -16,7 +16,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
 
         public override void StartSequence()
         {
-            
+            _roundController.StartLoop();
         }
 
         public override void Clear()
