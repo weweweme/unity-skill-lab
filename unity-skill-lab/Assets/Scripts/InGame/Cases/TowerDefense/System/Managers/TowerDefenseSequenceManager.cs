@@ -9,9 +9,9 @@ namespace InGame.Cases.TowerDefense.System.Managers
     {
         private RoundController _roundController;
         
-        public override void Init()
+        public void Init(TowerDefenseManager towerDefenseManager)
         {
-            _roundController = new RoundController();
+            _roundController = new RoundController(towerDefenseManager);
         }
 
         public override void StartSequence()

@@ -8,7 +8,6 @@ namespace Root.Managers
     /// </summary>
     public abstract class SequenceManager : MonoBehaviourBase
     {
-        public abstract void Init();          // 초기화
         public abstract void StartSequence(); // 시퀀스 시작
         public abstract void Clear();         // 데이터 정리
     }
