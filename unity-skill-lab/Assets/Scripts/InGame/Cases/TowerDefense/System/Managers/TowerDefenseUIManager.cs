@@ -11,7 +11,6 @@ namespace InGame.Cases.TowerDefense.System.Managers
     public class TowerDefenseUIManager : IDisposable
     {
         private readonly List<ViewController> _viewControllers = new List<ViewController>();
-        public IReadOnlyList<ViewController> ViewControllers => _viewControllers;
         
         public void Init(TowerDefenseManager towerDefenseManager)
         {
@@ -21,6 +20,11 @@ namespace InGame.Cases.TowerDefense.System.Managers
             {
                 elem.InitRx(dataManager);
             }
+        }
+        
+        public void AddViewController(ViewController viewController)
+        {
+            _viewControllers.Add(viewController);
         }
         
         public void Dispose()
