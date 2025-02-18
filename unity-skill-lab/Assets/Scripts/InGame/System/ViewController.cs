@@ -27,7 +27,10 @@ namespace InGame.System
         /// UIManager에 ViewController를 등록하는 역할을 수행합니다.
         /// 각 ViewController가 적절한 UI 관리 시스템과 연결될 수 있도록 설정합니다.
         /// </summary>
-        protected abstract void RegisterToUIManager();
+        private void RegisterToUIManager()
+        {
+            InGameManager.Ins.UIBindManager.AddViewController(this);
+        }
         
         /// <summary>
         /// DataManager의 참조를 받아와 필요한 모델의 참조를 통해 Presenter의 초기화를 수행합니다.
