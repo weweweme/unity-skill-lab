@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using InGame.System;
 
 namespace InGame.Cases.TowerDefense.System.Managers
 {
@@ -18,7 +19,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
 
             foreach (var elem in _viewControllers)
             {
-                elem.Init(dataManager);
+                elem.InitRx(dataManager);
             }
         }
         
