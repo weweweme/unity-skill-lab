@@ -14,7 +14,7 @@ namespace InGame.Cases.TowerDefense.System
         {
             TowerDefenseManager rootManager = InGameManager.Ins as TowerDefenseManager;
             AssertHelper.NotNull(typeof(ViewController), rootManager);
-            rootManager!.UIManager.AddViewController(this);
+            rootManager!.UIBindManager.AddViewController(this);
         }
     }
 }
