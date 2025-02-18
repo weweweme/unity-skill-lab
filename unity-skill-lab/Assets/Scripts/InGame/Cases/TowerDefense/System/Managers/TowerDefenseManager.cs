@@ -26,6 +26,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
         public TowerDefenseSequenceManager TowerDefenseSequenceManager => _towerDefenseSequenceManager;
 
         private TowerCreateHandler _createHandler;
+        private TowerDefenseUIManager _uiManager;
         
         private TowerDefenseInputEventHandler _inputHandler;
         public TowerDefenseInputEventHandler InputHandler => _inputHandler;
@@ -49,6 +50,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
         {
             _inputHandler = new TowerDefenseInputEventHandler();
             _createHandler = new TowerCreateHandler(this);
+            _uiManager = new TowerDefenseUIManager(this);
             
             _towerDefenseSequenceManager.Init(this);
             spawnManager.Init(this);
