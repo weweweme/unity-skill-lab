@@ -27,6 +27,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
 
         private TowerCreateHandler _createHandler;
         private readonly TowerDefenseUIManager _uiManager = new TowerDefenseUIManager();
+        public TowerDefenseUIManager UIManager => _uiManager;
         
         private TowerDefenseInputEventHandler _inputHandler;
         public TowerDefenseInputEventHandler InputHandler => _inputHandler;
