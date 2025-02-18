@@ -4,9 +4,10 @@ using Root.Util;
 namespace InGame.System
 {
     /// <summary>
-    // Presenter와 View의 초기화를 담당하는 ViewController 클래스 입니다.
-    // Presenter와 View는 한 세트로 묶여 1:1로 대응됩니다. ViewController는 이를 여러 쌍 가지고 있을 수 있습니다.
-    // 두 모듈의 참조를 가지고 초기화만 수행합니다. 비즈니스 로직은 절대 담당하지 않습니다
+    /// Presenter와 View의 초기화를 담당하는 ViewController 클래스 입니다.
+    /// Presenter와 View는 한 세트로 묶여 1:1로 대응됩니다. ViewController는 이를 여러 쌍 가지고 있을 수 있습니다.
+    /// 두 모듈의 참조를 가지고 초기화만 수행합니다. 비즈니스 로직은 절대 담당하지 않습니다
+    /// ViewController를 상속받는 모든 클래스는 접두사 VC가 붙습니다. 
     /// </summary>
     public abstract class ViewController : MonoBehaviourBase, IDisposable
     {
