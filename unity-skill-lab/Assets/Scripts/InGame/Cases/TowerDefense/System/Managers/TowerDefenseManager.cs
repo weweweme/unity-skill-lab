@@ -14,7 +14,6 @@ namespace InGame.Cases.TowerDefense.System.Managers
         public EnemyPathManager PathManager => pathManager;
         
         [SerializeField] private EnemySpawnManager spawnManager;
-        public EnemySpawnManager SpawnManager => spawnManager;
         
         [SerializeField] private TowerDefensePoolManager poolManager;
         public TowerDefensePoolManager PoolManager => poolManager;
@@ -23,7 +22,6 @@ namespace InGame.Cases.TowerDefense.System.Managers
         public TowerDefenseDataManager DataManager => _towerDefenseDataManager;
         
         private TowerDefenseSequenceManager _towerDefenseSequenceManager;
-        public TowerDefenseSequenceManager TowerDefenseSequenceManager => _towerDefenseSequenceManager;
 
         private TowerCreateHandler _createHandler;
         
