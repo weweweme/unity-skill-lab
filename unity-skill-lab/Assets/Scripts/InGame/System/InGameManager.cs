@@ -21,6 +21,9 @@ namespace InGame.System
         [SerializeField] protected CameraManager cameraManager;
         public CameraManager CameraManager => cameraManager;
         
+        private readonly UIBindManager _uiBindManager = new UIBindManager();
+        public UIBindManager UIBindManager => _uiBindManager;
+        
         protected override void Awake()
         {
             base.Awake();
@@ -33,8 +36,28 @@ namespace InGame.System
             
             AssertHelper.NotNull(typeof(InGameManager), cameraManager);
         }
+        
+        private void Start()
+        {
+            Init();
+            StartSequence();
+        }
+
+        protected virtual void Init()
+        {
+            _uiBindManager.Init(dataManager);
+        }
+        
+        protected abstract void StartSequence();
 
         protected abstract void SetDataManager();
         protected abstract void SetSequenceManager();
+
+        protected override void OnDispose()
+        {
+            base.OnDispose();
+            
+            _uiBindManager.Dispose();
+        }
     }
 }

@@ -26,8 +26,6 @@ namespace InGame.Cases.TowerDefense.System.Managers
         public TowerDefenseSequenceManager TowerDefenseSequenceManager => _towerDefenseSequenceManager;
 
         private TowerCreateHandler _createHandler;
-        private readonly UIBindManager _uiBindManager = new UIBindManager();
-        public UIBindManager UIBindManager => _uiBindManager;
         
         private TowerDefenseInputEventHandler _inputHandler;
         public TowerDefenseInputEventHandler InputHandler => _inputHandler;
@@ -41,20 +39,18 @@ namespace InGame.Cases.TowerDefense.System.Managers
             AssertHelper.NotNull(typeof(TowerDefenseManager), poolManager);
         }
 
-        private void Start()
-        {
-            Init();
-            _towerDefenseSequenceManager.StartSequence();
-        }
-
-        private void Init()
+        protected override void Init()
         {
             _inputHandler = new TowerDefenseInputEventHandler();
             _createHandler = new TowerCreateHandler(this);
             
-            _uiBindManager.Init(this);
             _towerDefenseSequenceManager.Init(this);
             spawnManager.Init(this);
+        }
+        
+        protected override void StartSequence()
+        {
+            _towerDefenseSequenceManager.StartSequence();
         }
 
         protected override void SetDataManager() => _towerDefenseDataManager = dataManager as TowerDefenseDataManager;
@@ -66,7 +62,6 @@ namespace InGame.Cases.TowerDefense.System.Managers
 
             _inputHandler?.Dispose();
             _createHandler.Dispose();
-            _uiBindManager.Dispose();
         }
     }
 }

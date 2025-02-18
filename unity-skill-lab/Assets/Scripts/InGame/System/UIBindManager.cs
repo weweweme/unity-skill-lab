@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using InGame.Cases.TowerDefense.System.Managers;
 
 namespace InGame.System
 {
@@ -15,10 +14,8 @@ namespace InGame.System
         /// <summary>
         /// TowerDefenseManager의 DataManager를 이용하여 등록된 ViewController들을 초기화합니다.
         /// </summary>
-        public void Init(TowerDefenseManager towerDefenseManager)
+        public void Init(DataManager dataManager)
         {
-            TowerDefenseDataManager dataManager = towerDefenseManager.DataManager;
-
             foreach (var elem in _viewControllers)
             {
                 elem.InitRx(dataManager);
