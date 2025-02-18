@@ -10,5 +10,6 @@ namespace InGame.Cases.TowerDefense.System.Managers
     {
         public MDL_Tower Tower { get; } = new MDL_Tower();
         public MDL_Enemy Enemy { get; } = new MDL_Enemy();
+        public MDL_Round Round { get; } = new MDL_Round();
     }
 }
