@@ -131,6 +131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 44673348}
+  - component: {fileID: 44673349}
   m_Layer: 5
   m_Name: VC_Enemy Stats Panel
   m_TagString: Untagged
@@ -159,6 +160,18 @@ RectTransform:
   m_AnchoredPosition: {x: -205, y: -340}
   m_SizeDelta: {x: 390, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &44673349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44673347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1a2d26b613184979be52623d69e9996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &60519375
 GameObject:
   m_ObjectHideFlags: 0
