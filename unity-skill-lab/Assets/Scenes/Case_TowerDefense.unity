@@ -44702,7 +44702,7 @@ GameObject:
   - component: {fileID: 1285339972}
   - component: {fileID: 1285339971}
   m_Layer: 5
-  m_Name: Text (TMP)_Current Wave Count
+  m_Name: VW_Current Wave Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
