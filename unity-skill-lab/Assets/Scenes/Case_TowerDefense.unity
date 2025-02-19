@@ -132,7 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 44673348}
   m_Layer: 5
-  m_Name: VW_Enemy Stats Panel
+  m_Name: VC_Enemy Stats Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -566,7 +566,7 @@ GameObject:
   m_Component:
   - component: {fileID: 165335680}
   m_Layer: 5
-  m_Name: VW_Configs
+  m_Name: VC_Configs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5009,7 +5009,7 @@ GameObject:
   m_Component:
   - component: {fileID: 343633513}
   m_Layer: 5
-  m_Name: VW_Difficulty Settings Panel
+  m_Name: VC_Difficulty Settings Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12205,7 +12205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 384634349}
   m_Layer: 5
-  m_Name: VW_Game Main Panel
+  m_Name: VC_Game Main Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12353,7 +12353,7 @@ GameObject:
   m_Component:
   - component: {fileID: 665681241}
   m_Layer: 5
-  m_Name: VW_Resource Panel
+  m_Name: VC_Resource Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39800,7 +39800,7 @@ GameObject:
   m_Component:
   - component: {fileID: 829631317}
   m_Layer: 5
-  m_Name: VW_Game Status Panel
+  m_Name: VC_Game Status Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
