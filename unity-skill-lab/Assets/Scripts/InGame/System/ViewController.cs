@@ -13,9 +13,15 @@ namespace InGame.System
     {
         private void Awake()
         {
+            ValidateReferences();
             InitRef();
             RegisterToUIManager();
         }
+        
+        /// <summary>
+        /// 필수 참조가 정상적으로 설정되었는지 검증합니다.
+        /// </summary>
+        protected abstract void ValidateReferences();
 
         /// <summary>
         /// View의 참조를 Presenter에게 전달하는 역할을 수행합니다.
