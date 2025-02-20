@@ -1,4 +1,6 @@
 using InGame.System;
+using Root.Util;
+using UnityEngine;
 
 namespace InGame.Cases.TowerDefense.UI
 {
@@ -7,11 +9,15 @@ namespace InGame.Cases.TowerDefense.UI
     /// </summary>
     public sealed class VC_EnemyStatsPanel : ViewController
     {
-        protected override void InitRef()
+        [SerializeField] private VW_CurrentWaveCount _vwCurrentWaveCount;
+        private readonly PR_CurrentWaveCount _prCurrentWaveCount = new PR_CurrentWaveCount();
+
+        protected override void ValidateReferences()
         {
+            AssertHelper.NotNull(typeof(VC_EnemyStatsPanel), _vwCurrentWaveCount);
         }
 
-        public override void InitRx(DataManager dataManager)
+        public override void Init(DataManager dataManager)
         {
         }
 

@@ -1,7 +1,7 @@
 using System;
 using UniRx;
 
-namespace Root.UI
+namespace InGame.System
 {
     /// <summary>
     /// 프로젝트의 MVP UI 구조에서 사용되는 Presenter 추상 클래스입니다.
@@ -20,7 +20,7 @@ namespace Root.UI
         /// 해당 Presenter가 관리할 View를 전달받아 초기 설정을 진행합니다.
         /// </summary>
         /// <param name="view">초기화할 View 객체</param>
-        public abstract void Init(View view);
+        public abstract void Init(DataManager dataManager, View view);
        
         /// <summary>
         /// CompositeDisposable의 리소스를 정리하여 메모리 누수를 방지하는 Dispose 메서드입니다.
