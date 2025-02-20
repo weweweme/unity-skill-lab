@@ -1,6 +1,6 @@
 using Root.Util;
 
-namespace Root.UI
+namespace InGame.System
 {
     /// <summary>
     /// 프로젝트의 MVP UI 구조에서 사용되는 View 클래스 입니다. 

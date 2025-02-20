@@ -14,7 +14,6 @@ namespace InGame.System
         private void Awake()
         {
             ValidateReferences();
-            InitRef();
             RegisterToUIManager();
         }
         
@@ -22,12 +21,6 @@ namespace InGame.System
         /// 필수 참조가 정상적으로 설정되었는지 검증합니다.
         /// </summary>
         protected abstract void ValidateReferences();
-
-        /// <summary>
-        /// View의 참조를 Presenter에게 전달하는 역할을 수행합니다.
-        /// View와 Presenter 간의 초기 연결을 담당합니다.
-        /// </summary>
-        protected abstract void InitRef();
 
         /// <summary>
         /// UIManager에 ViewController를 등록하는 역할을 수행합니다.
@@ -42,7 +35,7 @@ namespace InGame.System
         /// DataManager의 참조를 받아와 필요한 모델의 참조를 통해 Presenter의 초기화를 수행합니다.
         /// Presenter가 데이터에 접근할 수 있도록 설정하는 역할을 합니다.
         /// </summary>
-        public abstract void InitRx(DataManager dataManager);
+        public abstract void Init(DataManager dataManager);
         
         /// <summary>
         /// 프레젠터와 뷰의 자원을 정리할 때 사용합니다.

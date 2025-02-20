@@ -1,4 +1,4 @@
-using Root.UI;
+using InGame.System;
 
 namespace InGame.Cases.TowerDefense.UI
 {
@@ -7,7 +7,7 @@ namespace InGame.Cases.TowerDefense.UI
     /// </summary>
     public sealed class PR_CurrentWaveCount : Presenter
     {
-        public override void Init(View view)
+        public override void Init(DataManager dataManager, View view)
         {
         }
     }

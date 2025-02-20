@@ -17,11 +17,7 @@ namespace InGame.Cases.TowerDefense.UI
             AssertHelper.NotNull(typeof(VC_EnemyStatsPanel), _vwCurrentWaveCount);
         }
 
-        protected override void InitRef()
-        {
-        }
-
-        public override void InitRx(DataManager dataManager)
+        public override void Init(DataManager dataManager)
         {
         }
 

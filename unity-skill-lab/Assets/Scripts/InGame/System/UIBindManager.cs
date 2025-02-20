@@ -18,7 +18,7 @@ namespace InGame.System
         {
             foreach (var elem in _viewControllers)
             {
-                elem.InitRx(dataManager);
+                elem.Init(dataManager);
             }
         }
         
