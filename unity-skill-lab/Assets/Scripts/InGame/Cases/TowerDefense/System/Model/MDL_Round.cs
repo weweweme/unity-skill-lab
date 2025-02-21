@@ -1,3 +1,5 @@
+using UniRx;
+
 namespace InGame.Cases.TowerDefense.System.Model
 {
     /// <summary>
@@ -5,5 +7,8 @@ namespace InGame.Cases.TowerDefense.System.Model
     /// </summary>
     public class MDL_Round
     {
+        private readonly ReactiveProperty<uint> _currentRound = new ReactiveProperty<uint>(0);
+        public IReadOnlyReactiveProperty<uint> CurrentRound => _currentRound;
+        public void SetCurrentRound(uint round) => _currentRound.Value = round;
     }
 }
