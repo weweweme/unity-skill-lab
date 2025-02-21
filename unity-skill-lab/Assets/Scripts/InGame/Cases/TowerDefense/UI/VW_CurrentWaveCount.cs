@@ -16,5 +16,7 @@ namespace InGame.Cases.TowerDefense.UI
         {
             AssertHelper.NotNull(typeof(VW_CurrentWaveCount), textWaveCount);
         }
+        
+        public void SetWaveCount(uint waveCount) => textWaveCount.SetText(waveCount.ToString());
     }
 }
