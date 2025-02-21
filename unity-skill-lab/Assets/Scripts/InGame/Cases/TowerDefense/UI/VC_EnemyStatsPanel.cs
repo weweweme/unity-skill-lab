@@ -19,10 +19,12 @@ namespace InGame.Cases.TowerDefense.UI
 
         public override void Init(DataManager dataManager)
         {
+            _prCurrentWaveCount.Init(dataManager, _vwCurrentWaveCount);
         }
 
         public override void Dispose()
         {
+            _prCurrentWaveCount.Dispose();
         }
     }
 }
