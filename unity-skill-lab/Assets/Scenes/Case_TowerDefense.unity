@@ -173,6 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _vwCurrentWaveCount: {fileID: 1285339973}
+  _vwEnemyCountDisplay: {fileID: 1594537666}
 --- !u!1 &60519375
 GameObject:
   m_ObjectHideFlags: 0
@@ -49748,6 +49749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1594537663}
   - component: {fileID: 1594537665}
+  - component: {fileID: 1594537666}
   m_Layer: 5
   m_Name: VW_Enemy Count Display
   m_TagString: Untagged
@@ -49783,6 +49785,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1594537662}
   m_CullTransparentMesh: 1
+--- !u!114 &1594537666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594537662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74650741c26124783990b7e7011142dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyCount: {fileID: 922502242}
 --- !u!1 &1608653111
 GameObject:
   m_ObjectHideFlags: 0
