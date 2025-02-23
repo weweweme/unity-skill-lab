@@ -7,6 +7,8 @@ namespace InGame.Cases.TowerDefense.UI
     /// </summary>
     public sealed class PR_EnemyCountDisplay : Presenter
     {
+        private uint _aliveEnemyCount;
+        
         public override void Init(DataManager dataManager, View view)
         {
         }
