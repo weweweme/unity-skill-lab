@@ -12,5 +12,10 @@ namespace InGame.Cases.TowerDefense.System.Model
         private readonly Subject<EEnemyType> _onEnemySpawn = new Subject<EEnemyType>();
         public IObservable<EEnemyType> OnEnemySpawn => _onEnemySpawn;
         public void SpawnEnemy(EEnemyType type) => _onEnemySpawn.OnNext(type);
+        
+        // 적 유닛 사망과 관련된 Rx
+        private readonly Subject<EEnemyType> _onEnemyDeath = new Subject<EEnemyType>();
+        public IObservable<EEnemyType> OnEnemyDeath => _onEnemyDeath;
+        public void KillEnemy(EEnemyType type) => _onEnemyDeath.OnNext(type);
     }
 }

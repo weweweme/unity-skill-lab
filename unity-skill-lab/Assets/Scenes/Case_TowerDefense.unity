@@ -44243,7 +44243,7 @@ GameObject:
   - component: {fileID: 922502243}
   - component: {fileID: 922502242}
   m_Layer: 5
-  m_Name: Text (TMP)_Enemy Count Display
+  m_Name: Text (TMP)_Current Alive Enemy Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49797,7 +49797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74650741c26124783990b7e7011142dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyCount: {fileID: 922502242}
+  currentAliveEnemyCount: {fileID: 922502242}
 --- !u!1 &1608653111
 GameObject:
   m_ObjectHideFlags: 0

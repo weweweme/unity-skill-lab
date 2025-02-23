@@ -10,11 +10,13 @@ namespace InGame.Cases.TowerDefense.UI
     /// </summary>
     public sealed class VW_EnemyCountDisplay : View
     {
-        [SerializeField] private TextMeshProUGUI enemyCount;
+        [SerializeField] private TextMeshProUGUI currentAliveEnemyCount;
 
         private void Awake()
         {
-            AssertHelper.NotNull(typeof(VW_EnemyCountDisplay), enemyCount);
+            AssertHelper.NotNull(typeof(VW_EnemyCountDisplay), currentAliveEnemyCount);
         }
+        
+        public void SetAliveEnemyCount(uint aliveEnemyCount) => currentAliveEnemyCount.SetText(aliveEnemyCount.ToString());
     }
 }
