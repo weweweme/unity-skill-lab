@@ -39,8 +39,11 @@ namespace InGame.Cases.TowerDefense.System.Managers
 
         protected override void Init()
         {
+            base.Init();
+            
             _inputHandler = new TowerDefenseInputEventHandler();
             _createHandler = new TowerCreateHandler(this);
+            poolManager.Init(this);
             
             _towerDefenseSequenceManager.Init(this);
             spawnManager.Init(this);

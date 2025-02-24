@@ -1,3 +1,4 @@
+using InGame.Cases.TowerDefense.System.Managers;
 using Root.Util;
 
 namespace InGame.Cases.TowerDefense.Enemy.Pool
@@ -7,5 +8,11 @@ namespace InGame.Cases.TowerDefense.Enemy.Pool
     /// </summary>
     public sealed class EnemyBasePool : ObjectPoolBase<EnemyRoot>
     {
+        private EnemyDependencyContainer _dependencyContainer;
+        
+        public void Init(TowerDefenseManager rootManager)
+        {
+            _dependencyContainer = new EnemyDependencyContainer(this, rootManager.DataManager.Enemy);
+        }
     }
 }
