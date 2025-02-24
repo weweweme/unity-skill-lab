@@ -25,5 +25,10 @@ namespace InGame.Cases.TowerDefense.System.Managers
             AssertHelper.NotNull(typeof(TowerDefensePoolManager), towerProjectileBasePool);
             AssertHelper.NotNull(typeof(TowerDefensePoolManager), enemyBasePool);
         }
+
+        public void Init(TowerDefenseManager rootManager)
+        {
+            enemyBasePool.Init(rootManager);
+        }
     }
 }
