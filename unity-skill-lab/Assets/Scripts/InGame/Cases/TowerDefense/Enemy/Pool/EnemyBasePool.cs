@@ -14,5 +14,13 @@ namespace InGame.Cases.TowerDefense.Enemy.Pool
         {
             _dependencyContainer = new EnemyDependencyContainer(this, rootManager.DataManager.Enemy);
         }
+
+        protected override EnemyRoot CreatePooledItem()
+        {
+            var enemy = base.CreatePooledItem();
+            enemy.Init(_dependencyContainer);
+
+            return enemy;
+        }
     }
 }
