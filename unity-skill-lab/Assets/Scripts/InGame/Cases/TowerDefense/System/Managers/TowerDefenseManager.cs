@@ -62,7 +62,7 @@ namespace InGame.Cases.TowerDefense.System.Managers
             base.OnDispose();
 
             _inputHandler?.Dispose();
-            _createHandler.Dispose();
+            _createHandler?.Dispose();
         }
     }
 }
