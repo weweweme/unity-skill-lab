@@ -1,3 +1,4 @@
+using InGame.Cases.TowerDefense.Enemy.Pool;
 using InGame.Cases.TowerDefense.System;
 using Root.Util;
 using UnityEngine;
@@ -23,6 +24,11 @@ namespace InGame.Cases.TowerDefense.Enemy
         /// 피격 시 깜빡임 효과를 재생하는 컨트롤러입니다.
         /// </summary>
         private EnemyHitEffectController _hitEffectController;
+        
+        /// <summary>
+        /// EnemyRoot 객체로부터 적 관련 의존성을 관리하기 위한 참조입니다.
+        /// </summary>
+        private EnemyRoot _enemyRoot;  
 
         private void Awake()
         {
@@ -30,6 +36,15 @@ namespace InGame.Cases.TowerDefense.Enemy
             
             // 적 생성 시, 현재 체력을 최대 체력으로 초기화합니다.
             _currentHP = _maxHP;
+        }
+
+        /// <summary>
+        /// EnemyRoot 객체를 전달받아 내부 참조를 초기화합니다.
+        /// </summary>
+        /// <param name="root">초기화할 때 사용할 EnemyRoot 객체</param>
+        public void Init(EnemyRoot root)
+        {
+            _enemyRoot = root;
         }
 
         /// <summary>
@@ -53,8 +68,10 @@ namespace InGame.Cases.TowerDefense.Enemy
         /// </summary>
         private void Die()
         {
-            Debug.Log("Enemy has died.");
-            Destroy(gameObject);
+            EnemyDependencyContainer dependencyContainer = _enemyRoot.DependencyContainer;
+            
+            dependencyContainer.MDLEnemy.KillEnemy(EEnemyType.Default);
+            dependencyContainer.EnemyBasePool.ReturnObject(_enemyRoot);
         }
     }
 }

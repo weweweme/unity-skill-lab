@@ -28,6 +28,8 @@ namespace InGame.Cases.TowerDefense.Enemy
         public void Init(EnemyDependencyContainer dependencyContainer)
         {
             _dependencyContainer = dependencyContainer;
+            
+            statController.Init(this);
         }
     }
 }
