@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1a2d26b613184979be52623d69e9996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inGameManager: {fileID: 1323365219}
   _vwCurrentWaveCount: {fileID: 1285339973}
   _vwEnemyCountDisplay: {fileID: 1594537666}
 --- !u!1 &60519375

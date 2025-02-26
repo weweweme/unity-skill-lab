@@ -1,5 +1,6 @@
 using System;
 using Root.Util;
+using UnityEngine;
 
 namespace InGame.System
 {
@@ -11,6 +12,8 @@ namespace InGame.System
     /// </summary>
     public abstract class ViewController : MonoBehaviourBase, IDisposable
     {
+        [SerializeField] private InGameManager _inGameManager;
+        
         private void Awake()
         {
             ValidateReferences();
@@ -28,7 +31,9 @@ namespace InGame.System
         /// </summary>
         private void RegisterToUIManager()
         {
-            InGameManager.Ins.UIBindManager.AddViewController(this);
+            AssertHelper.NotNull(typeof(ViewController), _inGameManager);
+            
+            _inGameManager.UIBindManager.AddViewController(this);
         }
         
         /// <summary>
