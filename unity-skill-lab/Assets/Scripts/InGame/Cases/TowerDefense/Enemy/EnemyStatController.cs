@@ -63,6 +63,11 @@ namespace InGame.Cases.TowerDefense.Enemy
             Die();
         }
 
+        public bool CanTakeDamage()
+        {
+            return true;
+        }
+
         /// <summary>
         /// 적이 사망했을 때 호출되는 메서드입니다.
         /// </summary>
