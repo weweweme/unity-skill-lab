@@ -100,6 +100,7 @@ namespace InGame.Cases.TowerDefense.Tower
             _damage = fireData.Damage;
             ResetTrail();
             
+            _isHit = false;
             _isActive = true;
         }
 
@@ -130,6 +131,8 @@ namespace InGame.Cases.TowerDefense.Tower
 
             // 충돌한 객체가 IDamageable을 구현하고 있는지 확인
             if (!other.TryGetComponent(out IDamageable target)) return;
+            _isHit = true;
+            
             // 타겟에게 데미지 적용
             target.TakeDamage(_damage);
             HandleCollision();
@@ -138,7 +141,6 @@ namespace InGame.Cases.TowerDefense.Tower
         private void HandleCollision()
         {
             // 충돌 처리 후 비활성화
-            _isHit = true;
             _rb.velocity = Vector2.zero;
             
             DOTween.To(() => 0.0f, ReduceTrailAlpha, 0.9f, trailRenderer.time)
@@ -189,7 +191,6 @@ namespace InGame.Cases.TowerDefense.Tower
             Gradient gradient = trailRenderer.colorGradient; 
             gradient.alphaKeys = _originAlphaKeys;
             trailRenderer.colorGradient = gradient;
-            _isHit = false;
             trailRenderer.Clear();
         }
 
