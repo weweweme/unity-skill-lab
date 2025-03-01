@@ -22,5 +22,11 @@ namespace InGame.Cases.TowerDefense.Enemy.Pool
 
             return enemy;
         }
+        
+        protected override void OnTakeFromPool(EnemyRoot item)
+        {
+            item.StatController.OnRetrieveFromPool();
+            item.gameObject.SetActive(true);
+        }
     }
 }
