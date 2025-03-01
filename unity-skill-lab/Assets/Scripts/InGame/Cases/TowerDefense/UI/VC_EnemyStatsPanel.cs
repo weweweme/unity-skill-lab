@@ -26,7 +26,7 @@ namespace InGame.Cases.TowerDefense.UI
             _prCurrentWaveCount.Init(dataManager, _vwCurrentWaveCount);
         }
 
-        public override void Dispose()
+        protected override void ReleasePresenter()
         {
             _prCurrentWaveCount.Dispose();
         }
