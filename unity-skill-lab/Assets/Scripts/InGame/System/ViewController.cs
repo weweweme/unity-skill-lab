@@ -1,4 +1,3 @@
-using System;
 using Root.Util;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ namespace InGame.System
     /// 두 모듈의 참조를 가지고 초기화만 수행합니다. 비즈니스 로직은 절대 담당하지 않습니다.
     /// ViewController를 상속받는 모든 클래스는 접두사 VC가 붙습니다.
     /// </summary>
-    public abstract class ViewController : MonoBehaviourBase, IDisposable
+    public abstract class ViewController : MonoBehaviourBase
     {
         [SerializeField] private InGameManager _inGameManager;
         
@@ -43,9 +42,15 @@ namespace InGame.System
         public abstract void Init(DataManager dataManager);
         
         /// <summary>
-        /// 프레젠터와 뷰의 자원을 정리할 때 사용합니다.
-        /// TowerDefenseUIManager에서 Dispose를 호출됩니다.
+        /// 프레젠터의 자원을 정리할 때 사용합니다.
         /// </summary>
-        public abstract void Dispose();
+        protected abstract void ReleasePresenter();
+
+        protected override void OnDestroy()
+        {
+            ReleasePresenter();
+            
+            base.OnDestroy();
+        }
     }
 }
