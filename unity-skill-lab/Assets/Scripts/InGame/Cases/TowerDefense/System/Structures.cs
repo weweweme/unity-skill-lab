@@ -15,7 +15,7 @@ namespace InGame.Cases.TowerDefense.System
         /// <summary>
         /// 투사체가 타격할 목표입니다.
         /// </summary>
-        public Transform Target { get; }
+        public TargetInfo Target { get; }
 
         /// <summary>
         /// 투사체가 가하는 피해량입니다.
@@ -28,7 +28,7 @@ namespace InGame.Cases.TowerDefense.System
         /// <param name="direction">투사체의 이동 방향</param>
         /// <param name="target">공격 대상</param>
         /// <param name="damage">공격 피해량</param>
-        public SProjectileFireData(Vector2 direction, Transform target, int damage)
+        public SProjectileFireData(Vector2 direction, TargetInfo target, int damage)
         {
             Direction = direction;
             Target = target;

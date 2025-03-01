@@ -56,7 +56,7 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 투사체의 목표 타겟을 저장하는 변수입니다.
         /// 유도형 투사체나 특정 타겟을 추적하는 경우 사용됩니다.
         /// </summary>
-        private Transform _target;
+        private TargetInfo _target;
 
         /// <summary>
         /// 투사체가 가하는 피해량입니다.
@@ -68,6 +68,11 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 게임이 종료됐을 경우 UniTask를 중단시키기 위한 토큰입니다.
         /// </summary>
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+        
+        /// <summary>
+        /// 이미 투사체가 반환 중인지 여부를 나타냅니다.
+        /// </summary>
+        private bool _isReturning; 
         
         /// <summary>
         /// 총알의 GradientAlphaKey를 백업하는 변수입니다.
@@ -112,9 +117,15 @@ namespace InGame.Cases.TowerDefense.Tower
         {
             if (!_isActive) return;
             if (_isHit) return;
+
+            if (_target.IsDead())
+            {
+                DeactivateProjectile();
+                return;
+            }
             
             // 목표 방향을 실시간으로 업데이트하여 유도 효과 적용
-            _direction = (_target.position - transform.position).normalized;
+            _direction = (_target.Transform.position - transform.position).normalized;
             
             // 목표 방향으로 지속적으로 이동
             _rb.velocity = _direction * _speed;
@@ -131,23 +142,28 @@ namespace InGame.Cases.TowerDefense.Tower
 
             // 충돌한 객체가 IDamageable을 구현하고 있는지 확인
             if (!other.TryGetComponent(out IDamageable target)) return;
-            _isHit = true;
+            DeactivateProjectile();
             
             // 타겟에게 데미지 적용
             target.TakeDamage(_damage);
-            HandleCollision();
         }
 
-        private void HandleCollision()
+        private void DeactivateProjectile()
         {
+            // 이미 반환 절차 중이면 중복 실행 방지
+            if (_isReturning) return;  
+            _isReturning = true;
+            
             // 충돌 처리 후 비활성화
             _rb.velocity = Vector2.zero;
-            
+            _isHit = true;
+  
             DOTween.To(() => 0.0f, ReduceTrailAlpha, 0.9f, trailRenderer.time)
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
                     _isActive = false;
+                    _isReturning = false;
                     RecycleProjectile().Forget();
                 });
         }

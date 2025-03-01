@@ -201,7 +201,7 @@ namespace InGame.Cases.TowerDefense.Tower
                 if (_fireCooldown > 0) continue;
                 
                 // 공격 수행
-                Attack(targetDir, _currentTarget.Transform);
+                Attack(targetDir, _currentTarget);
                 
                 // 발사 후 쿨다운 리셋
                 _fireCooldown = _fireRate;
@@ -213,12 +213,12 @@ namespace InGame.Cases.TowerDefense.Tower
         /// </summary>
         /// <param name="dir">투사체가 이동할 방향</param>
         /// <param name="targetTr">공격 대상 트랜스폼</param>
-        private void Attack(Vector3 dir, Transform targetTr)
+        private void Attack(Vector3 dir, TargetInfo targetTr)
         {
             TowerProjectileBase projectile = _pool.GetObject();
             projectile.transform.position = firePoint.position;
 
-            var fireData = new SProjectileFireData(dir, targetTr.transform, _damage);
+            var fireData = new SProjectileFireData(dir, targetTr, _damage);
             projectile.SetFireData(fireData);
         }
         
