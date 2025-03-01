@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Threading;
 using CleverCrow.Fluid.BTs.Tasks;
 using Cysharp.Threading.Tasks;
@@ -35,7 +36,7 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 현재 타겟으로 설정된 게임 오브젝트입니다.
         /// 공격 대상이 존재하지 않으면 null입니다.
         /// </summary>
-        private GameObject _currentTarget;
+        private readonly TargetInfo _currentTarget = new TargetInfo();
 
         /// <summary>
         /// 타워의 공격 범위를 결정하는 CircleCollider2D입니다.
@@ -105,7 +106,7 @@ namespace InGame.Cases.TowerDefense.Tower
 
             // 타워와 타겟 간의 제곱거리 계산
             Vector3 towerPos = transform.position;
-            Vector3 targetPos = _currentTarget.transform.position;
+            Vector3 targetPos = _currentTarget.Transform.position;
             float distance = Vector3.SqrMagnitude(targetPos - towerPos);
 
             // 탐색 범위의 제곱과 비교
@@ -126,8 +127,7 @@ namespace InGame.Cases.TowerDefense.Tower
 
             if (hitCount == 0)
             {
-                _currentTarget = null;
-                return TaskStatus.Failure;
+                return ClearTarget();
             }
 
             float closestDistance = float.MaxValue;
@@ -148,12 +148,11 @@ namespace InGame.Cases.TowerDefense.Tower
 
             if (closestTarget != null)
             {
-                _currentTarget = closestTarget.gameObject;
+                _currentTarget.SetTarget(closestTarget.gameObject);
                 return TaskStatus.Success;
             }
 
-            _currentTarget = null;
-            return TaskStatus.Failure;
+            return ClearTarget();
         }
 
         /// <summary>
@@ -161,7 +160,7 @@ namespace InGame.Cases.TowerDefense.Tower
         /// </summary>
         public TaskStatus ClearTarget()
         {
-            _currentTarget = null;
+            _currentTarget.Clear();
             return TaskStatus.Failure;
         }
         
@@ -192,7 +191,7 @@ namespace InGame.Cases.TowerDefense.Tower
                 
                 // TODO: 타겟의 상태를 체크. 죽었다면 클리어 타겟 수행
 
-                Vector3 targetDir = (_currentTarget.transform.position - firePoint.position).normalized;
+                Vector3 targetDir = (_currentTarget.Transform.position - firePoint.position).normalized;
                 SetMuzzleRotation(targetDir);
                 
                 // 총구가 타겟을 충분히 향하지 않았다면 리턴
@@ -202,7 +201,7 @@ namespace InGame.Cases.TowerDefense.Tower
                 }
                 
                 // 공격 수행
-                Attack(targetDir, _currentTarget);
+                Attack(targetDir, _currentTarget.Transform);
                 
                 // 발사 후 쿨다운 리셋
                 _fireCooldown = _fireRate;
@@ -213,13 +212,13 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 타워에서 투사체를 발사하는 로직을 처리합니다.
         /// </summary>
         /// <param name="dir">투사체가 이동할 방향</param>
-        /// <param name="target">공격 대상</param>
-        private void Attack(Vector3 dir, GameObject target)
+        /// <param name="targetTr">공격 대상 트랜스폼</param>
+        private void Attack(Vector3 dir, Transform targetTr)
         {
             TowerProjectileBase projectile = _pool.GetObject();
             projectile.transform.position = firePoint.position;
 
-            var fireData = new SProjectileFireData(dir, target.transform, _damage);
+            var fireData = new SProjectileFireData(dir, targetTr.transform, _damage);
             projectile.SetFireData(fireData);
         }
         
