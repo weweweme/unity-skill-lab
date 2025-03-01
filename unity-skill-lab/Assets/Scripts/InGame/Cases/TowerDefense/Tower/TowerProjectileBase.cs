@@ -70,6 +70,11 @@ namespace InGame.Cases.TowerDefense.Tower
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
         
         /// <summary>
+        /// 이미 투사체가 반환 중인지 여부를 나타냅니다.
+        /// </summary>
+        private bool _isReturning; 
+        
+        /// <summary>
         /// 총알의 GradientAlphaKey를 백업하는 변수입니다.
         /// </summary>
         private GradientAlphaKey[] _originAlphaKeys;
@@ -145,6 +150,10 @@ namespace InGame.Cases.TowerDefense.Tower
 
         private void DeactivateProjectile()
         {
+            // 이미 반환 절차 중이면 중복 실행 방지
+            if (_isReturning) return;  
+            _isReturning = true;
+            
             // 충돌 처리 후 비활성화
             _rb.velocity = Vector2.zero;
             _isHit = true;
@@ -154,6 +163,7 @@ namespace InGame.Cases.TowerDefense.Tower
                 .OnComplete(() =>
                 {
                     _isActive = false;
+                    _isReturning = false;
                     RecycleProjectile().Forget();
                 });
         }
