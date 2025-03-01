@@ -56,7 +56,7 @@ namespace InGame.Cases.TowerDefense.Tower
         /// 투사체의 목표 타겟을 저장하는 변수입니다.
         /// 유도형 투사체나 특정 타겟을 추적하는 경우 사용됩니다.
         /// </summary>
-        private Transform _target;
+        private TargetInfo _target;
 
         /// <summary>
         /// 투사체가 가하는 피해량입니다.
@@ -114,7 +114,7 @@ namespace InGame.Cases.TowerDefense.Tower
             if (_isHit) return;
             
             // 목표 방향을 실시간으로 업데이트하여 유도 효과 적용
-            _direction = (_target.position - transform.position).normalized;
+            _direction = (_target.Transform.position - transform.position).normalized;
             
             // 목표 방향으로 지속적으로 이동
             _rb.velocity = _direction * _speed;
