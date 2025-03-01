@@ -70,7 +70,7 @@ namespace InGame.Cases.TowerDefense.Tower
         /// <summary>
         /// 투사체가 가진 데미지입니다.
         /// </summary>
-        private int _damage = 20;
+        private readonly int _damage = 20;
 
         private void Awake()
         {
