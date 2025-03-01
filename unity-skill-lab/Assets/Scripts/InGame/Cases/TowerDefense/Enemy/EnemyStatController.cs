@@ -50,6 +50,15 @@ namespace InGame.Cases.TowerDefense.Enemy
         }
 
         /// <summary>
+        /// 오브젝트 풀에서 꺼내질 때 호출되는 메서드입니다.
+        /// 내부 데이터 초기화를 담당합니다.
+        /// </summary>
+        public void OnRetrieveFromPool()
+        {
+            _state = EEnemyState.Alive;
+        }
+
+        /// <summary>
         /// 데미지를 받아 체력을 감소시킵니다.
         /// 체력이 0 이하가 되면 적을 제거합니다.
         /// </summary>
