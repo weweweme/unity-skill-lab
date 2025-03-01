@@ -34,12 +34,5 @@ namespace InGame.Cases.TowerDefense.Tower
             _btController = new TowerBTController(gameObject, attackController);
             attackController.Init();
         }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            
-            attackController.Dispose();
-        }
     }
 }
