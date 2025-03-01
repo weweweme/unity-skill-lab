@@ -115,7 +115,7 @@ namespace InGame.Cases.TowerDefense.Tower
 
             if (_target.IsDead())
             {
-                HandleCollision();
+                DeactivateProjectile();
                 return;
             }
             
@@ -137,13 +137,13 @@ namespace InGame.Cases.TowerDefense.Tower
 
             // 충돌한 객체가 IDamageable을 구현하고 있는지 확인
             if (!other.TryGetComponent(out IDamageable target)) return;
-            HandleCollision();
+            DeactivateProjectile();
             
             // 타겟에게 데미지 적용
             target.TakeDamage(_damage);
         }
 
-        private void HandleCollision()
+        private void DeactivateProjectile()
         {
             // 충돌 처리 후 비활성화
             _rb.velocity = Vector2.zero;
