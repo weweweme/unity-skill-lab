@@ -25,6 +25,8 @@ namespace InGame.Cases.TowerDefense.Enemy
         /// </summary>
         private EnemyHitEffectController _hitEffectController;
         
+        private EEnemyState _state = EEnemyState.None;
+        
         /// <summary>
         /// EnemyRoot 객체로부터 적 관련 의존성을 관리하기 위한 참조입니다.
         /// </summary>
@@ -65,7 +67,7 @@ namespace InGame.Cases.TowerDefense.Enemy
 
         public bool CanTakeDamage()
         {
-            return true;
+            return _state == EEnemyState.Alive;
         }
 
         /// <summary>
@@ -73,6 +75,8 @@ namespace InGame.Cases.TowerDefense.Enemy
         /// </summary>
         private void Die()
         {
+            _state = EEnemyState.Dead;
+            
             EnemyDependencyContainer dependencyContainer = _enemyRoot.DependencyContainer;
             
             dependencyContainer.MDLEnemy.KillEnemy(EEnemyType.Default);
