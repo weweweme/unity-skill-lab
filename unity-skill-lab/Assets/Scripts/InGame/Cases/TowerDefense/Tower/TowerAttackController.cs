@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using System.Threading;
 using CleverCrow.Fluid.BTs.Tasks;
 using Cysharp.Threading.Tasks;
@@ -93,7 +92,7 @@ namespace InGame.Cases.TowerDefense.Tower
         /// <summary>
         /// 현재 타겟이 존재하는지 여부를 반환합니다.
         /// </summary>
-        public bool HasTarget() => _currentTarget != null;
+        public bool HasTarget() => _currentTarget.HasTarget;
 
         /// <summary>
         /// 현재 타겟이 사거리 안에 있는지 확인합니다.
@@ -102,7 +101,7 @@ namespace InGame.Cases.TowerDefense.Tower
         public bool IsTargetInRange()
         {
             // 현재 타겟이 없으면 사거리 안에 있을 수 없으므로 false 반환
-            if (_currentTarget == null) return false;
+            if (!_currentTarget.HasTarget) return false;
 
             // 타워와 타겟 간의 제곱거리 계산
             Vector3 towerPos = transform.position;
@@ -184,10 +183,7 @@ namespace InGame.Cases.TowerDefense.Tower
                 }
 
                 // 현재 타겟이 없다면 다음 루프로 이동
-                if (_currentTarget == null)
-                {
-                    continue;
-                }
+                if (!_currentTarget.HasTarget) continue;
                 
                 // 현재 타겟이 없다면 타겟을 비우고 다음 루프로 이동
                 if (_currentTarget.IsDead())
@@ -200,10 +196,10 @@ namespace InGame.Cases.TowerDefense.Tower
                 SetMuzzleRotation(targetDir);
                 
                 // 총구가 타겟을 충분히 향하지 않았다면 리턴
-                if (!IsMuzzleFacingTarget(targetDir))
-                {
-                    continue;
-                }
+                if (!IsMuzzleFacingTarget(targetDir)) continue;
+                
+                // 발사 쿨다운이 남아있다면 다음 루프로 이동
+                if (_fireCooldown > 0) continue;
                 
                 // 공격 수행
                 Attack(targetDir, _currentTarget.Transform);
