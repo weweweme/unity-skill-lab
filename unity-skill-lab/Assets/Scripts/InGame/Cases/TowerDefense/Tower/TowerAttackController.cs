@@ -189,7 +189,12 @@ namespace InGame.Cases.TowerDefense.Tower
                     continue;
                 }
                 
-                // TODO: 타겟의 상태를 체크. 죽었다면 클리어 타겟 수행
+                // 현재 타겟이 없다면 타겟을 비우고 다음 루프로 이동
+                if (_currentTarget.IsDead())
+                {
+                    ClearTarget();
+                    continue;
+                }
 
                 Vector3 targetDir = (_currentTarget.Transform.position - firePoint.position).normalized;
                 SetMuzzleRotation(targetDir);
