@@ -112,6 +112,12 @@ namespace InGame.Cases.TowerDefense.Tower
         {
             if (!_isActive) return;
             if (_isHit) return;
+
+            if (_target.IsDead())
+            {
+                HandleCollision();
+                return;
+            }
             
             // 목표 방향을 실시간으로 업데이트하여 유도 효과 적용
             _direction = (_target.Transform.position - transform.position).normalized;
@@ -131,18 +137,18 @@ namespace InGame.Cases.TowerDefense.Tower
 
             // 충돌한 객체가 IDamageable을 구현하고 있는지 확인
             if (!other.TryGetComponent(out IDamageable target)) return;
-            _isHit = true;
+            HandleCollision();
             
             // 타겟에게 데미지 적용
             target.TakeDamage(_damage);
-            HandleCollision();
         }
 
         private void HandleCollision()
         {
             // 충돌 처리 후 비활성화
             _rb.velocity = Vector2.zero;
-            
+            _isHit = true;
+  
             DOTween.To(() => 0.0f, ReduceTrailAlpha, 0.9f, trailRenderer.time)
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
