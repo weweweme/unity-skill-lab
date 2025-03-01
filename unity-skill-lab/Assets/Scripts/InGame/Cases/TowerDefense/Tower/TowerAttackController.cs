@@ -177,19 +177,20 @@ namespace InGame.Cases.TowerDefense.Tower
             {
                 // FixedUpdate 타이밍에서 실행되도록 대기
                 await UniTask.NextFrame(PlayerLoopTiming.FixedUpdate, token); 
+                
+                // 쿨다운이 남아 있으면 감소시키기
+                if (_fireCooldown > 0)
+                {
+                    _fireCooldown = Mathf.Max(_fireCooldown - Time.fixedDeltaTime, 0f);
+                }
 
                 // 현재 타겟이 없다면 다음 루프로 이동
                 if (_currentTarget == null)
                 {
                     continue;
                 }
-
-                // 쿨다운이 남아 있으면 감소시키고 다음 루프로 이동
-                if (_fireCooldown > 0)
-                {
-                    _fireCooldown = Mathf.Max(_fireCooldown - Time.fixedDeltaTime, 0f);
-                    continue;
-                }
+                
+                // TODO: 타겟의 상태를 체크. 죽었다면 클리어 타겟 수행
 
                 Vector3 targetDir = (_currentTarget.transform.position - firePoint.position).normalized;
                 SetMuzzleRotation(targetDir);
