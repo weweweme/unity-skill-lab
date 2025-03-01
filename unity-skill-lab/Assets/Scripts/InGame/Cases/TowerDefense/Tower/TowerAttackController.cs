@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using CleverCrow.Fluid.BTs.Tasks;
 using Cysharp.Threading.Tasks;
@@ -14,7 +13,7 @@ namespace InGame.Cases.TowerDefense.Tower
     /// <summary>
     /// 타워의 공격을 관리하는 컨트롤러 클래스입니다.
     /// </summary>
-    public sealed class TowerAttackController : MonoBehaviourBase, IDisposable
+    public sealed class TowerAttackController : MonoBehaviourBase
     {
         /// <summary>
         /// 타워가 감지할 대상의 레이어 마스크입니다.
@@ -303,8 +302,10 @@ namespace InGame.Cases.TowerDefense.Tower
             return Mathf.Abs(angleToTarget) <= angleThreshold;
         }
         
-        public void Dispose()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+            
             CancelTokenHelper.ClearToken(in _cts);
         }
     }
