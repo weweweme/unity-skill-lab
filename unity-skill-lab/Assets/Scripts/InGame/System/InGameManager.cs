@@ -52,12 +52,5 @@ namespace InGame.System
 
         protected abstract void SetDataManager();
         protected abstract void SetSequenceManager();
-
-        protected override void OnDispose()
-        {
-            base.OnDispose();
-            
-            _uiBindManager.Dispose();
-        }
     }
 }
