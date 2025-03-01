@@ -304,9 +304,9 @@ namespace InGame.Cases.TowerDefense.Tower
         
         protected override void OnDestroy()
         {
-            base.OnDestroy();
-            
             CancelTokenHelper.ClearToken(in _cts);
+            
+            base.OnDestroy();
         }
     }
 }
