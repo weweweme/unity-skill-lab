@@ -18,6 +18,7 @@ namespace InGame.Cases.TowerDefense.System
         private readonly MDL_Round _roundModel;
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
         private readonly CompositeDisposable _disposable = new CompositeDisposable();
+        private bool _isRoundOver;
 
         private uint _remainingEnemyCount;
 
@@ -31,7 +32,17 @@ namespace InGame.Cases.TowerDefense.System
                 .AddTo(_disposable);
             
             _enemyModel.OnEnemyDeath
-                .Subscribe(_ => --_remainingEnemyCount)
+                .Subscribe(_ =>
+                {
+                    --_remainingEnemyCount;
+                    
+                    // InProgress 상태가 아닐 경우, 종료 조건을 체크하지 않음
+                    if (_roundModel.RoundState.Value != ERoundStates.InProgress) return;
+                    // 활성화된 적이 남아있을 경우 종료 조건을 체크하지 않음
+                    if (_remainingEnemyCount > 0) return;
+                    
+                    _isRoundOver = true;
+                })
                 .AddTo(_disposable);
         }
 
@@ -82,12 +93,9 @@ namespace InGame.Cases.TowerDefense.System
         /// </summary>
         private async UniTask EndRound(CancellationToken token)
         {
-            while (!IsRoundOver())
-            {
-                if (token.IsCancellationRequested) return;
-                
-                await UniTask.Yield();
-            }
+            // 적 전멸 이벤트 대기
+            await UniTask.WaitUntil(() => _isRoundOver, cancellationToken: token);
+            _isRoundOver = false;
         }
 
         /// <summary>
@@ -96,23 +104,8 @@ namespace InGame.Cases.TowerDefense.System
         private async UniTask WaitForNextRound(CancellationToken token)
         {
             _roundModel.SetRoundState(ERoundStates.Waiting);
-            
+   
             await UniTask.Delay(TimeSpan.FromSeconds(10), cancellationToken: token);
-        }
-
-        /// <summary>
-        /// 현재 라운드가 종료되었는지 확인한다.
-        /// </summary>
-        private bool IsRoundOver()
-        {
-            // 라운드 진행 중 상태가 아닐 경우, 종료 조건을 체크하지 않음
-            if (_roundModel.RoundState.Value != ERoundStates.InProgress)
-            {
-                return false;
-            }
-
-            // 활성화된 적이 모두 사라졌을 경우, 라운드 종료
-            return _remainingEnemyCount == 0;
         }
 
         /// <summary>
