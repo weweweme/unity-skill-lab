@@ -11,11 +11,13 @@ namespace InGame.Cases.TowerDefense.System
     /// 타워 디펜스 게임의 라운드를 관리하는 클래스.
     /// 라운드 진행 흐름을 제어하며, 웨이브 시작 및 종료 등의 동작을 수행한다.
     /// </summary>
-    public class RoundController : IDisposable
+    public sealed class RoundController : IDisposable
     {
         private readonly MDL_Enemy _enemyModel;
         private readonly MDL_Round _roundModel;
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+
+        private int _remainingEnemyCount;
 
         public RoundController(TowerDefenseDataManager dataManager)
         {
