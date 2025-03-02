@@ -32,7 +32,17 @@ namespace InGame.Cases.TowerDefense.System
                 .AddTo(_disposable);
             
             _enemyModel.OnEnemyDeath
-                .Subscribe(_ => --_remainingEnemyCount)
+                .Subscribe(_ =>
+                {
+                    --_remainingEnemyCount;
+                    
+                    // InProgress 상태가 아닐 경우, 종료 조건을 체크하지 않음
+                    if (_roundModel.RoundState.Value != ERoundStates.InProgress) return;
+                    // 활성화된 적이 남아있을 경우 종료 조건을 체크하지 않음
+                    if (_remainingEnemyCount > 0) return;
+                    
+                    _roundEndEvent.OnNext(Unit.Default);
+                })
                 .AddTo(_disposable);
         }
 
