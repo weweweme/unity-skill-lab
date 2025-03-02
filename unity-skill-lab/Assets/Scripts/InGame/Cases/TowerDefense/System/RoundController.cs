@@ -19,7 +19,7 @@ namespace InGame.Cases.TowerDefense.System
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
         private readonly CompositeDisposable _disposable = new CompositeDisposable();
 
-        private int _remainingEnemyCount;
+        private uint _remainingEnemyCount;
 
         public RoundController(TowerDefenseDataManager dataManager)
         {
@@ -105,8 +105,14 @@ namespace InGame.Cases.TowerDefense.System
         /// </summary>
         private bool IsRoundOver()
         {
-            // TODO: 적이 모두 처치되거나 EndPoint까지 도달했는지 확인하는 로직 추가
-            return false;
+            // 라운드 진행 중 상태가 아닐 경우, 종료 조건을 체크하지 않음
+            if (_roundModel.RoundState.Value != ERoundStates.InProgress)
+            {
+                return false;
+            }
+
+            // 활성화된 적이 모두 사라졌을 경우, 라운드 종료
+            return _remainingEnemyCount == 0;
         }
 
         /// <summary>
