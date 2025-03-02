@@ -44839,7 +44839,7 @@ GameObject:
   - component: {fileID: 1187875731}
   - component: {fileID: 1187875730}
   m_Layer: 5
-  m_Name: Text (TMP)_Current Wave Count
+  m_Name: Text (TMP)_Current Round Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44973,7 +44973,7 @@ GameObject:
   - component: {fileID: 1285339972}
   - component: {fileID: 1285339973}
   m_Layer: 5
-  m_Name: VW_Current Wave Count
+  m_Name: VW_Current Round Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
