@@ -64,6 +64,11 @@ namespace InGame.Cases.TowerDefense.System
         None,
 
         /// <summary>
+        /// 적 소환 중.
+        /// </summary>
+        Spawning,
+        
+        /// <summary>
         /// 라운드 진행 중.
         /// </summary>
         InProgress,
