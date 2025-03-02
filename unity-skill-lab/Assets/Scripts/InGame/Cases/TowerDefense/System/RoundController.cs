@@ -108,21 +108,6 @@ namespace InGame.Cases.TowerDefense.System
         }
 
         /// <summary>
-        /// 현재 라운드가 종료되었는지 확인한다.
-        /// </summary>
-        private bool IsRoundOver()
-        {
-            // 라운드 진행 중 상태가 아닐 경우, 종료 조건을 체크하지 않음
-            if (_roundModel.RoundState.Value != ERoundStates.InProgress)
-            {
-                return false;
-            }
-
-            // 활성화된 적이 모두 사라졌을 경우, 라운드 종료
-            return _remainingEnemyCount == 0;
-        }
-
-        /// <summary>
         /// 루프를 중단하고 리소스를 정리한다.
         /// </summary>
         public void Dispose()
