@@ -49,6 +49,9 @@ namespace InGame.Cases.TowerDefense.System
         /// </summary>
         private async UniTask StartRound(CancellationToken token)
         {
+            const int ROUND_INCREMENT = 1;
+            _roundModel.SetCurrentRound(_roundModel.CurrentRound.Value + ROUND_INCREMENT);
+            
             for (int i = 0; i < 5; i++)
             {
                 if (token.IsCancellationRequested) return;
