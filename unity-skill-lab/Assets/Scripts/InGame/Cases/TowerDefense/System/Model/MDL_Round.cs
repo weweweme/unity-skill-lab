@@ -1,4 +1,3 @@
-using System;
 using UniRx;
 
 namespace InGame.Cases.TowerDefense.System.Model
@@ -13,14 +12,9 @@ namespace InGame.Cases.TowerDefense.System.Model
         public IReadOnlyReactiveProperty<uint> CurrentRound => _currentRound;
         public void SetCurrentRound(uint round) => _currentRound.Value = round;
         
-        // 라운드 시작과 관련된 Rx
-        private readonly Subject<Unit> _onRoundStart = new Subject<Unit>();
-        public IObservable<Unit> OnRoundStart => _onRoundStart;
-        public void StartRound() => _onRoundStart.OnNext(Unit.Default);
-        
-        // 라운드 종료와 관련된 Rx
-        private readonly Subject<Unit> _onRoundEnd = new Subject<Unit>();
-        public IObservable<Unit> OnRoundEnd => _onRoundEnd;
-        public void EndRound() => _onRoundEnd.OnNext(Unit.Default);
+        // 현재 라운드의 상태를 나타내는 Rx
+        private readonly ReactiveProperty<ERoundStates> _roundState = new ReactiveProperty<ERoundStates>(ERoundStates.None);
+        public IReadOnlyReactiveProperty<ERoundStates> RoundState => _roundState;
+        public void SetRoundState(ERoundStates state) => _roundState.Value = state;
     }
 }
