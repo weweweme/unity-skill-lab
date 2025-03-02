@@ -14,11 +14,13 @@ namespace InGame.Cases.TowerDefense.System
     public class RoundController : IDisposable
     {
         private readonly MDL_Enemy _enemyModel;
+        private readonly MDL_Round _roundModel;
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
         public RoundController(TowerDefenseDataManager dataManager)
         {
             _enemyModel = dataManager.Enemy;
+            _roundModel = dataManager.Round;
         }
 
         /// <summary>
