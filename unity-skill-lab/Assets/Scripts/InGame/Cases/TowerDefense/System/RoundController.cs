@@ -18,6 +18,7 @@ namespace InGame.Cases.TowerDefense.System
         private readonly MDL_Round _roundModel;
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
         private readonly CompositeDisposable _disposable = new CompositeDisposable();
+        private readonly Subject<Unit> _roundEndEvent = new Subject<Unit>();
 
         private uint _remainingEnemyCount;
 
