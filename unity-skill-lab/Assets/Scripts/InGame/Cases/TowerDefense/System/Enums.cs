@@ -52,4 +52,25 @@ namespace InGame.Cases.TowerDefense.System
         /// </summary>
         Dead,
     }
+
+    /// <summary>
+    /// 라운드의 진행 상태를 나타내는 열거형입니다.
+    /// </summary>
+    public enum ERoundStates
+    {
+        /// <summary>
+        /// 상태 없음.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// 라운드 진행 중.
+        /// </summary>
+        InProgress,
+
+        /// <summary>
+        /// 다음 라운드 대기 중.
+        /// </summary>
+        Waiting,
+    }
 }
