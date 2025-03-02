@@ -6,7 +6,7 @@ using UnityEngine;
 namespace InGame.Cases.TowerDefense.UI
 {
     /// <summary>
-    /// Current Wave Count UI의 View입니다.
+    /// Current Round Count UI의 View입니다.
     /// </summary>
     public sealed class VW_CurrentRoundCount : View
     {

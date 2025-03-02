@@ -9,7 +9,7 @@ namespace InGame.Cases.TowerDefense.UI
     /// </summary>
     public sealed class VC_EnemyStatsPanel : ViewController
     {
-        [SerializeField] private VW_CurrentRoundCount vwCurrentRoundCount;
+        [SerializeField] private VW_CurrentRoundCount _vwCurrentRoundCount;
         private readonly PR_CurrentRoundCount _prCurrentRoundCount = new PR_CurrentRoundCount();
         
         [SerializeField] private VW_EnemyCountDisplay _vwEnemyCountDisplay;
@@ -17,13 +17,13 @@ namespace InGame.Cases.TowerDefense.UI
 
         protected override void ValidateReferences()
         {
-            AssertHelper.NotNull(typeof(VC_EnemyStatsPanel), vwCurrentRoundCount);
+            AssertHelper.NotNull(typeof(VC_EnemyStatsPanel), _vwCurrentRoundCount);
             AssertHelper.NotNull(typeof(VC_EnemyStatsPanel), _vwEnemyCountDisplay);
         }
 
         public override void Init(DataManager dataManager)
         {
-            _prCurrentRoundCount.Init(dataManager, vwCurrentRoundCount);
+            _prCurrentRoundCount.Init(dataManager, _vwCurrentRoundCount);
             _prEnemyCountDisplay.Init(dataManager, _vwEnemyCountDisplay);
         }
 
