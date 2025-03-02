@@ -66,7 +66,6 @@ namespace InGame.Cases.TowerDefense.Enemy
         public void TakeDamage(float damage)
         {
             _currentHP = Mathf.Max(0, _currentHP - damage);
-            Debug.Log($"Enemy took {damage} damage. Remaining HP: {_currentHP}");
             _hitEffectController.PlayHitFlash();
 
             if (_currentHP > 0) return;
