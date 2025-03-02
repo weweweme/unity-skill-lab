@@ -51,6 +51,7 @@ namespace InGame.Cases.TowerDefense.System
         {
             const int ROUND_INCREMENT = 1;
             _roundModel.SetCurrentRound(_roundModel.CurrentRound.Value + ROUND_INCREMENT);
+            _roundModel.SetRoundState(ERoundStates.InProgress);
             
             for (int i = 0; i < 5; i++)
             {
@@ -81,6 +82,8 @@ namespace InGame.Cases.TowerDefense.System
         /// </summary>
         private async UniTask WaitForNextRound(CancellationToken token)
         {
+            _roundModel.SetRoundState(ERoundStates.Waiting);
+            
             await UniTask.Delay(TimeSpan.FromSeconds(10), cancellationToken: token);
         }
 
