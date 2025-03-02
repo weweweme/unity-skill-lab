@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inGameManager: {fileID: 1323365219}
-  vwCurrentRoundCount: {fileID: 1285339973}
+  _vwCurrentRoundCount: {fileID: 1285339973}
   _vwEnemyCountDisplay: {fileID: 1594537666}
 --- !u!1 &60519375
 GameObject:
@@ -39857,6 +39857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inGameManager: {fileID: 1323365219}
+  _vwRoundInfo: {fileID: 1547817351}
 --- !u!1 &840566383
 GameObject:
   m_ObjectHideFlags: 0
