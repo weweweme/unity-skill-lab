@@ -24,11 +24,13 @@ namespace InGame.Cases.TowerDefense.UI
         public override void Init(DataManager dataManager)
         {
             _prCurrentWaveCount.Init(dataManager, _vwCurrentWaveCount);
+            _prEnemyCountDisplay.Init(dataManager, _vwEnemyCountDisplay);
         }
 
         protected override void ReleasePresenter()
         {
             _prCurrentWaveCount.Dispose();
+            _prEnemyCountDisplay.Dispose();
         }
     }
 }
