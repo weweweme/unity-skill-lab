@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inGameManager: {fileID: 1323365219}
-  _vwCurrentWaveCount: {fileID: 1285339973}
+  vwCurrentRoundCount: {fileID: 1285339973}
   _vwEnemyCountDisplay: {fileID: 1594537666}
 --- !u!1 &60519375
 GameObject:
@@ -39835,7 +39835,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1566935037}
-  - {fileID: 1304679035}
+  - {fileID: 1547817350}
   m_Father: {fileID: 840566384}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -45019,7 +45019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91fe7067b179b434e8b670d4924b55fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textWaveCount: {fileID: 1187875730}
+  roundCount: {fileID: 1187875730}
 --- !u!1 &1304679034
 GameObject:
   m_ObjectHideFlags: 0
@@ -45032,7 +45032,7 @@ GameObject:
   - component: {fileID: 1304679037}
   - component: {fileID: 1304679036}
   m_Layer: 5
-  m_Name: Text (TMP)_Game Status
+  m_Name: Text (TMP)_Round Info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45045,12 +45045,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304679034}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 829631317}
+  m_Father: {fileID: 1547817350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -49665,6 +49665,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431562120}
   m_CullTransparentMesh: 1
+--- !u!1 &1547817349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1547817350}
+  m_Layer: 5
+  m_Name: VW_Round Info
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1547817350
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547817349}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1304679035}
+  m_Father: {fileID: 829631317}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1566935036
 GameObject:
   m_ObjectHideFlags: 0
