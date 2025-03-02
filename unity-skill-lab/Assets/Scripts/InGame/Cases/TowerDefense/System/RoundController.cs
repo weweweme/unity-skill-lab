@@ -93,12 +93,8 @@ namespace InGame.Cases.TowerDefense.System
         /// </summary>
         private async UniTask EndRound(CancellationToken token)
         {
-            while (!IsRoundOver())
-            {
-                if (token.IsCancellationRequested) return;
-                
-                await UniTask.Yield();
-            }
+            // 적 전멸 이벤트 대기
+            await _roundEndEvent.ToUniTask(cancellationToken: token);
         }
 
         /// <summary>
