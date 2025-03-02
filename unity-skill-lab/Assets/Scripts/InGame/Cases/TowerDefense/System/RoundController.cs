@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using InGame.Cases.TowerDefense.System.Managers;
 using InGame.Cases.TowerDefense.System.Model;
 using Root.Util;
+using UniRx;
 
 namespace InGame.Cases.TowerDefense.System
 {
@@ -11,16 +12,27 @@ namespace InGame.Cases.TowerDefense.System
     /// 타워 디펜스 게임의 라운드를 관리하는 클래스.
     /// 라운드 진행 흐름을 제어하며, 웨이브 시작 및 종료 등의 동작을 수행한다.
     /// </summary>
-    public class RoundController : IDisposable
+    public sealed class RoundController : IDisposable
     {
         private readonly MDL_Enemy _enemyModel;
         private readonly MDL_Round _roundModel;
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+        private readonly CompositeDisposable _disposable = new CompositeDisposable();
+
+        private uint _remainingEnemyCount;
 
         public RoundController(TowerDefenseDataManager dataManager)
         {
             _enemyModel = dataManager.Enemy;
             _roundModel = dataManager.Round;
+
+            _enemyModel.OnEnemySpawn
+                .Subscribe(_ => ++_remainingEnemyCount)
+                .AddTo(_disposable);
+            
+            _enemyModel.OnEnemyDeath
+                .Subscribe(_ => --_remainingEnemyCount)
+                .AddTo(_disposable);
         }
 
         /// <summary>
@@ -70,7 +82,6 @@ namespace InGame.Cases.TowerDefense.System
         /// </summary>
         private async UniTask EndRound(CancellationToken token)
         {
-            // TODO: 추후 Round와 관련된 모델 클래스를 추가하고, 이벤트를 활용하여 종료 조건을 설정하기
             while (!IsRoundOver())
             {
                 if (token.IsCancellationRequested) return;
@@ -94,8 +105,14 @@ namespace InGame.Cases.TowerDefense.System
         /// </summary>
         private bool IsRoundOver()
         {
-            // TODO: 적이 모두 처치되거나 EndPoint까지 도달했는지 확인하는 로직 추가
-            return false;
+            // 라운드 진행 중 상태가 아닐 경우, 종료 조건을 체크하지 않음
+            if (_roundModel.RoundState.Value != ERoundStates.InProgress)
+            {
+                return false;
+            }
+
+            // 활성화된 적이 모두 사라졌을 경우, 라운드 종료
+            return _remainingEnemyCount == 0;
         }
 
         /// <summary>
@@ -104,6 +121,7 @@ namespace InGame.Cases.TowerDefense.System
         public void Dispose()
         {
             CancelTokenHelper.ClearToken(in _cts);
+            _disposable.Dispose();
         }
     }
 }
