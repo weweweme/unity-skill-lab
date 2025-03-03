@@ -1,6 +1,7 @@
 using InGame.Cases.TowerDefense.System.Managers;
 using InGame.System;
 using Root.Util;
+using UniRx;
 
 namespace InGame.Cases.TowerDefense.UI
 {
@@ -14,8 +15,16 @@ namespace InGame.Cases.TowerDefense.UI
             TowerDefenseDataManager tdDataManager = dataManager as TowerDefenseDataManager;
             AssertHelper.NotNull(typeof(PR_RoundInfo), tdDataManager);
             
-            VW_RoundInfo currentRoundCount =  view as VW_RoundInfo;
-            AssertHelper.NotNull(typeof(PR_RoundInfo), currentRoundCount);
+            VW_RoundInfo roundInfo =  view as VW_RoundInfo;
+            AssertHelper.NotNull(typeof(PR_RoundInfo), roundInfo);
+            
+            tdDataManager!.Round.RoundState
+                .Subscribe(roundInfo!.ApplyRoundStates)
+                .AddTo(disposable);
+            
+            tdDataManager.Round.NextRoundCountDown
+                .Subscribe(roundInfo.ApplyNextRoundCountDown)
+                .AddTo(disposable);
         }
     }
 }
