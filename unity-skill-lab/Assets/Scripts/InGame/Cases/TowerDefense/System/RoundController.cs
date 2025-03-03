@@ -103,9 +103,20 @@ namespace InGame.Cases.TowerDefense.System
         /// </summary>
         private async UniTask WaitForNextRound(CancellationToken token)
         {
+            const uint NEXT_ROUND_WAIT_SECONDS = 10;
+            const uint COUNTDOWN_INTERVAL_SECONDS = 1;
+            const uint INITIAL_DELAY_SECONDS = 3;
+
             _roundModel.SetRoundState(ERoundStates.Waiting);
-   
-            await UniTask.Delay(TimeSpan.FromSeconds(10), cancellationToken: token);
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(INITIAL_DELAY_SECONDS), cancellationToken: token);
+
+            for (uint i = 0; i < NEXT_ROUND_WAIT_SECONDS; ++i)
+            {
+                _roundModel.SetNextRoundCountDown(NEXT_ROUND_WAIT_SECONDS - i);
+
+                await UniTask.Delay(TimeSpan.FromSeconds(COUNTDOWN_INTERVAL_SECONDS), cancellationToken: token);
+            }
         }
 
         /// <summary>
