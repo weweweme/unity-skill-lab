@@ -105,9 +105,11 @@ namespace InGame.Cases.TowerDefense.System
         {
             const uint NEXT_ROUND_WAIT_SECONDS = 10;
             const uint COUNTDOWN_INTERVAL_SECONDS = 1;
+            const uint INITIAL_DELAY_SECONDS = 3;
 
-            _roundModel.SetNextRoundCountDown(NEXT_ROUND_WAIT_SECONDS);
             _roundModel.SetRoundState(ERoundStates.Waiting);
+            
+            UniTask.Delay(TimeSpan.FromSeconds(INITIAL_DELAY_SECONDS), cancellationToken: token);
 
             for (uint i = 0; i < NEXT_ROUND_WAIT_SECONDS; ++i)
             {
