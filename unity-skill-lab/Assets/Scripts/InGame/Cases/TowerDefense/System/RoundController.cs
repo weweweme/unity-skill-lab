@@ -109,7 +109,7 @@ namespace InGame.Cases.TowerDefense.System
 
             _roundModel.SetRoundState(ERoundStates.Waiting);
             
-            UniTask.Delay(TimeSpan.FromSeconds(INITIAL_DELAY_SECONDS), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(INITIAL_DELAY_SECONDS), cancellationToken: token);
 
             for (uint i = 0; i < NEXT_ROUND_WAIT_SECONDS; ++i)
             {

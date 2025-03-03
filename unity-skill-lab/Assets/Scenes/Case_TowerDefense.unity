@@ -44899,7 +44899,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Current Wave Count
+  m_text: Current Round Count
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9e0c59745b73f4f5e871a1f7ce374b27, type: 2}
   m_sharedMaterial: {fileID: -6382555307566913213, guid: 9e0c59745b73f4f5e871a1f7ce374b27, type: 2}
