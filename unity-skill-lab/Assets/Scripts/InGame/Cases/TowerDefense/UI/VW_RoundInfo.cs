@@ -37,5 +37,14 @@ namespace InGame.Cases.TowerDefense.UI
 
             roundInfo.SetText(RoundStateTexts[states]);
         }
+        
+        /// <summary>
+        /// 다음 라운드 시작까지 남은 시간을 UI에 표시합니다.
+        /// </summary>
+        /// <param name="countdown">다음 라운드 시작까지 남은 시간(초)</param>
+        public void ApplyNextRoundCountdown(uint countdown)
+        {
+            roundInfo.SetText("적 재정비중... : {0}", countdown);
+        }
     }
 }
