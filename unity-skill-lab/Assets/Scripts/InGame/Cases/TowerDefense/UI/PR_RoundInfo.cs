@@ -23,6 +23,7 @@ namespace InGame.Cases.TowerDefense.UI
                 .AddTo(disposable);
             
             tdDataManager.Round.NextRoundCountDown
+                .Skip(Observer.INITIAL_SUBSCRIPTION_SKIP_COUNT)
                 .Subscribe(roundInfo.ApplyNextRoundCountDown)
                 .AddTo(disposable);
         }
