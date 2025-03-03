@@ -6,6 +6,12 @@ namespace UniRx
 {
     public static class Observer
     {
+        /// <summary>
+        /// Rx 구독 시 첫 번째 발행 값을 무시하도록 설정하는 기본 스킵 값입니다.
+        /// 최초 값은 유효하지 않은 경우가 많아, 이를 방지하기 위한 용도로 사용됩니다.
+        /// </summary>
+        public const int INITIAL_SUBSCRIPTION_SKIP_COUNT = 1;
+
         internal static IObserver<T> CreateSubscribeObserver<T>(Action<T> onNext, Action<Exception> onError, Action onCompleted)
         {
             // need compare for avoid iOS AOT
