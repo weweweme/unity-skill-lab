@@ -16,5 +16,10 @@ namespace InGame.Cases.TowerDefense.System.Model
         private readonly ReactiveProperty<ERoundStates> _roundState = new ReactiveProperty<ERoundStates>(ERoundStates.None);
         public IReadOnlyReactiveProperty<ERoundStates> RoundState => _roundState;
         public void SetRoundState(ERoundStates state) => _roundState.Value = state;
+        
+        // 다음 라운드까지의 카운트다운을 나타내는 Rx
+        private readonly ReactiveProperty<uint> _nextRoundCountDown = new ReactiveProperty<uint>(0);
+        public IReadOnlyReactiveProperty<uint> NextRoundCountDown => _nextRoundCountDown;
+        public void SetNextRoundCountDown(uint countDown) => _nextRoundCountDown.Value = countDown;
     }
 }
